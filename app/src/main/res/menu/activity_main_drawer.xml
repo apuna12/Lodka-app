@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_domov"
+            android:icon="@drawable/ic_menu_home"
+            android:title="Domov" />
+        <item
+            android:id="@+id/nav_gallery"
+            android:icon="@drawable/ic_menu_gallery"
+            android:title="Galéria" />
+        </group>
+
+    <item android:title="Komunikácia">
+        <menu>
+            <item
+                android:id="@+id/nav_facebook"
+                android:icon="@drawable/ic_menu_facebook"
+                android:title="Zdieľaj na Facebooku" />
+            <item
+                android:id="@+id/nav_twitter"
+                android:icon="@drawable/ic_menu_twitter"
+                android:title="Zdieľaj na Twitteri" />
+            <item
+                android:id="@+id/nav_instagram"
+                android:icon="@drawable/ic_menu_instagram"
+                android:title="Zdieľaj na Instagrame" />
+            <item
+                android:id="@+id/nav_mail"
+                android:icon="@drawable/ic_menu_mail"
+                android:title="Napíš nám E-mail" />
+            </menu>
+    </item>
+
+    <item android:title="Navigácia">
+        <menu>
+            <item
+                android:id="@+id/nav_map"
+                android:icon="@drawable/ic_menu_map"
+                android:title="Mapa" />
+         </menu>
+
+
+    </item>
+
+</menu>
