@@ -5,6 +5,8 @@ import android.graphics.PixelFormat;
 import android.support.v4.media.RatingCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -25,6 +27,7 @@ public class Splash extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
+        setSizeLogo();
         StartAnimations();
     }
     private void StartAnimations(){
@@ -64,5 +67,22 @@ public class Splash extends AppCompatActivity {
             }
         };
         splashThread.start();
+    }
+
+    public void setSizeLogo(){
+        DisplayMetrics metrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(metrics);
+
+        ImageView logo = (ImageView)findViewById(R.id.splash);
+        RelativeLayout.LayoutParams params;
+        if(metrics.widthPixels > metrics.heightPixels){
+            params = new RelativeLayout.LayoutParams(Integer.valueOf(metrics.widthPixels/2) + Integer.valueOf(metrics.widthPixels/6), Integer.valueOf(metrics.widthPixels/4) + Integer.valueOf(metrics.widthPixels/12) );
+            params.setMargins(50, Integer.valueOf(metrics.heightPixels/7), 50, 50);
+        }else{
+            params = new RelativeLayout.LayoutParams(Integer.valueOf(metrics.widthPixels),Integer.valueOf(metrics.widthPixels/2));
+            params.setMargins(50, Integer.valueOf(metrics.heightPixels/4), 50, 50);
+        }
+        params.addRule(RelativeLayout.CENTER_HORIZONTAL);
+        logo.setLayoutParams(params);
     }
 }
