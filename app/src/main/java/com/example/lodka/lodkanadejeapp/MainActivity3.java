@@ -216,12 +216,20 @@ public class MainActivity3 extends FragmentActivity implements NavigationView.On
     {
         label.setText("");
         LatLng latlng = getLocation();
+        //LatLng latlng = null;
         double latDest = 48.675966;
         double longDest = 21.300348;
         results = new float[1];
-        latitude = latlng.latitude;
-        longitude = latlng.longitude;
-
+        if(latlng == null){
+            latitude = 48.675966;
+            longitude = 21.300348;
+        }
+        else {
+            latitude = latlng.latitude;
+            longitude = latlng.longitude;
+        }
+        //latitude = latlng.latitude;
+        //longitude = latlng.longitude;
         origin = latitude + ", " + longitude;
         try {
             new DirectionFinder(this, origin, destination).execute();
