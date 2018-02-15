@@ -277,6 +277,8 @@ class  RetreiveFeedTask extends AsyncTask<String, Void, String> {
             MainActivity2.this.startActivity(myIntent);
         } else if (id2 == R.id.nav_instagram){
             SharingToSocialMedia("com.instagram.android");
+        } else if (id2 == R.id.nav_snapchat){
+            SharingToSocialMedia("com.snapchat.android");
         }
 
 
@@ -359,6 +361,23 @@ class  RetreiveFeedTask extends AsyncTask<String, Void, String> {
                     })
                     .setIcon(android.R.drawable.ic_dialog_alert)
                     .show();
+        }else if(application == "com.snapchat.android") {
+
+            final Uri uri = Uri.parse("android.resource://" + this.getPackageName() + "/" + R.mipmap.lodkauvod2);
+            Intent intent = new Intent();
+            intent.setAction(Intent.ACTION_SEND);
+            intent.setType("image/png");
+            intent.putExtra(Intent.EXTRA_STREAM, uri);
+            boolean installed = checkAppInstall(application);
+
+
+            if (installed) {
+                intent.setPackage(application);
+                startActivity(intent);
+            } else {
+                Toast.makeText(getApplicationContext(),
+                        "Nie je nainštalovaná aplikácia", Toast.LENGTH_LONG).show();
+            }
         }
     }
     boolean twice;

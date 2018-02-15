@@ -27,6 +27,10 @@
                 android:icon="@drawable/ic_menu_instagram"
                 android:title="Zdieľaj na Instagrame" />
             <item
+                android:id="@+id/nav_snapchat"
+                android:icon="@drawable/ic_menu_snapchat"
+                android:title="Zdieľaj na Snapchate" />
+            <item
                 android:id="@+id/nav_mail"
                 android:icon="@drawable/ic_menu_mail"
                 android:title="Napíš nám E-mail" />

@@ -1,1 +1,1 @@
-O.Z. Lodka Nadeje
+15.2.2018 - 17:08 - Pridal som zdielanie na snapchat

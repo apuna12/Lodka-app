@@ -37,6 +37,8 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 import com.google.android.gms.maps.GoogleMap;
 
+import java.io.File;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     WebView wv;
@@ -299,6 +301,8 @@ public class MainActivity extends AppCompatActivity
             MainActivity.this.startActivity(myIntent);
         } else if (id == R.id.nav_instagram){
             SharingToSocialMedia("com.instagram.android");
+        } else if (id == R.id.nav_snapchat){
+            SharingToSocialMedia("com.snapchat.android");
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -382,6 +386,23 @@ public class MainActivity extends AppCompatActivity
                     })
                     .setIcon(android.R.drawable.ic_dialog_alert)
                     .show();
+        }else if(application == "com.snapchat.android") {
+
+            final Uri uri = Uri.parse("android.resource://" + this.getPackageName() + "/" + R.mipmap.lodkauvod2);
+            Intent intent = new Intent();
+            intent.setAction(Intent.ACTION_SEND);
+            intent.setType("image/png");
+            intent.putExtra(Intent.EXTRA_STREAM, uri);
+            boolean installed = checkAppInstall(application);
+
+
+            if (installed) {
+                intent.setPackage(application);
+                startActivity(intent);
+            } else {
+                Toast.makeText(getApplicationContext(),
+                        "Nie je nainštalovaná aplikácia", Toast.LENGTH_LONG).show();
+            }
         }
     }
 
