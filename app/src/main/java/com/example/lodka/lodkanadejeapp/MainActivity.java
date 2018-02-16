@@ -163,9 +163,9 @@ public class MainActivity extends AppCompatActivity
                     == PackageManager.PERMISSION_GRANTED) {
                 return true;
             } else {
-                ActivityCompat.requestPermissions(this, new String[]{
+                /*ActivityCompat.requestPermissions(this, new String[]{
                         Manifest.permission.ACCESS_FINE_LOCATION
-                }, 1);
+                }, 1);*/
                 return false;
             }
         } else { //permission is automatically granted on sdk<23 upon installation
@@ -324,16 +324,26 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_map){
             if(!isPermissionGranted()){
 
-               // Alert("Neudelili ste povolenie pre zisťovanie polohy. Vrátime vás na pôvodnu stránku.");
-                wv = (WebView) findViewById(R.id.webb);
-                progressBar.setVisibility(View.VISIBLE);
-                wv.setWebViewClient(new WebViewClient() {
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle("Hups, niečo je zle :(")
+                        .setMessage("Neudelili ste povolenie pre zisťovanie polohy. Vrátime vás na pôvodnu stránku.")
+                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
 
-                    public void onPageFinished(WebView view, String url) {
-                        progressBar.setVisibility(View.INVISIBLE);
-                    }
-                });
-                wv.loadUrl("http://www.lodkanadeje.maweb.eu/");
+                                wv = (WebView) findViewById(R.id.webb);
+                                progressBar.setVisibility(View.VISIBLE);
+                                wv.setWebViewClient(new WebViewClient() {
+
+                                    public void onPageFinished(WebView view, String url) {
+                                        progressBar.setVisibility(View.INVISIBLE);
+                                    }
+                                });
+                                wv.loadUrl("http://www.lodkanadeje.maweb.eu/");
+                            }
+                        })
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .show();
+
             }
             if(isPermissionGranted()) {
                 Intent myIntent = new Intent(MainActivity.this, MainActivity3.class);

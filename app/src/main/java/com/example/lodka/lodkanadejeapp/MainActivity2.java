@@ -262,9 +262,7 @@ class  RetreiveFeedTask extends AsyncTask<String, Void, String> {
                     == PackageManager.PERMISSION_GRANTED) {
                 return true;
             } else {
-                ActivityCompat.requestPermissions(this, new String[]{
-                        android.Manifest.permission.ACCESS_FINE_LOCATION
-                }, 1);
+
                 return false;
             }
         } else { //permission is automatically granted on sdk<23 upon installation
@@ -295,11 +293,22 @@ class  RetreiveFeedTask extends AsyncTask<String, Void, String> {
             Intent myIntent = new Intent(MainActivity2.this, MainActivity2.class);
             MainActivity2.this.startActivity(myIntent);
         } else if (id2 == R.id.nav_map){
-            if(!isPermissionGranted()){
+            if(!isPermissionGranted()) {
 
-                Intent myIntent = new Intent(MainActivity2.this, MainActivity.class);
-                myIntent.putExtra("website","http://lodkanadeje.maweb.eu/");
-                MainActivity2.this.startActivity(myIntent);
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle("Hups, niečo je zle :(")
+                        .setMessage("Neudelili ste povolenie pre zisťovanie polohy. Vrátime vás na pôvodnu stránku.")
+                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+
+                                Intent myIntent = new Intent(MainActivity2.this, MainActivity.class);
+                                myIntent.putExtra("website", "http://lodkanadeje.maweb.eu/");
+                                MainActivity2.this.startActivity(myIntent);
+                            }
+                        })
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .show();
+
             }
             if(isPermissionGranted()) {
                 Intent myIntent = new Intent(MainActivity2.this, MainActivity3.class);

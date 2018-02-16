@@ -1,3 +1,4 @@
+16.2.2018 - 21:53 - Pridanie alert boxov pri kliknuty na mapy pri zamietnuti povolenia
 16.2.2018 - 14:32 - Pridanie vynimky pre zamietnutie povolenia pre mapy
 15.2.2018 - 22:25 - Uprava loga v Splash screen pre rozne obrazovky
 15.2.2018 - 18:02 - Pridana vynimka v pripade ze nie je gps signal
