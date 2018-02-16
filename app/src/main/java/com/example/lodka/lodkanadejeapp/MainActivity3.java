@@ -1,6 +1,7 @@
 package com.example.lodka.lodkanadejeapp;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -60,11 +61,13 @@ public class MainActivity3 extends FragmentActivity implements NavigationView.On
     double longitude;
     Button actual;
     TextView label;
-
+    Context context = null;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        context = this;
+
 
 
         super.onCreate(savedInstanceState);
@@ -89,8 +92,39 @@ public class MainActivity3 extends FragmentActivity implements NavigationView.On
         label.setTextColor(Color.BLUE);
         actual.setOnClickListener(this);
 
+
     }
 
+    public static boolean hasPermissions(Context context, String... permissions) {
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && context != null && permissions != null) {
+            for (String permission : permissions) {
+                if (ActivityCompat.checkSelfPermission(context, permission) != PackageManager.PERMISSION_GRANTED) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    /*@Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode) {
+            case 123: {
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    //If user presses allow
+                    Toast.makeText(MainActivity3.this, "Permission granted!", Toast.LENGTH_SHORT).show();
+                } else {
+                    Alert("Neudelili ste povolenie pre zisťovanie polohy. Vrátime vás na pôvodnu stránku.");
+                    Intent myIntent = new Intent(com.example.lodka.lodkanadejeapp.MainActivity3.this, MainActivity.class);
+                    myIntent.putExtra("website","http://lodkanadeje.maweb.eu/");
+                    com.example.lodka.lodkanadejeapp.MainActivity3.this.startActivity(myIntent);
+                }
+                break;
+            }
+        }
+    }*/
 
     /**
      * Manipulates the map once available.
@@ -107,7 +141,6 @@ public class MainActivity3 extends FragmentActivity implements NavigationView.On
 
         // Add a marker in Sydney and move the camera
         LatLng vymennik = new LatLng(48.675966, 21.300348);
-        LatLng mojapozicia;
         mMap.addMarker(new MarkerOptions()
                 .position(vymennik)
                 .title("Výmenník Važecká")
@@ -116,6 +149,7 @@ public class MainActivity3 extends FragmentActivity implements NavigationView.On
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             mMap.setMyLocationEnabled(true);
         }
+
         sendRequest();
 
 
@@ -228,8 +262,6 @@ public class MainActivity3 extends FragmentActivity implements NavigationView.On
             latitude = latlng.latitude;
             longitude = latlng.longitude;
         }
-        //latitude = latlng.latitude;
-        //longitude = latlng.longitude;
         origin = latitude + ", " + longitude;
         try {
             new DirectionFinder(this, origin, destination).execute();
@@ -287,7 +319,7 @@ public class MainActivity3 extends FragmentActivity implements NavigationView.On
 
 
 
-    @Override /////////////////////////////////////////////// ak nepojde appka treba dat "//" pred override
+    @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id2 = item.getItemId();
@@ -425,6 +457,27 @@ public class MainActivity3 extends FragmentActivity implements NavigationView.On
         return false;
     }
 
-
+    public void Alert(String text){
+        AlertDialog.Builder builder;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            builder = new AlertDialog.Builder(context, android.R.style.Theme_Material_Dialog_Alert);
+        } else {
+            builder = new AlertDialog.Builder(context);
+        }
+        builder.setTitle("Hups, niečo je zlé")
+                .setMessage(text)
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        // continue with delete
+                    }
+                })
+                .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        // do nothing
+                    }
+                })
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .show();
+    }
 
 }

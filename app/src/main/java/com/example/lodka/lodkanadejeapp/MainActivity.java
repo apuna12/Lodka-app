@@ -1,6 +1,7 @@
 package com.example.lodka.lodkanadejeapp;
 
 import android.*;
+import android.Manifest;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -45,8 +46,8 @@ public class MainActivity extends AppCompatActivity
     ProgressBar progressBar;
     Context context = null;
     private GoogleMap mMap;
-    int permissionCheck = 0;
     final String TAG = this.getClass().getName();
+    public static int permissionCheck = 1;
 
 
 
@@ -65,13 +66,16 @@ public class MainActivity extends AppCompatActivity
                 mMap.setMyLocationEnabled(true);
             } else {
 
-                // No explanation needed, we can request the permission.
 
                 ActivityCompat.requestPermissions(this,
                         new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
                         permissionCheck);
+
+
             }
         }
+
+
         try {
             ConnectivityManager con = (ConnectivityManager)getSystemService(context.CONNECTIVITY_SERVICE);
             NetworkInfo net = con.getActiveNetworkInfo();
@@ -150,6 +154,27 @@ public class MainActivity extends AppCompatActivity
             Log.e("chyba",e.getMessage());
         }
     }
+
+
+    public boolean isPermissionGranted() {
+
+        if (Build.VERSION.SDK_INT >= 23) {
+            if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION)
+                    == PackageManager.PERMISSION_GRANTED) {
+                return true;
+            } else {
+                ActivityCompat.requestPermissions(this, new String[]{
+                        Manifest.permission.ACCESS_FINE_LOCATION
+                }, 1);
+                return false;
+            }
+        } else { //permission is automatically granted on sdk<23 upon installation
+            return true;
+        }
+
+    }
+
+
 
     public Boolean isOnline() {
         try {
@@ -297,8 +322,23 @@ public class MainActivity extends AppCompatActivity
             Intent myIntent = new Intent(MainActivity.this, MainActivity2.class);
             MainActivity.this.startActivity(myIntent);
         } else if (id == R.id.nav_map){
-            Intent myIntent = new Intent(MainActivity.this, MainActivity3.class);
-            MainActivity.this.startActivity(myIntent);
+            if(!isPermissionGranted()){
+
+               // Alert("Neudelili ste povolenie pre zisťovanie polohy. Vrátime vás na pôvodnu stránku.");
+                wv = (WebView) findViewById(R.id.webb);
+                progressBar.setVisibility(View.VISIBLE);
+                wv.setWebViewClient(new WebViewClient() {
+
+                    public void onPageFinished(WebView view, String url) {
+                        progressBar.setVisibility(View.INVISIBLE);
+                    }
+                });
+                wv.loadUrl("http://www.lodkanadeje.maweb.eu/");
+            }
+            if(isPermissionGranted()) {
+                Intent myIntent = new Intent(MainActivity.this, MainActivity3.class);
+                MainActivity.this.startActivity(myIntent);
+            }
         } else if (id == R.id.nav_instagram){
             SharingToSocialMedia("com.instagram.android");
         } else if (id == R.id.nav_snapchat){
@@ -419,4 +459,28 @@ public class MainActivity extends AppCompatActivity
 
         return false;
     }
+
+    public void Alert(String text){
+        AlertDialog.Builder builder;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            builder = new AlertDialog.Builder(context, android.R.style.Theme_Material_Dialog_Alert);
+        } else {
+            builder = new AlertDialog.Builder(context);
+        }
+        builder.setTitle("Hups, niečo je zlé")
+                .setMessage(text)
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        // continue with delete
+                    }
+                })
+                .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        // do nothing
+                    }
+                })
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .show();
+    }
 }
+

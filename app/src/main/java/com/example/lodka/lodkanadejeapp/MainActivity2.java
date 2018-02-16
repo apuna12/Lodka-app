@@ -1,5 +1,6 @@
 package com.example.lodka.lodkanadejeapp;
 
+import android.*;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -12,6 +13,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -25,6 +27,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -251,6 +254,25 @@ class  RetreiveFeedTask extends AsyncTask<String, Void, String> {
         return super.onOptionsItemSelected(item);
     }
 
+
+    public boolean isPermissionGranted() {
+
+        if (Build.VERSION.SDK_INT >= 23) {
+            if (checkSelfPermission(android.Manifest.permission.ACCESS_FINE_LOCATION)
+                    == PackageManager.PERMISSION_GRANTED) {
+                return true;
+            } else {
+                ActivityCompat.requestPermissions(this, new String[]{
+                        android.Manifest.permission.ACCESS_FINE_LOCATION
+                }, 1);
+                return false;
+            }
+        } else { //permission is automatically granted on sdk<23 upon installation
+            return true;
+        }
+
+    }
+
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -273,8 +295,16 @@ class  RetreiveFeedTask extends AsyncTask<String, Void, String> {
             Intent myIntent = new Intent(MainActivity2.this, MainActivity2.class);
             MainActivity2.this.startActivity(myIntent);
         } else if (id2 == R.id.nav_map){
-            Intent myIntent = new Intent(MainActivity2.this, MainActivity3.class);
-            MainActivity2.this.startActivity(myIntent);
+            if(!isPermissionGranted()){
+
+                Intent myIntent = new Intent(MainActivity2.this, MainActivity.class);
+                myIntent.putExtra("website","http://lodkanadeje.maweb.eu/");
+                MainActivity2.this.startActivity(myIntent);
+            }
+            if(isPermissionGranted()) {
+                Intent myIntent = new Intent(MainActivity2.this, MainActivity3.class);
+                MainActivity2.this.startActivity(myIntent);
+            }
         } else if (id2 == R.id.nav_instagram){
             SharingToSocialMedia("com.instagram.android");
         } else if (id2 == R.id.nav_snapchat){
