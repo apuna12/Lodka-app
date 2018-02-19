@@ -59,20 +59,12 @@ public class MainActivity extends AppCompatActivity
                 android.Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
 
-            // Should we show an explanation?
-            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
-                    android.Manifest.permission.ACCESS_FINE_LOCATION)) {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
+                    permissionCheck);
 
-                mMap.setMyLocationEnabled(true);
-            } else {
-
-
-                ActivityCompat.requestPermissions(this,
-                        new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
-                        permissionCheck);
-
-
-            }
+        }else {
+            mMap.setMyLocationEnabled(true);
         }
 
 
