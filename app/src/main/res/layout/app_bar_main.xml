@@ -19,11 +19,26 @@
             app:popupTheme="@style/AppTheme.PopupOverlay">
 
             <TextView
+                android:id="@+id/textview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/settings"/>
+                android:gravity="center"
+                android:text="O.Z. Loďka nádeje"
+                android:textSize="20dp"/>
+            <Button
+                android:id="@+id/button_settings"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/textview"
+                android:background="@color/colorPrimary"
+                android:text=". . ."
+                android:textSize="20dp"
+                android:textAlignment="center"
+                android:rotation="90"/>
 
         </android.support.v7.widget.Toolbar>
+
+
 
     </android.support.design.widget.AppBarLayout>
 
