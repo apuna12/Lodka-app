@@ -24,17 +24,23 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="O.Z. Loďka nádeje"
-                android:textSize="20dp"/>
-            <Button
-                android:id="@+id/button_settings"
-                android:layout_width="match_parent"
+                android:textSize="@dimen/nav_header_vertical_spacing"/>
+            <LinearLayout
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/textview"
-                android:background="@color/colorPrimary"
-                android:text=". . ."
-                android:textSize="20dp"
-                android:textAlignment="center"
-                android:rotation="90"/>
+                android:layout_gravity="right"
+                android:layout_toRightOf="@id/textview">
+                <Button
+                    android:gravity="right"
+                    android:id="@+id/button_settings"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="#00ffffff"
+                    android:text=". . ."
+                    android:textSize="20dp"
+                    android:textAlignment="center"
+                    android:rotation="90"/>
+            </LinearLayout>
 
         </android.support.v7.widget.Toolbar>
 

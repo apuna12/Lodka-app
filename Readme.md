@@ -1,3 +1,4 @@
+﻿20.2.2018 - 22:31 - Pridaná predpríprava ku settings v slide menu
 20.2.2018 - 15:41 - Pridanie tlacidla settings do slide menu
 20.2.2018 - 13:12 - Pridaný text do menu hore vedľa tlačidla späť
 20.2.2018 - 12:01 - Oprava pádu aplikácie pri zapnutom povolení v systéme

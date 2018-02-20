@@ -61,6 +61,11 @@
             android:configChanges="orientation|screenSize"
             android:label="Loďka nádeje"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Settings_activity"
+            android:configChanges="orientation|screenSize"
+            android:label="Loďka nádeje"
+            android:theme="@style/AppTheme.NoActionBar" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"

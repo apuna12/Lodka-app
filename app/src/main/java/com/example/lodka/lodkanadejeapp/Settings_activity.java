@@ -1,5 +1,4 @@
 package com.example.lodka.lodkanadejeapp;
-
 import android.*;
 import android.Manifest;
 import android.content.Context;
@@ -40,7 +39,7 @@ import com.google.android.gms.maps.GoogleMap;
 
 import java.io.File;
 
-public class MainActivity extends AppCompatActivity
+public class Settings_activity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     WebView wv;
     ProgressBar progressBar;
@@ -50,83 +49,36 @@ public class MainActivity extends AppCompatActivity
     public static int permissionCheck = 1;
 
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        if (ContextCompat.checkSelfPermission(this,
-                android.Manifest.permission.ACCESS_FINE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED) {
-
-            ActivityCompat.requestPermissions(this,
-                    new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
-                    permissionCheck);
-
-        }
-
-            try {
-                ConnectivityManager con = (ConnectivityManager) getSystemService(context.CONNECTIVITY_SERVICE);
-                NetworkInfo net = con.getActiveNetworkInfo();
-                String web;
-                requestWindowFeature(Window.FEATURE_NO_TITLE);
-                this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-                super.onCreate(savedInstanceState);
-                if (net != null && net.isConnected()) {
-                    if (isOnline()) {
-                        setContentView(R.layout.activity_main);
-                        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        try {
+            ConnectivityManager con = (ConnectivityManager) getSystemService(context.CONNECTIVITY_SERVICE);
+            NetworkInfo net = con.getActiveNetworkInfo();
+            String web;
+            requestWindowFeature(Window.FEATURE_NO_TITLE);
+            this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+            super.onCreate(savedInstanceState);
+            if (net != null && net.isConnected()) {
+                if (isOnline()) {
+                    setContentView(R.layout.activity_settings);
+                    Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 
 
-                        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-                        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-                        drawer.setDrawerListener(toggle);
-                        toggle.syncState();
+                    DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+                    ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                            this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+                    drawer.setDrawerListener(toggle);
+                    toggle.syncState();
 
-                        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-                        navigationView.setNavigationItemSelectedListener(this);
+                    NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+                    navigationView.setNavigationItemSelectedListener(this);
 
-                        if (getIntent().getStringExtra("website") == null) {
-                            web = "http://www.lodkanadeje.maweb.eu/";
-                        } else {
-                            web = getIntent().getStringExtra("website");
-                        }
-                        wv = (WebView) findViewById(R.id.webb);
-                        progressBar = (ProgressBar) findViewById(R.id.progressBar1);
-                        progressBar.getIndeterminateDrawable().setColorFilter(Color.LTGRAY, PorterDuff.Mode.MULTIPLY);
-                        progressBar.setScaleY(0.1f);
-                        progressBar.setScaleX(0.1f);
-                        progressBar.setVisibility(View.VISIBLE);
-                        wv.getSettings().setJavaScriptEnabled(true);
-                        wv.setWebViewClient(new WebViewClient() {
-
-                            public void onPageFinished(WebView view, String url) {
-                                progressBar.setVisibility(View.INVISIBLE);
-                            }
-                        });
-
-                        wv.loadUrl(web);
-                    } else {
-                        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                        builder.setTitle("Hups, niečo je zle :(")
-                                .setMessage("Internet nie je dostupný")
-                                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        System.exit(0);
-                                    }
-                                })
-                                .setIcon(android.R.drawable.ic_dialog_alert)
-                                .show();
-
-                    }
 
                 } else {
-
                     AlertDialog.Builder builder = new AlertDialog.Builder(this);
                     builder.setTitle("Hups, niečo je zle :(")
-                            .setMessage("Chýba pripojenie k internetu. Zapnite prosím dáta alebo Wi-Fi a spustite aplikáciu znova.")
-                            //.setMessage("Chýba pripojenie k internetu. Aplikácia je v offline režime")
+                            .setMessage("Internet nie je dostupný")
                             .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
                                     System.exit(0);
@@ -134,144 +86,41 @@ public class MainActivity extends AppCompatActivity
                             })
                             .setIcon(android.R.drawable.ic_dialog_alert)
                             .show();
+
                 }
 
-            } catch (Exception e) {
-                Log.e("chyba", e.getMessage());
-            }
-
-        }
-
-
-    public boolean isPermissionGranted() {
-
-        if (Build.VERSION.SDK_INT >= 23) {
-            if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION)
-                    == PackageManager.PERMISSION_GRANTED) {
-                return true;
             } else {
-                /*ActivityCompat.requestPermissions(this, new String[]{
-                        Manifest.permission.ACCESS_FINE_LOCATION
-                }, 1);*/
-                return false;
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle("Hups, niečo je zle :(")
+                        .setMessage("Chýba pripojenie k internetu. Zapnite prosím dáta alebo Wi-Fi a spustite aplikáciu znova.")
+                        //.setMessage("Chýba pripojenie k internetu. Aplikácia je v offline režime")
+                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                System.exit(0);
+                            }
+                        })
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .show();
             }
-        } else { //permission is automatically granted on sdk<23 upon installation
-            return true;
+
+        } catch (Exception e) {
+            Log.e("chyba", e.getMessage());
         }
 
     }
-
-
 
     public Boolean isOnline() {
         try {
             Process p1 = java.lang.Runtime.getRuntime().exec("ping -c 1 www.google.com");
             int returnVal = p1.waitFor();
-            boolean reachable = (returnVal==0);
+            boolean reachable = (returnVal == 0);
             return reachable;
         } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
         return false;
-    }
-
-
-
-    public class myWebClient extends WebViewClient
-    {
-        @Override
-        public void onPageStarted(WebView view, String url, Bitmap favicon) {
-            // TODO Auto-generated method stub
-            super.onPageStarted(view, url, favicon);
-        }
-
-        @Override
-        public boolean shouldOverrideUrlLoading(WebView view, String url) {
-            // TODO Auto-generated method stub
-            progressBar.setVisibility(View.VISIBLE);
-            view.loadUrl(url);
-            return true;
-
-        }
-
-        @Override
-        public void onPageFinished(WebView view, String url) {
-            // TODO Auto-generated method stub
-            super.onPageFinished(view, url);
-
-            progressBar.setVisibility(View.GONE);
-        }
-    }
-
-
-    boolean twice;
-
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (event.getAction() == KeyEvent.ACTION_DOWN) {
-            switch (keyCode) {
-                case KeyEvent.KEYCODE_BACK:
-                    if (wv.canGoBack()) {
-                        wv.goBack();
-                    } else {
-                        onBackPressed();
-                    }
-                    return true;
-            }
-
-        }
-        return super.onKeyDown(keyCode, event);
-    }
-
-
-    public void onBackPressed() {
-        Log.d(TAG,"Click");
-
-        if(twice == true){
-            Intent intent = new Intent(Intent.ACTION_MAIN);
-            intent.addCategory(Intent.CATEGORY_HOME);
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            startActivity(intent);
-            finish();
-            System.exit(0);
-        }
-        twice = true;
-        Log.d(TAG,"twice" + twice);
-
-        Toast.makeText(MainActivity.this, "Znova stlačte tlačidlo 'Späť' pre ukončenie aplikácie", Toast.LENGTH_SHORT).show();
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                twice = false;
-                Log.d(TAG,"twice" + twice);
-            }
-        }, 3000);
-
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
-
-
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.button_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
@@ -306,8 +155,8 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_twitter) {
             SharingToSocialMedia("com.twitter.android");
         } else if (id == R.id.nav_mail){
-            Intent myIntent = new Intent(MainActivity.this, MainActivity2.class);
-            MainActivity.this.startActivity(myIntent);
+            Intent myIntent = new Intent(Settings_activity.this, MainActivity2.class);
+            Settings_activity.this.startActivity(myIntent);
         } else if (id == R.id.nav_map){
             if(!isPermissionGranted()){
 
@@ -333,16 +182,13 @@ public class MainActivity extends AppCompatActivity
 
             }
             if(isPermissionGranted()) {
-                Intent myIntent = new Intent(MainActivity.this, MainActivity3.class);
-                MainActivity.this.startActivity(myIntent);
+                Intent myIntent = new Intent(Settings_activity.this, MainActivity3.class);
+                Settings_activity.this.startActivity(myIntent);
             }
         } else if (id == R.id.nav_instagram){
             SharingToSocialMedia("com.instagram.android");
         } else if (id == R.id.nav_snapchat){
             SharingToSocialMedia("com.snapchat.android");
-        } else if (id == R.id.button_settings){
-            Intent myIntent = new Intent(MainActivity.this, Settings_activity.class);
-            MainActivity.this.startActivity(myIntent);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -350,6 +196,23 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
+    public boolean isPermissionGranted() {
+
+        if (Build.VERSION.SDK_INT >= 23) {
+            if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION)
+                    == PackageManager.PERMISSION_GRANTED) {
+                return true;
+            } else {
+                /*ActivityCompat.requestPermissions(this, new String[]{
+                        Manifest.permission.ACCESS_FINE_LOCATION
+                }, 1);*/
+                return false;
+            }
+        } else { //permission is automatically granted on sdk<23 upon installation
+            return true;
+        }
+
+    }
 
     public void SharingToSocialMedia(final String application) {
 
@@ -446,9 +309,6 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-
-
-
     private boolean checkAppInstall(String uri) {
         PackageManager pm = getPackageManager();
         try {
@@ -460,27 +320,5 @@ public class MainActivity extends AppCompatActivity
         return false;
     }
 
-    public void Alert(String text){
-        AlertDialog.Builder builder;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            builder = new AlertDialog.Builder(context, android.R.style.Theme_Material_Dialog_Alert);
-        } else {
-            builder = new AlertDialog.Builder(context);
-        }
-        builder.setTitle("Hups, niečo je zlé")
-                .setMessage(text)
-                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        // continue with delete
-                    }
-                })
-                .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        // do nothing
-                    }
-                })
-                .setIcon(android.R.drawable.ic_dialog_alert)
-                .show();
-    }
-}
 
+}
