@@ -63,58 +63,70 @@ public class MainActivity extends AppCompatActivity
                     new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
                     permissionCheck);
 
-        }else {
-            mMap.setMyLocationEnabled(true);
         }
 
+            try {
+                ConnectivityManager con = (ConnectivityManager) getSystemService(context.CONNECTIVITY_SERVICE);
+                NetworkInfo net = con.getActiveNetworkInfo();
+                String web;
+                requestWindowFeature(Window.FEATURE_NO_TITLE);
+                this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+                super.onCreate(savedInstanceState);
+                if (net != null && net.isConnected()) {
+                    if (isOnline()) {
+                        setContentView(R.layout.activity_main);
+                        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 
-        try {
-            ConnectivityManager con = (ConnectivityManager)getSystemService(context.CONNECTIVITY_SERVICE);
-            NetworkInfo net = con.getActiveNetworkInfo();
-            String web;
-            requestWindowFeature(Window.FEATURE_NO_TITLE);
-            this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-            super.onCreate(savedInstanceState);
-            if(net != null && net.isConnected()){
-                if(isOnline()) {
-                    setContentView(R.layout.activity_main);
-                    Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 
+                        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+                        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+                        drawer.setDrawerListener(toggle);
+                        toggle.syncState();
 
-                    DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-                    ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                            this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-                    drawer.setDrawerListener(toggle);
-                    toggle.syncState();
+                        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+                        navigationView.setNavigationItemSelectedListener(this);
 
-                    NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-                    navigationView.setNavigationItemSelectedListener(this);
-
-                    if (getIntent().getStringExtra("website") == null) {
-                        web = "http://www.lodkanadeje.maweb.eu/";
-                    } else {
-                        web = getIntent().getStringExtra("website");
-                    }
-                    wv = (WebView) findViewById(R.id.webb);
-                    progressBar = (ProgressBar) findViewById(R.id.progressBar1);
-                    progressBar.getIndeterminateDrawable().setColorFilter(Color.LTGRAY, PorterDuff.Mode.MULTIPLY);
-                    progressBar.setScaleY(0.1f);
-                    progressBar.setScaleX(0.1f);
-                    progressBar.setVisibility(View.VISIBLE);
-                    wv.getSettings().setJavaScriptEnabled(true);
-                    wv.setWebViewClient(new WebViewClient() {
-
-                        public void onPageFinished(WebView view, String url) {
-                            progressBar.setVisibility(View.INVISIBLE);
+                        if (getIntent().getStringExtra("website") == null) {
+                            web = "http://www.lodkanadeje.maweb.eu/";
+                        } else {
+                            web = getIntent().getStringExtra("website");
                         }
-                    });
+                        wv = (WebView) findViewById(R.id.webb);
+                        progressBar = (ProgressBar) findViewById(R.id.progressBar1);
+                        progressBar.getIndeterminateDrawable().setColorFilter(Color.LTGRAY, PorterDuff.Mode.MULTIPLY);
+                        progressBar.setScaleY(0.1f);
+                        progressBar.setScaleX(0.1f);
+                        progressBar.setVisibility(View.VISIBLE);
+                        wv.getSettings().setJavaScriptEnabled(true);
+                        wv.setWebViewClient(new WebViewClient() {
 
-                    wv.loadUrl(web);
-                }
-                else{
+                            public void onPageFinished(WebView view, String url) {
+                                progressBar.setVisibility(View.INVISIBLE);
+                            }
+                        });
+
+                        wv.loadUrl(web);
+                    } else {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                        builder.setTitle("Hups, niečo je zle :(")
+                                .setMessage("Internet nie je dostupný")
+                                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        System.exit(0);
+                                    }
+                                })
+                                .setIcon(android.R.drawable.ic_dialog_alert)
+                                .show();
+
+                    }
+
+                } else {
+
                     AlertDialog.Builder builder = new AlertDialog.Builder(this);
                     builder.setTitle("Hups, niečo je zle :(")
-                            .setMessage("Internet nie je dostupný")
+                            .setMessage("Chýba pripojenie k internetu. Zapnite prosím dáta alebo Wi-Fi a spustite aplikáciu znova.")
+                            //.setMessage("Chýba pripojenie k internetu. Aplikácia je v offline režime")
                             .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
                                     System.exit(0);
@@ -122,30 +134,13 @@ public class MainActivity extends AppCompatActivity
                             })
                             .setIcon(android.R.drawable.ic_dialog_alert)
                             .show();
-
                 }
 
-            }
-            else{
-
-                AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                builder.setTitle("Hups, niečo je zle :(")
-                        .setMessage("Chýba pripojenie k internetu. Zapnite prosím dáta alebo Wi-Fi a spustite aplikáciu znova.")
-                        //.setMessage("Chýba pripojenie k internetu. Aplikácia je v offline režime")
-                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                System.exit(0);
-                            }
-                        })
-                        .setIcon(android.R.drawable.ic_dialog_alert)
-                        .show();
+            } catch (Exception e) {
+                Log.e("chyba", e.getMessage());
             }
 
         }
-        catch (Exception e) {
-            Log.e("chyba",e.getMessage());
-        }
-    }
 
 
     public boolean isPermissionGranted() {
