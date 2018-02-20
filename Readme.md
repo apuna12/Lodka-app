@@ -1,3 +1,4 @@
+20.2.2018 - 12:01 - Oprava pádu aplikácie pri zapnutom povolení v systéme
 19.2.2018 - 13:51 - Oprava pádu aplikácie pri vypnutí povolenia v systéme pre danú aplikáciu
 16.2.2018 - 21:53 - Pridanie alert boxov pri kliknuty na mapy pri zamietnuti povolenia
 16.2.2018 - 14:32 - Pridanie vynimky pre zamietnutie povolenia pre mapy
