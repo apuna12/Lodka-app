@@ -19,6 +19,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -33,7 +34,11 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.ProgressBar;
+import android.widget.Switch;
+import android.widget.TextView;
 import android.widget.Toast;
 import com.google.android.gms.maps.GoogleMap;
 
@@ -59,6 +64,11 @@ public class Settings_activity extends AppCompatActivity
             requestWindowFeature(Window.FEATURE_NO_TITLE);
             this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
             super.onCreate(savedInstanceState);
+
+
+
+
+
             if (net != null && net.isConnected()) {
                 if (isOnline()) {
                     setContentView(R.layout.activity_settings);
@@ -94,7 +104,6 @@ public class Settings_activity extends AppCompatActivity
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 builder.setTitle("Hups, niečo je zle :(")
                         .setMessage("Chýba pripojenie k internetu. Zapnite prosím dáta alebo Wi-Fi a spustite aplikáciu znova.")
-                        //.setMessage("Chýba pripojenie k internetu. Aplikácia je v offline režime")
                         .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 System.exit(0);
@@ -104,10 +113,50 @@ public class Settings_activity extends AppCompatActivity
                         .show();
             }
 
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
         } catch (Exception e) {
             Log.e("chyba", e.getMessage());
         }
 
+        final Switch swt = (Switch)findViewById(R.id.lokalizationSwitch);
+
+        if(ContextCompat.checkSelfPermission(Settings_activity.this,
+                android.Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED)
+        {
+            swt.setChecked(false);
+        }
+        else
+        {
+            swt.setChecked(true);
+        }
+        swt.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
+
+                if(isChecked == true)
+                {
+                    if (ContextCompat.checkSelfPermission(Settings_activity.this,
+                            android.Manifest.permission.ACCESS_FINE_LOCATION)
+                            != PackageManager.PERMISSION_GRANTED) {
+
+                        ActivityCompat.requestPermissions(Settings_activity.this,
+                                new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
+                                permissionCheck);
+
+                    }
+                    swt.setClickable(false);
+                }
+
+            }
+
+        });
     }
 
     public Boolean isOnline() {
@@ -123,42 +172,32 @@ public class Settings_activity extends AppCompatActivity
         return false;
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
-        int id = item.getItemId();
+        int id2 = item.getItemId();
 
-        if (id == R.id.nav_domov) {
-            wv = (WebView) findViewById(R.id.webb);
-            progressBar.setVisibility(View.VISIBLE);
-            wv.setWebViewClient(new WebViewClient() {
-
-                public void onPageFinished(WebView view, String url) {
-                    progressBar.setVisibility(View.INVISIBLE);
-                }
-            });
-            wv.loadUrl("http://www.lodkanadeje.maweb.eu/");
-
-        } else if (id == R.id.nav_gallery) {
-            wv = (WebView) findViewById(R.id.webb);
-            progressBar.setVisibility(View.VISIBLE);
-            wv.setWebViewClient(new WebViewClient() {
-
-                public void onPageFinished(WebView view, String url) {
-                    progressBar.setVisibility(View.INVISIBLE);
-                }
-            });
-            wv.loadUrl("http://lodkanadeje.rajce.idnes.cz/");
-        } else if (id == R.id.nav_facebook) {
+        if (id2 == R.id.nav_domov) {
+            Intent myIntent = new Intent(com.example.lodka.lodkanadejeapp.Settings_activity.this, MainActivity.class);
+            myIntent.putExtra("website","http://lodkanadeje.maweb.eu/");
+            com.example.lodka.lodkanadejeapp.Settings_activity.this.startActivity(myIntent);
+        } else if (id2 == R.id.nav_gallery) {
+            Intent myIntent = new Intent(com.example.lodka.lodkanadejeapp.Settings_activity.this, MainActivity.class);
+            myIntent.putExtra("website","http://lodkanadeje.rajce.idnes.cz/");
+            com.example.lodka.lodkanadejeapp.Settings_activity.this.startActivity(myIntent);
+        } else if (id2 == R.id.nav_facebook) {
             SharingToSocialMedia("com.facebook.katana");
-        } else if (id == R.id.nav_twitter) {
+        } else if (id2 == R.id.nav_twitter) {
             SharingToSocialMedia("com.twitter.android");
-        } else if (id == R.id.nav_mail){
-            Intent myIntent = new Intent(Settings_activity.this, MainActivity2.class);
-            Settings_activity.this.startActivity(myIntent);
-        } else if (id == R.id.nav_map){
-            if(!isPermissionGranted()){
+        } else if (id2 == R.id.nav_mail){
+            Intent myIntent = new Intent(com.example.lodka.lodkanadejeapp.Settings_activity.this, com.example.lodka.lodkanadejeapp.MainActivity2.class);
+            com.example.lodka.lodkanadejeapp.Settings_activity.this.startActivity(myIntent);
+        } else if (id2 == R.id.nav_instagram){
+            SharingToSocialMedia("com.instagram.android");
+        } else if (id2 == R.id.nav_snapchat){
+            SharingToSocialMedia("com.snapchat.android");
+        } else if (id2 == R.id.nav_map){
+            if(!isPermissionGranted()) {
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 builder.setTitle("Hups, niečo je zle :(")
@@ -166,15 +205,9 @@ public class Settings_activity extends AppCompatActivity
                         .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
 
-                                wv = (WebView) findViewById(R.id.webb);
-                                progressBar.setVisibility(View.VISIBLE);
-                                wv.setWebViewClient(new WebViewClient() {
-
-                                    public void onPageFinished(WebView view, String url) {
-                                        progressBar.setVisibility(View.INVISIBLE);
-                                    }
-                                });
-                                wv.loadUrl("http://www.lodkanadeje.maweb.eu/");
+                                Intent myIntent = new Intent(Settings_activity.this, MainActivity.class);
+                                myIntent.putExtra("website", "http://lodkanadeje.maweb.eu/");
+                                Settings_activity.this.startActivity(myIntent);
                             }
                         })
                         .setIcon(android.R.drawable.ic_dialog_alert)
@@ -185,10 +218,6 @@ public class Settings_activity extends AppCompatActivity
                 Intent myIntent = new Intent(Settings_activity.this, MainActivity3.class);
                 Settings_activity.this.startActivity(myIntent);
             }
-        } else if (id == R.id.nav_instagram){
-            SharingToSocialMedia("com.instagram.android");
-        } else if (id == R.id.nav_snapchat){
-            SharingToSocialMedia("com.snapchat.android");
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

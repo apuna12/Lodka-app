@@ -137,6 +137,7 @@ public class MainActivity extends AppCompatActivity
                             .show();
                 }
 
+
             } catch (Exception e) {
                 Log.e("chyba", e.getMessage());
             }
@@ -144,7 +145,6 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 
         Button buttonSettings = (Button) toolbar.findViewById(R.id.button_settings);
-
         buttonSettings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -356,8 +356,7 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_snapchat){
             SharingToSocialMedia("com.snapchat.android");
         } else if (id == R.id.button_settings){
-            Intent myIntent = new Intent(MainActivity.this, Settings_activity.class);
-            MainActivity.this.startActivity(myIntent);
+
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -475,27 +474,5 @@ public class MainActivity extends AppCompatActivity
         return false;
     }
 
-    public void Alert(String text){
-        AlertDialog.Builder builder;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            builder = new AlertDialog.Builder(context, android.R.style.Theme_Material_Dialog_Alert);
-        } else {
-            builder = new AlertDialog.Builder(context);
-        }
-        builder.setTitle("Hups, niečo je zlé")
-                .setMessage(text)
-                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        // continue with delete
-                    }
-                })
-                .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        // do nothing
-                    }
-                })
-                .setIcon(android.R.drawable.ic_dialog_alert)
-                .show();
-    }
 }
 
