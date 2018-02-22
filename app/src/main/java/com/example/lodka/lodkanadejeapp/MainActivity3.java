@@ -92,6 +92,18 @@ public class MainActivity3 extends FragmentActivity implements NavigationView.On
         label.setTextColor(Color.BLUE);
         actual.setOnClickListener(this);
 
+        Button buttonSettings = (Button) toolbar.findViewById(R.id.button_settings);
+
+        buttonSettings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent myIntent = new Intent(MainActivity3.this, Settings_activity.class);
+                MainActivity3.this.startActivity(myIntent);
+
+            }
+        });
+
 
     }
 

@@ -103,6 +103,20 @@ public class MainActivity2 extends Activity
             Log.e("mojachyba",e.getMessage());
         }
 
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+
+        Button buttonSettings = (Button) toolbar.findViewById(R.id.button_settings);
+
+        buttonSettings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent myIntent = new Intent(MainActivity2.this, Settings_activity.class);
+                MainActivity2.this.startActivity(myIntent);
+
+            }
+        });
+
 
     }
 

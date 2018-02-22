@@ -34,6 +34,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 import com.google.android.gms.maps.GoogleMap;
@@ -139,6 +140,20 @@ public class MainActivity extends AppCompatActivity
             } catch (Exception e) {
                 Log.e("chyba", e.getMessage());
             }
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+
+        Button buttonSettings = (Button) toolbar.findViewById(R.id.button_settings);
+
+        buttonSettings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent myIntent = new Intent(MainActivity.this, Settings_activity.class);
+                MainActivity.this.startActivity(myIntent);
+
+            }
+        });
 
         }
 
