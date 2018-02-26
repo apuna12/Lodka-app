@@ -59,6 +59,7 @@ public class MainActivity3 extends FragmentActivity implements NavigationView.On
     String destination;
     String origin = "Kosice";
     int distance;
+    LatLng loc;
     float[] results;
     double latitude;
     double longitude;
@@ -132,26 +133,6 @@ public class MainActivity3 extends FragmentActivity implements NavigationView.On
         }
         return true;
     }
-
-    /*@Override
-    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        switch (requestCode) {
-            case 123: {
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    //If user presses allow
-                    Toast.makeText(MainActivity3.this, "Permission granted!", Toast.LENGTH_SHORT).show();
-                } else {
-                    Alert("Neudelili ste povolenie pre zisťovanie polohy. Vrátime vás na pôvodnu stránku.");
-                    Intent myIntent = new Intent(com.example.lodka.lodkanadejeapp.MainActivity3.this, MainActivity.class);
-                    myIntent.putExtra("website","http://lodkanadeje.maweb.eu/");
-                    com.example.lodka.lodkanadejeapp.MainActivity3.this.startActivity(myIntent);
-                }
-                break;
-            }
-        }
-    }*/
 
     /**
      * Manipulates the map once available.
@@ -277,7 +258,10 @@ public class MainActivity3 extends FragmentActivity implements NavigationView.On
     {
         label.setText("");
         LatLng latlng = getLocation();
-        //LatLng latlng = null;
+
+
+
+
         double latDest = 48.675966;
         double longDest = 21.300348;
         results = new float[1];
@@ -306,11 +290,13 @@ public class MainActivity3 extends FragmentActivity implements NavigationView.On
     public void onLocationChanged(Location location) {
         sendRequest();
     }
+
     //@Override
     public LatLng getLocation() {
         // Get the location manager
         LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
         Criteria criteria = new Criteria();
+
         String bestProvider = locationManager.getBestProvider(criteria, false);
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
@@ -322,11 +308,17 @@ public class MainActivity3 extends FragmentActivity implements NavigationView.On
             // for ActivityCompat#requestPermissions for more details.
 
         }
-        Location location = locationManager.getLastKnownLocation(bestProvider);
+        //Location location = locationManager.getLastKnownLocation(bestProvider);
+        Location location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+        //mMap.setOnMyLocationChangeListener(myLocationChangeListener);
         Double lat,lon;
+
         try {
-            lat = location.getLatitude ();
-            lon = location.getLongitude ();
+            /*lat = loc.latitude;
+            lon = loc.longitude;*/
+            lat = location.getLatitude();
+            lon = location.getLongitude();
+
             return new LatLng(lat, lon);
         }
         catch (NullPointerException e){
@@ -343,7 +335,15 @@ public class MainActivity3 extends FragmentActivity implements NavigationView.On
         return (n - c) % 2 == 0 ? (int) f : c;
     }
 
-
+    private GoogleMap.OnMyLocationChangeListener myLocationChangeListener = new GoogleMap.OnMyLocationChangeListener() {
+        @Override
+        public void onMyLocationChange(Location location) {
+            loc = new LatLng(location.getLatitude(), location.getLongitude());
+            if(mMap != null){
+                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(loc, 16.0f));
+            }
+        }
+    };
 
 
     @Override
