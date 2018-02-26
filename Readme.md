@@ -1,3 +1,4 @@
+26.2.2018 - 16:25 - Pridana moznost vypnut povolenie
 26.2.2018 - 15:22 - Prechod na PASSIVE providera
 26.2.2018 - 15:22 - Oprava chyby lokácie a prechod na NETWORK providera
 26.2.2018 - 13:55 - Opraveny BUG vo switchi, kedy pri zamietnuti povolenia switch ostal v polohe ON

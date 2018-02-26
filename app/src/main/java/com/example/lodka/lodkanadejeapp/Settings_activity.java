@@ -55,6 +55,7 @@ public class Settings_activity extends AppCompatActivity
     final String TAG = this.getClass().getName();
     public static int permissionCheck = 1;
     SwitchCompat swt;
+    Boolean checker = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -132,11 +133,12 @@ public class Settings_activity extends AppCompatActivity
                 != PackageManager.PERMISSION_GRANTED)
         {
             swt.setChecked(false);
+            checker = false;
         }
         else
         {
             swt.setChecked(true);
-            swt.setClickable(false);
+            checker = true;
         }
         swt.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -152,16 +154,54 @@ public class Settings_activity extends AppCompatActivity
                         ActivityCompat.requestPermissions(Settings_activity.this,
                                 new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
                                 permissionCheck);
+                        checker = true;
 
 
                         }
+                }
+                else if (isChecked == false && checker == true)
+                {
+                    Intent intent = new Intent();
+                    intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                    Uri uri = Uri.fromParts("package", getPackageName(), null);
+                    intent.setData(uri);
+                    startActivity(intent);
+
+                    if (ContextCompat.checkSelfPermission(Settings_activity.this,
+                            android.Manifest.permission.ACCESS_FINE_LOCATION)
+                            != PackageManager.PERMISSION_GRANTED && checker == true) {
+                        swt.setClickable(true);
+                        checker = false;
+                    }
+                    if (ContextCompat.checkSelfPermission(Settings_activity.this,
+                            android.Manifest.permission.ACCESS_FINE_LOCATION)
+                            != PackageManager.PERMISSION_GRANTED && checker == false)
+                    {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(Settings_activity.this);
+                        builder.setTitle("Hups, niečo je zle :(")
+                                .setMessage("Zrušili ste okno, kde je možné zrušiť povolenie. Presmerujeme vás späť")
+                                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+
+                                        Intent intent = new Intent();
+                                        intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                                        Uri uri = Uri.fromParts("package", getPackageName(), null);
+                                        intent.setData(uri);
+                                        startActivity(intent);
+                                    }
+                                })
+                                .setIcon(android.R.drawable.ic_dialog_alert)
+                                .show();
+                    }
+
+                    checker = false;
                 }
                     //swt.setClickable(false);
             }
 
         });
     }
-
+    
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
@@ -170,10 +210,12 @@ public class Settings_activity extends AppCompatActivity
                     permissions[0].equals(android.Manifest.permission.ACCESS_FINE_LOCATION) &&
                     grantResults[0] == 0)
             {
+                checker = true;
                 swt.setChecked(true);
             }
             else
             {
+                checker = false;
                 swt.setChecked(false);
             }
         }
