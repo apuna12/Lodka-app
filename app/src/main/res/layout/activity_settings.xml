@@ -23,7 +23,7 @@
             android:textSize="25dp"
             android:typeface="serif" />
 
-        <Switch
+        <android.support.v7.widget.SwitchCompat
             android:id="@+id/lokalizationSwitch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

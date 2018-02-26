@@ -1,3 +1,4 @@
+26.2.2018 - 13:55 - Opraveny BUG vo switchi, kedy pri zamietnuti povolenia switch ostal v polohe ON
 22.2.2018 - 15:23 - Opraveny BUG, kde v mapach clonil stavovy riadok, pridana čast funkcionalit do settings
 22.2.2018 - 12:11 - Pridaná funkcionalita pre kliknutie na tlačidlo settings v slide menu
 20.2.2018 - 22:31 - Pridaná predpríprava ku settings v slide menu

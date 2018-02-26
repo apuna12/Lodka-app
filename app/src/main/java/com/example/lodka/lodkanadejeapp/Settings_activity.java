@@ -15,9 +15,11 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.Settings;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.SwitchCompat;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -52,7 +54,7 @@ public class Settings_activity extends AppCompatActivity
     private GoogleMap mMap;
     final String TAG = this.getClass().getName();
     public static int permissionCheck = 1;
-
+    SwitchCompat swt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -123,7 +125,7 @@ public class Settings_activity extends AppCompatActivity
             Log.e("chyba", e.getMessage());
         }
 
-        final Switch swt = (Switch)findViewById(R.id.lokalizationSwitch);
+        swt = (SwitchCompat)findViewById(R.id.lokalizationSwitch);
 
         if(ContextCompat.checkSelfPermission(Settings_activity.this,
                 android.Manifest.permission.ACCESS_FINE_LOCATION)
@@ -134,6 +136,7 @@ public class Settings_activity extends AppCompatActivity
         else
         {
             swt.setChecked(true);
+            swt.setClickable(false);
         }
         swt.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -150,14 +153,35 @@ public class Settings_activity extends AppCompatActivity
                                 new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
                                 permissionCheck);
 
-                    }
-                    swt.setClickable(false);
-                }
 
+                        }
+                }
+                    //swt.setClickable(false);
             }
 
         });
     }
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        if (requestCode == permissionCheck) {
+            if (permissions.length == 1 &&
+                    permissions[0].equals(android.Manifest.permission.ACCESS_FINE_LOCATION) &&
+                    grantResults[0] == 0)
+            {
+                swt.setChecked(true);
+            }
+            else
+            {
+                swt.setChecked(false);
+            }
+        }
+    }
+
+
+
+
 
     public Boolean isOnline() {
         try {
