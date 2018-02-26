@@ -309,7 +309,7 @@ public class MainActivity3 extends FragmentActivity implements NavigationView.On
 
         }
         //Location location = locationManager.getLastKnownLocation(bestProvider);
-        Location location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+        Location location = locationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER);
         //mMap.setOnMyLocationChangeListener(myLocationChangeListener);
         Double lat,lon;
 
