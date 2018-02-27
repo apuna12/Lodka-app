@@ -57,6 +57,8 @@ public class Settings_activity extends AppCompatActivity
     SwitchCompat swt;
     Boolean checker = false;
 
+    private boolean isCreated = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -200,6 +202,26 @@ public class Settings_activity extends AppCompatActivity
             }
 
         });
+
+        this.isCreated = true;
+
+    }
+
+    @Override
+    protected void onResume(){
+        super.onResume();
+
+        if(this.isCreated == true){
+            this.isCreated = false;
+        }else{
+            this.afterResume();
+        }
+
+
+    }
+
+    public void afterResume(){
+        //TODO Tibi
     }
     
 

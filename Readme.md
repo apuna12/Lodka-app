@@ -1,3 +1,4 @@
+27.2.2018 - 13:01 - Predpripravena metoda pre implementovanie funkcie po vrateni spat z android nastaveni do aktivity settings
 26.2.2018 - 16:25 - Pridana moznost vypnut povolenie
 26.2.2018 - 15:22 - Prechod na PASSIVE providera
 26.2.2018 - 15:22 - Oprava chyby lokácie a prechod na NETWORK providera
