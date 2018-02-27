@@ -15,7 +15,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
@@ -39,14 +38,12 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 import com.google.android.gms.maps.GoogleMap;
 
-import java.io.File;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     WebView wv;
     ProgressBar progressBar;
     Context context = null;
-    private GoogleMap mMap;
     final String TAG = this.getClass().getName();
     public static int permissionCheck = 1;
 
@@ -144,7 +141,6 @@ public class MainActivity extends AppCompatActivity
                     AlertDialog.Builder builder = new AlertDialog.Builder(this);
                     builder.setTitle("Hups, niečo je zle :(")
                             .setMessage("Chýba pripojenie k internetu. Zapnite prosím dáta alebo Wi-Fi a spustite aplikáciu znova.")
-                            //.setMessage("Chýba pripojenie k internetu. Aplikácia je v offline režime")
                             .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
                                     System.exit(0);
@@ -170,12 +166,9 @@ public class MainActivity extends AppCompatActivity
                     == PackageManager.PERMISSION_GRANTED) {
                 return true;
             } else {
-                /*ActivityCompat.requestPermissions(this, new String[]{
-                        Manifest.permission.ACCESS_FINE_LOCATION
-                }, 1);*/
                 return false;
             }
-        } else { //permission is automatically granted on sdk<23 upon installation
+        } else {
             return true;
         }
 
@@ -196,33 +189,6 @@ public class MainActivity extends AppCompatActivity
         return false;
     }
 
-
-
-    public class myWebClient extends WebViewClient
-    {
-        @Override
-        public void onPageStarted(WebView view, String url, Bitmap favicon) {
-            // TODO Auto-generated method stub
-            super.onPageStarted(view, url, favicon);
-        }
-
-        @Override
-        public boolean shouldOverrideUrlLoading(WebView view, String url) {
-            // TODO Auto-generated method stub
-            progressBar.setVisibility(View.VISIBLE);
-            view.loadUrl(url);
-            return true;
-
-        }
-
-        @Override
-        public void onPageFinished(WebView view, String url) {
-            // TODO Auto-generated method stub
-            super.onPageFinished(view, url);
-
-            progressBar.setVisibility(View.GONE);
-        }
-    }
 
 
     boolean twice;

@@ -113,26 +113,9 @@ public class MainActivity3 extends FragmentActivity implements NavigationView.On
             }
         });
 
-        /*View decorView = getWindow().getDecorView();
-        // Hide the status bar.
-        int uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN;
-        decorView.setSystemUiVisibility(uiOptions);
-        // Remember that you should never show the action bar if the
-        // status bar is hidden, so hide that too if necessary.
-        ActionBar actionBar = getActionBar();
-        actionBar.hide();*/
+
     }
 
-    public static boolean hasPermissions(Context context, String... permissions) {
-        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && context != null && permissions != null) {
-            for (String permission : permissions) {
-                if (ActivityCompat.checkSelfPermission(context, permission) != PackageManager.PERMISSION_GRANTED) {
-                    return false;
-                }
-            }
-        }
-        return true;
-    }
 
     /**
      * Manipulates the map once available.
@@ -291,13 +274,11 @@ public class MainActivity3 extends FragmentActivity implements NavigationView.On
         sendRequest();
     }
 
-    //@Override
     public LatLng getLocation() {
         // Get the location manager
         LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
         Criteria criteria = new Criteria();
 
-        String bestProvider = locationManager.getBestProvider(criteria, false);
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
             //    ActivityCompat#requestPermissions
@@ -308,14 +289,10 @@ public class MainActivity3 extends FragmentActivity implements NavigationView.On
             // for ActivityCompat#requestPermissions for more details.
 
         }
-        //Location location = locationManager.getLastKnownLocation(bestProvider);
         Location location = locationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER);
-        //mMap.setOnMyLocationChangeListener(myLocationChangeListener);
         Double lat,lon;
 
         try {
-            /*lat = loc.latitude;
-            lon = loc.longitude;*/
             lat = location.getLatitude();
             lon = location.getLongitude();
 
@@ -335,15 +312,7 @@ public class MainActivity3 extends FragmentActivity implements NavigationView.On
         return (n - c) % 2 == 0 ? (int) f : c;
     }
 
-    private GoogleMap.OnMyLocationChangeListener myLocationChangeListener = new GoogleMap.OnMyLocationChangeListener() {
-        @Override
-        public void onMyLocationChange(Location location) {
-            loc = new LatLng(location.getLatitude(), location.getLongitude());
-            if(mMap != null){
-                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(loc, 16.0f));
-            }
-        }
-    };
+
 
 
     @Override
@@ -482,29 +451,6 @@ public class MainActivity3 extends FragmentActivity implements NavigationView.On
         }
 
         return false;
-    }
-
-    public void Alert(String text){
-        AlertDialog.Builder builder;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            builder = new AlertDialog.Builder(context, android.R.style.Theme_Material_Dialog_Alert);
-        } else {
-            builder = new AlertDialog.Builder(context);
-        }
-        builder.setTitle("Hups, niečo je zlé")
-                .setMessage(text)
-                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        // continue with delete
-                    }
-                })
-                .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        // do nothing
-                    }
-                })
-                .setIcon(android.R.drawable.ic_dialog_alert)
-                .show();
     }
 
 }

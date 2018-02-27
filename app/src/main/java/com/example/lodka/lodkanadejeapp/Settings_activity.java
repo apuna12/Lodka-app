@@ -167,19 +167,16 @@ public class Settings_activity extends AppCompatActivity
                     intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
                     Uri uri = Uri.fromParts("package", getPackageName(), null);
                     intent.setData(uri);
+                    /*progressBar = (ProgressBar) findViewById(R.id.progressBar1);
+                    progressBar.getIndeterminateDrawable().setColorFilter(Color.LTGRAY, PorterDuff.Mode.MULTIPLY);
+                    progressBar.setScaleY(0.1f);
+                    progressBar.setScaleX(0.1f);
+                    progressBar.setVisibility(View.VISIBLE);*/
                     startActivity(intent);
-
-                    /*if (ContextCompat.checkSelfPermission(Settings_activity.this,
-                            android.Manifest.permission.ACCESS_FINE_LOCATION)
-                            != PackageManager.PERMISSION_GRANTED && checker == true) {
-                        swt.setClickable(true);
-                        checker = false;
-                    }*/
-
 
                     checker = false;
                 }
-                    //swt.setClickable(false);
+
             }
 
         });
@@ -208,6 +205,7 @@ public class Settings_activity extends AppCompatActivity
                 android.Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED && checker == false)
         {
+            progressBar.setVisibility(View.INVISIBLE);
             checker = false;
             AlertDialog.Builder builder = new AlertDialog.Builder(Settings_activity.this);
             builder.setTitle("Hups, niečo je zle :(")
@@ -219,6 +217,11 @@ public class Settings_activity extends AppCompatActivity
                             intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
                             Uri uri = Uri.fromParts("package", getPackageName(), null);
                             intent.setData(uri);
+                            /*progressBar = (ProgressBar) findViewById(R.id.progressBar1);
+                            progressBar.getIndeterminateDrawable().setColorFilter(Color.LTGRAY, PorterDuff.Mode.MULTIPLY);
+                            progressBar.setScaleY(0.1f);
+                            progressBar.setScaleX(0.1f);
+                            progressBar.setVisibility(View.VISIBLE);*/
                             startActivity(intent);
                         }
                     })
@@ -226,6 +229,7 @@ public class Settings_activity extends AppCompatActivity
                     .show();
         }
         else
+            progressBar.setVisibility(View.INVISIBLE);
             checker = true;
     }
     
