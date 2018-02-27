@@ -169,32 +169,13 @@ public class Settings_activity extends AppCompatActivity
                     intent.setData(uri);
                     startActivity(intent);
 
-                    if (ContextCompat.checkSelfPermission(Settings_activity.this,
+                    /*if (ContextCompat.checkSelfPermission(Settings_activity.this,
                             android.Manifest.permission.ACCESS_FINE_LOCATION)
                             != PackageManager.PERMISSION_GRANTED && checker == true) {
                         swt.setClickable(true);
                         checker = false;
-                    }
-                    if (ContextCompat.checkSelfPermission(Settings_activity.this,
-                            android.Manifest.permission.ACCESS_FINE_LOCATION)
-                            != PackageManager.PERMISSION_GRANTED && checker == false)
-                    {
-                        AlertDialog.Builder builder = new AlertDialog.Builder(Settings_activity.this);
-                        builder.setTitle("Hups, niečo je zle :(")
-                                .setMessage("Zrušili ste okno, kde je možné zrušiť povolenie. Presmerujeme vás späť")
-                                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int which) {
+                    }*/
 
-                                        Intent intent = new Intent();
-                                        intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-                                        Uri uri = Uri.fromParts("package", getPackageName(), null);
-                                        intent.setData(uri);
-                                        startActivity(intent);
-                                    }
-                                })
-                                .setIcon(android.R.drawable.ic_dialog_alert)
-                                .show();
-                    }
 
                     checker = false;
                 }
@@ -212,6 +193,7 @@ public class Settings_activity extends AppCompatActivity
         super.onResume();
 
         if(this.isCreated == true){
+
             this.isCreated = false;
         }else{
             this.afterResume();
@@ -221,7 +203,30 @@ public class Settings_activity extends AppCompatActivity
     }
 
     public void afterResume(){
-        //TODO Tibi
+
+        if (ContextCompat.checkSelfPermission(Settings_activity.this,
+                android.Manifest.permission.ACCESS_FINE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED && checker == false)
+        {
+            checker = false;
+            AlertDialog.Builder builder = new AlertDialog.Builder(Settings_activity.this);
+            builder.setTitle("Hups, niečo je zle :(")
+                    .setMessage("Zrušili ste okno, kde je možné zrušiť povolenie. Presmerujeme vás späť")
+                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+
+                            Intent intent = new Intent();
+                            intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                            Uri uri = Uri.fromParts("package", getPackageName(), null);
+                            intent.setData(uri);
+                            startActivity(intent);
+                        }
+                    })
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .show();
+        }
+        else
+            checker = true;
     }
     
 

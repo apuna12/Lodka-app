@@ -75,6 +75,9 @@ public class MainActivity extends AppCompatActivity
                 super.onCreate(savedInstanceState);
                 if (net != null && net.isConnected()) {
                     if (isOnline()) {
+
+
+
                         setContentView(R.layout.activity_main);
                         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 
@@ -122,6 +125,20 @@ public class MainActivity extends AppCompatActivity
 
                     }
 
+                    Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+
+                    Button buttonSettings = (Button) toolbar.findViewById(R.id.button_settings);
+                    buttonSettings.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+
+                            Intent myIntent = new Intent(MainActivity.this, Settings_activity.class);
+                            MainActivity.this.startActivity(myIntent);
+
+                        }
+                    });
+
+
                 } else {
 
                     AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -142,18 +159,6 @@ public class MainActivity extends AppCompatActivity
                 Log.e("chyba", e.getMessage());
             }
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-
-        Button buttonSettings = (Button) toolbar.findViewById(R.id.button_settings);
-        buttonSettings.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                Intent myIntent = new Intent(MainActivity.this, Settings_activity.class);
-                MainActivity.this.startActivity(myIntent);
-
-            }
-        });
 
         }
 
