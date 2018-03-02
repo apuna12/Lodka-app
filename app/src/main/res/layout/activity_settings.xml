@@ -18,6 +18,8 @@
             android:id="@+id/textview1"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="50px"
+            android:layout_marginTop="10dp"
             android:gravity="center"
             android:text="Nastavenia"
             android:textSize="25dp"
@@ -34,16 +36,15 @@
     </LinearLayout>
 
 
-
-
-
-
     <android.support.design.widget.NavigationView
         android:id="@+id/nav_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
+        app:itemTextColor="@drawable/menu_text_color"
+        app:itemIconTint="@drawable/menu_text_color"
+        android:background="@drawable/border_top_bottom"
         app:headerLayout="@layout/nav_header_main"
         app:menu="@menu/activity_main_drawer" >
 

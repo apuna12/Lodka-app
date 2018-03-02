@@ -65,7 +65,6 @@ public class Settings_activity extends AppCompatActivity
         try {
             ConnectivityManager con = (ConnectivityManager) getSystemService(context.CONNECTIVITY_SERVICE);
             NetworkInfo net = con.getActiveNetworkInfo();
-            String web;
             requestWindowFeature(Window.FEATURE_NO_TITLE);
             this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
             super.onCreate(savedInstanceState);
@@ -167,11 +166,6 @@ public class Settings_activity extends AppCompatActivity
                     intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
                     Uri uri = Uri.fromParts("package", getPackageName(), null);
                     intent.setData(uri);
-                    /*progressBar = (ProgressBar) findViewById(R.id.progressBar1);
-                    progressBar.getIndeterminateDrawable().setColorFilter(Color.LTGRAY, PorterDuff.Mode.MULTIPLY);
-                    progressBar.setScaleY(0.1f);
-                    progressBar.setScaleX(0.1f);
-                    progressBar.setVisibility(View.VISIBLE);*/
                     startActivity(intent);
 
                     checker = false;
@@ -205,7 +199,6 @@ public class Settings_activity extends AppCompatActivity
                 android.Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED && checker == false)
         {
-            progressBar.setVisibility(View.INVISIBLE);
             checker = false;
             AlertDialog.Builder builder = new AlertDialog.Builder(Settings_activity.this);
             builder.setTitle("Hups, niečo je zle :(")
@@ -217,11 +210,6 @@ public class Settings_activity extends AppCompatActivity
                             intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
                             Uri uri = Uri.fromParts("package", getPackageName(), null);
                             intent.setData(uri);
-                            /*progressBar = (ProgressBar) findViewById(R.id.progressBar1);
-                            progressBar.getIndeterminateDrawable().setColorFilter(Color.LTGRAY, PorterDuff.Mode.MULTIPLY);
-                            progressBar.setScaleY(0.1f);
-                            progressBar.setScaleX(0.1f);
-                            progressBar.setVisibility(View.VISIBLE);*/
                             startActivity(intent);
                         }
                     })
@@ -229,7 +217,6 @@ public class Settings_activity extends AppCompatActivity
                     .show();
         }
         else
-            progressBar.setVisibility(View.INVISIBLE);
             checker = true;
     }
     
@@ -329,9 +316,6 @@ public class Settings_activity extends AppCompatActivity
                     == PackageManager.PERMISSION_GRANTED) {
                 return true;
             } else {
-                /*ActivityCompat.requestPermissions(this, new String[]{
-                        Manifest.permission.ACCESS_FINE_LOCATION
-                }, 1);*/
                 return false;
             }
         } else { //permission is automatically granted on sdk<23 upon installation

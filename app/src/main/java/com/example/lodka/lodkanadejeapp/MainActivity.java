@@ -1,12 +1,10 @@
 package com.example.lodka.lodkanadejeapp;
 
-import android.*;
 import android.Manifest;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.net.ConnectivityManager;
@@ -36,7 +34,6 @@ import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.Toast;
-import com.google.android.gms.maps.GoogleMap;
 
 
 public class MainActivity extends AppCompatActivity
