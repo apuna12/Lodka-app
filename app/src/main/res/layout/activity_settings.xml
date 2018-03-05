@@ -12,6 +12,8 @@
         android:layout_height="wrap_content"
         android:gravity="top"
         android:weightSum="1"
+        android:divider="?android:dividerHorizontal"
+        android:showDividers="middle"
         android:orientation="vertical">
 
         <TextView
@@ -25,14 +27,73 @@
             android:textSize="25dp"
             android:typeface="serif" />
 
-        <android.support.v7.widget.SwitchCompat
-            android:id="@+id/lokalizationSwitch"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:gravity="left"
-            android:checked="true"
-            android:text="Zapnúť povolenie pre lokalizáciu"
-            android:textSize="15dp"/>
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="left">
+                <TextView
+                    android:id="@+id/labelswitch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Povolenie pre lokalizáciu"
+                    android:textSize="15dp"
+                    android:typeface="serif"
+                    android:gravity="left"
+                    android:textColor="#000000"/>
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="right">
+                    <android.support.v7.widget.SwitchCompat
+                        android:id="@+id/lokalizationSwitch"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="true" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="left">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Výber farebnej témy"
+                    android:textSize="15dp"
+                    android:typeface="serif"
+                    android:textColor="#000000"/>
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="right">
+
+                    <Spinner
+                        android:id="@+id/comboBoxTheme"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAlignment="textEnd"
+                        android:layout_gravity="end"
+                        android:drawSelectorOnTop="true"
+                        android:entries="@array/theme_array" />
+
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
     </LinearLayout>
 
 
@@ -42,17 +103,20 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
-        app:itemTextColor="@drawable/menu_text_color"
-        app:itemIconTint="@drawable/menu_text_color"
-        android:background="@drawable/border_top_bottom"
         app:headerLayout="@layout/nav_header_main"
-        app:menu="@menu/activity_main_drawer" >
+        app:menu="@menu/activity_main_drawer">
+    <!--app:itemTextColor="@drawable/menu_text_color"
+    app:itemIconTint="@drawable/menu_text_color"
+    android:background="@drawable/border_top_bottom"
+    -->
 
-        <include
-            layout="@layout/app_bar_main"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:visibility="visible" />
+    <include
+        layout="@layout/app_bar_main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="visible" />
+
+
 
     </android.support.design.widget.NavigationView>
 

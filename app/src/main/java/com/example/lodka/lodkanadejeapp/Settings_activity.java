@@ -39,6 +39,7 @@ import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -56,7 +57,7 @@ public class Settings_activity extends AppCompatActivity
     public static int permissionCheck = 1;
     SwitchCompat swt;
     Boolean checker = false;
-
+    Spinner themes;
     private boolean isCreated = false;
 
     @Override
@@ -176,6 +177,8 @@ public class Settings_activity extends AppCompatActivity
         });
 
         this.isCreated = true;
+        themes = (Spinner)findViewById(R.id.comboBoxTheme);
+
 
     }
 
@@ -203,7 +206,7 @@ public class Settings_activity extends AppCompatActivity
             AlertDialog.Builder builder = new AlertDialog.Builder(Settings_activity.this);
             builder.setTitle("Hups, niečo je zle :(")
                     .setMessage("Zrušili ste okno, kde je možné zrušiť povolenie. Presmerujeme vás späť")
-                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
 
                             Intent intent = new Intent();
@@ -211,6 +214,13 @@ public class Settings_activity extends AppCompatActivity
                             Uri uri = Uri.fromParts("package", getPackageName(), null);
                             intent.setData(uri);
                             startActivity(intent);
+                        }
+                    })
+                    .setNegativeButton("Zrušiť", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            swt.setChecked(true);
+                            checker = true;
                         }
                     })
                     .setIcon(android.R.drawable.ic_dialog_alert)
