@@ -5,9 +5,12 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.DrawableContainer;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -36,6 +39,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.ProgressBar;
@@ -59,6 +63,7 @@ public class Settings_activity extends AppCompatActivity
     Boolean checker = false;
     Spinner themes;
     private boolean isCreated = false;
+    NavigationView navigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,7 +91,7 @@ public class Settings_activity extends AppCompatActivity
                     drawer.setDrawerListener(toggle);
                     toggle.syncState();
 
-                    NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+                    navigationView = (NavigationView) findViewById(R.id.nav_view);
                     navigationView.setNavigationItemSelectedListener(this);
 
 
@@ -177,10 +182,48 @@ public class Settings_activity extends AppCompatActivity
         });
 
         this.isCreated = true;
-        themes = (Spinner)findViewById(R.id.comboBoxTheme);
+        themes = (Spinner) findViewById(R.id.comboBoxTheme);
+        themes.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> arg0, View arg1,
+                                       int arg2, long arg3) {
+                int index = arg0.getSelectedItemPosition();
+                if(themes.getItemAtPosition(index).equals("Základná"))
+                {
+
+                    navigationView.setItemIconTintList(ContextCompat.getColorStateList(Settings_activity.this, R.drawable.menu_text_color_normal));
+                    navigationView.setItemTextColor(ContextCompat.getColorStateList(Settings_activity.this, R.drawable.menu_text_color_normal));
+                    navigationView.setBackgroundDrawable(ContextCompat.getDrawable(Settings_activity.this, R.drawable.border_top_bottom_normal));
+
+                }
+
+                if(themes.getItemAtPosition(index).equals("Matrix"))
+                {
+                    navigationView.setItemIconTintList(ContextCompat.getColorStateList(Settings_activity.this, R.drawable.menu_text_color_matrix));
+                    navigationView.setItemTextColor(ContextCompat.getColorStateList(Settings_activity.this, R.drawable.menu_text_color_matrix));
+                    navigationView.setBackgroundDrawable(ContextCompat.getDrawable(Settings_activity.this, R.drawable.border_top_bottom_matrix));
+                }
+
+                if(themes.getItemAtPosition(index).equals("Gamers"))
+                {
+
+                    navigationView.setItemIconTintList(ContextCompat.getColorStateList(Settings_activity.this, R.drawable.menu_text_color_gamers));
+                    navigationView.setItemTextColor(ContextCompat.getColorStateList(Settings_activity.this, R.drawable.menu_text_color_gamers));
+                    navigationView.setBackgroundDrawable(ContextCompat.getDrawable(Settings_activity.this, R.drawable.border_top_bottom_gamers));
+
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> arg0) {
+            }
+        });
+
 
 
     }
+
+
 
     @Override
     protected void onResume(){
@@ -195,6 +238,9 @@ public class Settings_activity extends AppCompatActivity
 
 
     }
+
+
+
 
     public void afterResume(){
 
