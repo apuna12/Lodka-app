@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:color="@color/colorPrimary" android:state_checked="true" /> <!-- clicked text of item-->
     <item android:color="#ff0004" android:state_checked="false"/> <!-- text of item -->
+    <item android:color="@color/colorPrimary" android:state_checked="true" /> <!-- clicked text of item-->
+
 </selector>
