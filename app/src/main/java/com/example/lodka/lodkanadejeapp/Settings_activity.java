@@ -4,8 +4,10 @@ import android.Manifest;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -71,7 +73,9 @@ public class Settings_activity extends AppCompatActivity
     Spinner themes;
     private boolean isCreated = false;
     NavigationView navigationView;
-
+    SharedPreferences themeInfo ;
+    SharedPreferences.Editor editor;
+    String themeSetting;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,6 +87,8 @@ public class Settings_activity extends AppCompatActivity
             this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
             super.onCreate(savedInstanceState);
 
+            themeInfo = getPreferences(Context.MODE_PRIVATE);
+            themeSetting = themeInfo.getString("theme","Základná");
 
 
 
@@ -188,15 +194,31 @@ public class Settings_activity extends AppCompatActivity
             }
 
         });
-
         this.isCreated = true;
         themes = (Spinner) findViewById(R.id.comboBoxTheme);
+        themeSetting = themeInfo.getString("theme","Základná");
+        if(themeSetting.equals("Základná"))
+        {
+            themes.setSelection(0);
+            setTheme(R.style.AppTheme);
+        }
+        if(themeSetting.equals("Matrix"))
+        {
+            themes.setSelection(1);
+            setTheme(R.style.AppThemeMatrixDivider);
+        }
+        if(themeSetting.equals("Gamers"))
+        {
+            themes.setSelection(2);
+            setTheme(R.style.AppThemeGamersDivider);
+        }
         themes.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> arg0, View arg1,
                                        int arg2, long arg3) {
                 int index = arg0.getSelectedItemPosition();
                 changeTheme(themes.getItemAtPosition(index).toString());
+
             }
 
             @Override
@@ -208,29 +230,33 @@ public class Settings_activity extends AppCompatActivity
 
     }
 
+
     public void changeTheme(String str)
     {
         LinearLayout navHeader = (LinearLayout) findViewById(R.id.nav_header);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         Button sett = (Button)findViewById(R.id.button_settings);
         TextView text = (TextView)findViewById(R.id.textview);
-        View drw = (View)findViewById(R.attr.divider);
-
+        SharedPreferences themeInfo = getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = themeInfo.edit();
         if(str.equals("Základná"))
         {
             navigationView.setItemIconTintList(ContextCompat.getColorStateList(Settings_activity.this, R.drawable.menu_text_color_normal));
             navigationView.setItemTextColor(ContextCompat.getColorStateList(Settings_activity.this, R.drawable.menu_text_color_normal));
             navigationView.setBackgroundDrawable(ContextCompat.getDrawable(Settings_activity.this, R.drawable.border_top_bottom_normal));
             navHeader.setBackgroundDrawable(ContextCompat.getDrawable(Settings_activity.this, R.drawable.border_top_bottom_normal));
-            sett.setTextColor(ContextCompat.getColorStateList(Settings_activity.this, R.color.colorAccent));
-            text.setTextColor(ContextCompat.getColorStateList(Settings_activity.this, R.color.colorAccent));
+            sett.setTextColor(ContextCompat.getColorStateList(Settings_activity.this, R.color.colorWhite));
+            text.setTextColor(ContextCompat.getColorStateList(Settings_activity.this, R.color.colorDefault));
             toolbar.setBackground(ContextCompat.getDrawable(Settings_activity.this, R.color.colorPrimary));
-            toolbar.getNavigationIcon().setColorFilter(getResources().getColor(R.color.colorAccent), PorterDuff.Mode.SRC_ATOP);
-
+            toolbar.getNavigationIcon().setColorFilter(getResources().getColor(R.color.colorWhite), PorterDuff.Mode.SRC_ATOP);
+            editor.putString("theme","Základná");
+            editor.commit();
+            setTheme(R.style.AppTheme);
 
         }
         if (str.equals("Matrix"))
         {
+
             navigationView.setItemIconTintList(ContextCompat.getColorStateList(Settings_activity.this, R.drawable.menu_text_color_matrix));
             navigationView.setItemTextColor(ContextCompat.getColorStateList(Settings_activity.this, R.drawable.menu_text_color_matrix));
             navigationView.setBackgroundDrawable(ContextCompat.getDrawable(Settings_activity.this, R.drawable.border_top_bottom_matrix));
@@ -239,6 +265,9 @@ public class Settings_activity extends AppCompatActivity
             text.setTextColor(ContextCompat.getColorStateList(Settings_activity.this, R.drawable.menu_text_color_matrix));
             toolbar.setBackground(ContextCompat.getDrawable(Settings_activity.this, R.drawable.border_top_bottom_matrix));
             toolbar.getNavigationIcon().setColorFilter(getResources().getColor(R.drawable.menu_text_color_matrix), PorterDuff.Mode.SRC_ATOP);
+            editor.putString("theme","Matrix");
+            editor.commit();
+            setTheme(R.style.AppThemeMatrixDivider);
         }
         if(str.equals("Gamers"))
         {
@@ -250,8 +279,12 @@ public class Settings_activity extends AppCompatActivity
             text.setTextColor(ContextCompat.getColorStateList(Settings_activity.this, R.drawable.menu_text_color_gamers));
             toolbar.setBackground(ContextCompat.getDrawable(Settings_activity.this, R.drawable.border_top_bottom_gamers));
             toolbar.getNavigationIcon().setColorFilter(getResources().getColor(R.drawable.menu_text_color_gamers), PorterDuff.Mode.SRC_ATOP);
+            editor.putString("theme","Gamers");
+            editor.commit();
+            setTheme(R.style.AppThemeGamersDivider);
         }
     }
+
 
 
     @Override
