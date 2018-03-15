@@ -6,8 +6,13 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+
 import android.content.res.ColorStateList;
 import android.content.res.Resources;
+import android.app.Activity;
+import android.os.Bundle;
+import android.view.View;
+import android.view.View.OnClickListener;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -25,6 +30,7 @@ import android.renderscript.Sampler;
 import android.support.annotation.NonNull;
 import android.support.annotation.StyleRes;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.TaskStackBuilder;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.graphics.drawable.DrawerArrowDrawable;
@@ -71,6 +77,7 @@ public class Settings_activity extends AppCompatActivity
     SwitchCompat swt;
     Boolean checker = false;
     Spinner themes;
+    Boolean checker2 = false;
     private boolean isCreated = false;
     NavigationView navigationView;
     SharedPreferences themeInfo ;
@@ -89,7 +96,6 @@ public class Settings_activity extends AppCompatActivity
 
             themeInfo = getPreferences(Context.MODE_PRIVATE);
             themeSetting = themeInfo.getString("theme","Základná");
-
 
 
 
@@ -201,29 +207,41 @@ public class Settings_activity extends AppCompatActivity
         {
             themes.setSelection(0);
             setTheme(R.style.AppTheme);
+            checker2 = false;
         }
         if(themeSetting.equals("Matrix"))
         {
             themes.setSelection(1);
             setTheme(R.style.AppThemeMatrixDivider);
+            checker2 = false;
         }
         if(themeSetting.equals("Gamers"))
         {
             themes.setSelection(2);
             setTheme(R.style.AppThemeGamersDivider);
+            checker2 = false;
         }
         themes.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> arg0, View arg1,
                                        int arg2, long arg3) {
                 int index = arg0.getSelectedItemPosition();
-                changeTheme(themes.getItemAtPosition(index).toString());
+                if(!themeSetting.equals(themes.getItemAtPosition(index).toString()))
+                {
+                    changeTheme(themes.getItemAtPosition(index).toString());
+                    checker2 = false;
+
+                }
+
+
 
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> arg0) {
+                checker2 = true;
             }
+
         });
 
 
@@ -233,6 +251,7 @@ public class Settings_activity extends AppCompatActivity
 
     public void changeTheme(String str)
     {
+
         LinearLayout navHeader = (LinearLayout) findViewById(R.id.nav_header);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         Button sett = (Button)findViewById(R.id.button_settings);
@@ -241,6 +260,7 @@ public class Settings_activity extends AppCompatActivity
         SharedPreferences.Editor editor = themeInfo.edit();
         if(str.equals("Základná"))
         {
+            Utils.changeToTheme(Settings_activity.this, Utils.THEME_DEFAULT);
             navigationView.setItemIconTintList(ContextCompat.getColorStateList(Settings_activity.this, R.drawable.menu_text_color_normal));
             navigationView.setItemTextColor(ContextCompat.getColorStateList(Settings_activity.this, R.drawable.menu_text_color_normal));
             navigationView.setBackgroundDrawable(ContextCompat.getDrawable(Settings_activity.this, R.drawable.border_top_bottom_normal));
@@ -251,12 +271,12 @@ public class Settings_activity extends AppCompatActivity
             toolbar.getNavigationIcon().setColorFilter(getResources().getColor(R.color.colorWhite), PorterDuff.Mode.SRC_ATOP);
             editor.putString("theme","Základná");
             editor.commit();
-            setTheme(R.style.AppTheme);
+
 
         }
         if (str.equals("Matrix"))
         {
-
+            Utils.changeToTheme(this, Utils.THEME_MATRIX);
             navigationView.setItemIconTintList(ContextCompat.getColorStateList(Settings_activity.this, R.drawable.menu_text_color_matrix));
             navigationView.setItemTextColor(ContextCompat.getColorStateList(Settings_activity.this, R.drawable.menu_text_color_matrix));
             navigationView.setBackgroundDrawable(ContextCompat.getDrawable(Settings_activity.this, R.drawable.border_top_bottom_matrix));
@@ -267,10 +287,12 @@ public class Settings_activity extends AppCompatActivity
             toolbar.getNavigationIcon().setColorFilter(getResources().getColor(R.drawable.menu_text_color_matrix), PorterDuff.Mode.SRC_ATOP);
             editor.putString("theme","Matrix");
             editor.commit();
-            setTheme(R.style.AppThemeMatrixDivider);
+
+
         }
         if(str.equals("Gamers"))
         {
+            Utils.changeToTheme(this, Utils.THEME_GAMERS);
             navigationView.setItemIconTintList(ContextCompat.getColorStateList(Settings_activity.this, R.drawable.menu_text_color_gamers));
             navigationView.setItemTextColor(ContextCompat.getColorStateList(Settings_activity.this, R.drawable.menu_text_color_gamers));
             navigationView.setBackgroundDrawable(ContextCompat.getDrawable(Settings_activity.this, R.drawable.border_top_bottom_gamers));
@@ -281,8 +303,11 @@ public class Settings_activity extends AppCompatActivity
             toolbar.getNavigationIcon().setColorFilter(getResources().getColor(R.drawable.menu_text_color_gamers), PorterDuff.Mode.SRC_ATOP);
             editor.putString("theme","Gamers");
             editor.commit();
-            setTheme(R.style.AppThemeGamersDivider);
+
+
         }
+
+
     }
 
 
