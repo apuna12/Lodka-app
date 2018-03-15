@@ -245,6 +245,20 @@ public class Settings_activity extends AppCompatActivity
         });
 
 
+        LinearLayout navHeader = (LinearLayout) findViewById(R.id.nav_header);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Button sett = (Button)findViewById(R.id.button_settings);
+        TextView text = (TextView)findViewById(R.id.textview);
+
+        navigationView.setItemIconTintList(ContextCompat.getColorStateList(Settings_activity.this, themeInfo.getInt("setItemIconTintList",R.drawable.menu_text_color_normal) ));
+        navigationView.setItemTextColor(ContextCompat.getColorStateList(Settings_activity.this, themeInfo.getInt("setItemTextColor",R.drawable.menu_text_color_normal) ));
+        navigationView.setBackgroundDrawable(ContextCompat.getDrawable(Settings_activity.this, themeInfo.getInt("setBackgroundDrawable",R.drawable.border_top_bottom_normal) ));
+        //navHeader.setBackgroundDrawable(ContextCompat.getDrawable(Settings_activity.this, themeInfo.getInt("navHeaderSetBackgroundDrawable",R.drawable.border_top_bottom_normal) ));
+        sett.setTextColor(ContextCompat.getColorStateList(Settings_activity.this, themeInfo.getInt("settSetTextColor",R.color.colorWhite) ));
+        text.setTextColor(ContextCompat.getColorStateList(Settings_activity.this, themeInfo.getInt("textSetTextColor",R.color.colorDefault) ));
+        toolbar.setBackground(ContextCompat.getDrawable(Settings_activity.this, themeInfo.getInt("toolbarSetBackground",R.color.colorPrimary) ));
+        toolbar.getNavigationIcon().setColorFilter(getResources().getColor(themeInfo.getInt("toolbarGetNavigationIcon()",R.color.colorWhite)), PorterDuff.Mode.SRC_ATOP);
+
 
     }
 
@@ -260,7 +274,7 @@ public class Settings_activity extends AppCompatActivity
         SharedPreferences.Editor editor = themeInfo.edit();
         if(str.equals("Základná"))
         {
-            Utils.changeToTheme(Settings_activity.this, Utils.THEME_DEFAULT);
+
             navigationView.setItemIconTintList(ContextCompat.getColorStateList(Settings_activity.this, R.drawable.menu_text_color_normal));
             navigationView.setItemTextColor(ContextCompat.getColorStateList(Settings_activity.this, R.drawable.menu_text_color_normal));
             navigationView.setBackgroundDrawable(ContextCompat.getDrawable(Settings_activity.this, R.drawable.border_top_bottom_normal));
@@ -270,13 +284,21 @@ public class Settings_activity extends AppCompatActivity
             toolbar.setBackground(ContextCompat.getDrawable(Settings_activity.this, R.color.colorPrimary));
             toolbar.getNavigationIcon().setColorFilter(getResources().getColor(R.color.colorWhite), PorterDuff.Mode.SRC_ATOP);
             editor.putString("theme","Základná");
+            editor.putInt("setItemIconTintList",R.drawable.menu_text_color_normal);
+            editor.putInt("setItemTextColor", R.drawable.menu_text_color_normal);
+            editor.putInt("setBackgroundDrawable", R.drawable.border_top_bottom_normal);
+            editor.putInt("navHeaderSetBackgroundDrawable", R.drawable.border_top_bottom_normal);
+            editor.putInt("settSetTextColor", R.color.colorWhite);
+            editor.putInt("textSetTextColor", R.color.colorDefault);
+            editor.putInt("toolbarSetBackground", R.color.colorPrimary);
+            editor.putInt("toolbarGetNavigationIcon()", R.color.colorWhite);
             editor.commit();
-
+            Utils.changeToTheme(Settings_activity.this, Utils.THEME_DEFAULT);
 
         }
         if (str.equals("Matrix"))
         {
-            Utils.changeToTheme(this, Utils.THEME_MATRIX);
+
             navigationView.setItemIconTintList(ContextCompat.getColorStateList(Settings_activity.this, R.drawable.menu_text_color_matrix));
             navigationView.setItemTextColor(ContextCompat.getColorStateList(Settings_activity.this, R.drawable.menu_text_color_matrix));
             navigationView.setBackgroundDrawable(ContextCompat.getDrawable(Settings_activity.this, R.drawable.border_top_bottom_matrix));
@@ -286,13 +308,21 @@ public class Settings_activity extends AppCompatActivity
             toolbar.setBackground(ContextCompat.getDrawable(Settings_activity.this, R.drawable.border_top_bottom_matrix));
             toolbar.getNavigationIcon().setColorFilter(getResources().getColor(R.drawable.menu_text_color_matrix), PorterDuff.Mode.SRC_ATOP);
             editor.putString("theme","Matrix");
+            editor.putInt("setItemIconTintList",R.drawable.menu_text_color_matrix);
+            editor.putInt("setItemTextColor", R.drawable.menu_text_color_matrix);
+            editor.putInt("setBackgroundDrawable", R.drawable.border_top_bottom_matrix);
+            editor.putInt("navHeaderSetBackgroundDrawable", R.drawable.border_top_bottom_matrix);
+            editor.putInt("settSetTextColor", R.drawable.menu_text_color_matrix);
+            editor.putInt("textSetTextColor", R.drawable.menu_text_color_matrix);
+            editor.putInt("toolbarSetBackground", R.drawable.border_top_bottom_matrix);
+            editor.putInt("toolbarGetNavigationIcon()", R.drawable.menu_text_color_matrix);
             editor.commit();
-
+            Utils.changeToTheme(this, Utils.THEME_MATRIX);
 
         }
         if(str.equals("Gamers"))
         {
-            Utils.changeToTheme(this, Utils.THEME_GAMERS);
+
             navigationView.setItemIconTintList(ContextCompat.getColorStateList(Settings_activity.this, R.drawable.menu_text_color_gamers));
             navigationView.setItemTextColor(ContextCompat.getColorStateList(Settings_activity.this, R.drawable.menu_text_color_gamers));
             navigationView.setBackgroundDrawable(ContextCompat.getDrawable(Settings_activity.this, R.drawable.border_top_bottom_gamers));
@@ -302,8 +332,16 @@ public class Settings_activity extends AppCompatActivity
             toolbar.setBackground(ContextCompat.getDrawable(Settings_activity.this, R.drawable.border_top_bottom_gamers));
             toolbar.getNavigationIcon().setColorFilter(getResources().getColor(R.drawable.menu_text_color_gamers), PorterDuff.Mode.SRC_ATOP);
             editor.putString("theme","Gamers");
+            editor.putInt("setItemIconTintList",R.drawable.menu_text_color_gamers);
+            editor.putInt("setItemTextColor", R.drawable.menu_text_color_gamers);
+            editor.putInt("setBackgroundDrawable", R.drawable.border_top_bottom_gamers);
+            editor.putInt("navHeaderSetBackgroundDrawable", R.drawable.border_top_bottom_gamers);
+            editor.putInt("settSetTextColor", R.drawable.menu_text_color_gamers);
+            editor.putInt("textSetTextColor", R.drawable.menu_text_color_gamers);
+            editor.putInt("toolbarSetBackground", R.drawable.border_top_bottom_gamers);
+            editor.putInt("toolbarGetNavigationIcon()", R.drawable.menu_text_color_gamers);
             editor.commit();
-
+            Utils.changeToTheme(this, Utils.THEME_GAMERS);
 
         }
 
