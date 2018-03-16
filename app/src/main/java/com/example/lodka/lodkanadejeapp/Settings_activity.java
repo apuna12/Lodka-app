@@ -94,7 +94,7 @@ public class Settings_activity extends AppCompatActivity
             this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
             super.onCreate(savedInstanceState);
 
-            themeInfo = getPreferences(Context.MODE_PRIVATE);
+            themeInfo = getSharedPreferences("THEMECONFIG",0);
             themeSetting = themeInfo.getString("theme","Základná");
 
 
@@ -270,7 +270,7 @@ public class Settings_activity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         Button sett = (Button)findViewById(R.id.button_settings);
         TextView text = (TextView)findViewById(R.id.textview);
-        SharedPreferences themeInfo = getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences themeInfo = getSharedPreferences("THEMECONFIG",0);
         SharedPreferences.Editor editor = themeInfo.edit();
         if(str.equals("Základná"))
         {
