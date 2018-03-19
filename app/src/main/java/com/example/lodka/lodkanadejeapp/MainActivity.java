@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity
     SharedPreferences themeInfo ;
     SharedPreferences.Editor editor;
     String themeSetting;
-    Boolean checker = false;
+    static Boolean checker = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -174,8 +174,9 @@ public class MainActivity extends AppCompatActivity
         toolbar.setBackground(ContextCompat.getDrawable(MainActivity.this, themeInfo.getInt("toolbarSetBackground",R.color.colorPrimary) ));
         toolbar.getNavigationIcon().setColorFilter(getResources().getColor(themeInfo.getInt("toolbarGetNavigationIcon()",R.color.colorWhite)), PorterDuff.Mode.SRC_ATOP);*/
 
-        if(!themeSetting.equals(themeInfo)) {
+        if(!themeSetting.equals(themeInfo) && checker == false) {
             if (themeSetting.equals("Základná")) {
+                Log.e("lala","lala");
                 changeTheme("Základná");
                 checker = true;
             }
@@ -219,7 +220,7 @@ public class MainActivity extends AppCompatActivity
             editor.putInt("toolbarSetBackground", R.color.colorPrimary);
             editor.putInt("toolbarGetNavigationIcon()", R.color.colorWhite);
             editor.commit();
-            Utils.changeToTheme(MainActivity.this, Utils.THEME_DEFAULT);
+            Utils.changeToTheme(this, Utils.THEME_DEFAULT);
 
         }
         if (str.equals("Matrix"))
