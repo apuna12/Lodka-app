@@ -171,6 +171,8 @@ public class Settings_activity extends AppCompatActivity
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
+                MainActivity.checker = false;
+
 
                 if(isChecked == true)
                 {
