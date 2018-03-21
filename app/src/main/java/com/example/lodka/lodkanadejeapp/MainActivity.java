@@ -176,14 +176,17 @@ public class MainActivity extends AppCompatActivity
 
         if(!themeSetting.equals(themeInfo)) {
             if (themeSetting.equals("Základná")) {
+                setTheme(R.style.AppTheme);
                 changeTheme("Základná");
                 checker = true;
             }
             if (themeSetting.equals("Matrix")) {
+                setTheme(R.style.AppThemeMatrixDivider);
                 changeTheme("Matrix");
                 checker = true;
             }
             if (themeSetting.equals("Gamers")) {
+                setTheme(R.style.AppThemeGamersDivider);
                 changeTheme("Gamers");
                 checker = true;
             }
