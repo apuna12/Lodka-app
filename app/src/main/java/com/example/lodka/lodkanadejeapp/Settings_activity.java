@@ -11,6 +11,8 @@ import android.content.res.ColorStateList;
 import android.content.res.Resources;
 import android.app.Activity;
 import android.os.Bundle;
+import android.text.SpannableString;
+import android.text.style.TextAppearanceSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -104,8 +106,9 @@ public class Settings_activity extends AppCompatActivity
             if (net != null && net.isConnected()) {
                 if (isOnline()) {
                     //setContentView(R.id.nav_header_logo);
-                    navHeaderLogo = (LinearLayout)this.findViewById(R.id.nav_header_logo);
                     setContentView(R.layout.activity_settings);
+                    navHeaderLogo = (LinearLayout)findViewById(R.id.nav_header_logo);
+
                     Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 
                     DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -146,11 +149,6 @@ public class Settings_activity extends AppCompatActivity
                         .show();
             }
 
-
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         } catch (Exception e) {
             Log.e("chyba", e.getMessage());
@@ -252,10 +250,10 @@ public class Settings_activity extends AppCompatActivity
         });
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-
         Button sett = (Button)findViewById(R.id.button_settings);
         TextView text = (TextView)findViewById(R.id.textview);
         navigationView = (NavigationView) findViewById(R.id.nav_view);
+        //navHeaderLogo.setBackgroundDrawable(ContextCompat.getDrawable(Settings_activity.this, themeInfo.getInt("setLogoBackgroundDrawable",R.drawable.border_top_bottom_matrix_logo) ));
         navigationView.setItemIconTintList(ContextCompat.getColorStateList(Settings_activity.this, themeInfo.getInt("setItemIconTintList",R.drawable.menu_text_color_normal) ));
         navigationView.setItemTextColor(ContextCompat.getColorStateList(Settings_activity.this, themeInfo.getInt("setItemTextColor",R.drawable.menu_text_color_normal) ));
         navigationView.setBackgroundDrawable(ContextCompat.getDrawable(Settings_activity.this, themeInfo.getInt("setBackgroundDrawable",R.drawable.border_top_bottom_normal) ));

@@ -7,6 +7,7 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:listDivider">@color/colorDefault</item>
+        <item name="android:textColorSecondary">@color/colorDefault</item>
      </style>
 
      <style name="AppTheme.NoActionBar">
@@ -16,10 +17,12 @@
 
     <style name="AppThemeMatrixDivider" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="android:listDivider">@color/colorMatrix</item>
+        <item name="android:textColorSecondary">@color/colorMatrix</item>
     </style>
 
     <style name="AppThemeGamersDivider" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="android:listDivider">@color/colorGamers</item>
+        <item name="android:textColorSecondary">@color/colorGamers</item>
     </style>
 
      <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />

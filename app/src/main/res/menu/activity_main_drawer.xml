@@ -27,7 +27,8 @@
 
     <group android:checkableBehavior="single"
            android:id="@+id/group_communication">
-        <item android:title="Komunikácia">
+        <item android:title="Komunikácia"
+              android:id="@+id/komunikacia">
             <menu>
                 <item
                     android:id="@+id/nav_facebook"
@@ -54,7 +55,8 @@
     </group>
     <group android:checkableBehavior="single"
            android:id="@+id/group_map">
-        <item android:title="Navigácia">
+        <item android:title="Navigácia"
+              android:id="@+id/navigacia">
             <menu>
                 <item
                     android:id="@+id/nav_map"
