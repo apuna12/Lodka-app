@@ -11,6 +11,7 @@ import android.content.res.ColorStateList;
 import android.content.res.Resources;
 import android.app.Activity;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.graphics.Bitmap;
@@ -83,6 +84,7 @@ public class Settings_activity extends AppCompatActivity
     SharedPreferences themeInfo ;
     SharedPreferences.Editor editor;
     String themeSetting;
+    LinearLayout navHeaderLogo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,9 +103,10 @@ public class Settings_activity extends AppCompatActivity
 
             if (net != null && net.isConnected()) {
                 if (isOnline()) {
+                    //setContentView(R.id.nav_header_logo);
+                    navHeaderLogo = (LinearLayout)this.findViewById(R.id.nav_header_logo);
                     setContentView(R.layout.activity_settings);
                     Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-
 
                     DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
                     ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -111,7 +114,7 @@ public class Settings_activity extends AppCompatActivity
                     drawer.setDrawerListener(toggle);
                     toggle.syncState();
 
-                    navigationView = (NavigationView) findViewById(R.id.nav_view);
+
                     navigationView.setNavigationItemSelectedListener(this);
 
 
@@ -172,6 +175,8 @@ public class Settings_activity extends AppCompatActivity
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
                 MainActivity.checker = false;
+                MainActivity2.checker2 = false;
+                MainActivity3.checker3 = false;
 
 
                 if(isChecked == true)
@@ -246,20 +251,19 @@ public class Settings_activity extends AppCompatActivity
 
         });
 
-
-        LinearLayout navHeader = (LinearLayout) findViewById(R.id.nav_header);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+
         Button sett = (Button)findViewById(R.id.button_settings);
         TextView text = (TextView)findViewById(R.id.textview);
-
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setItemIconTintList(ContextCompat.getColorStateList(Settings_activity.this, themeInfo.getInt("setItemIconTintList",R.drawable.menu_text_color_normal) ));
         navigationView.setItemTextColor(ContextCompat.getColorStateList(Settings_activity.this, themeInfo.getInt("setItemTextColor",R.drawable.menu_text_color_normal) ));
         navigationView.setBackgroundDrawable(ContextCompat.getDrawable(Settings_activity.this, themeInfo.getInt("setBackgroundDrawable",R.drawable.border_top_bottom_normal) ));
-        //navHeader.setBackgroundDrawable(ContextCompat.getDrawable(Settings_activity.this, themeInfo.getInt("navHeaderSetBackgroundDrawable",R.drawable.border_top_bottom_normal) ));
         sett.setTextColor(ContextCompat.getColorStateList(Settings_activity.this, themeInfo.getInt("settSetTextColor",R.color.colorWhite) ));
         text.setTextColor(ContextCompat.getColorStateList(Settings_activity.this, themeInfo.getInt("textSetTextColor",R.color.colorDefault) ));
         toolbar.setBackground(ContextCompat.getDrawable(Settings_activity.this, themeInfo.getInt("toolbarSetBackground",R.color.colorPrimary) ));
         toolbar.getNavigationIcon().setColorFilter(getResources().getColor(themeInfo.getInt("toolbarGetNavigationIcon()",R.color.colorWhite)), PorterDuff.Mode.SRC_ATOP);
+
 
 
     }
@@ -274,6 +278,7 @@ public class Settings_activity extends AppCompatActivity
         TextView text = (TextView)findViewById(R.id.textview);
         SharedPreferences themeInfo = getSharedPreferences("THEMECONFIG",0);
         SharedPreferences.Editor editor = themeInfo.edit();
+
         if(str.equals("Základná"))
         {
 
@@ -333,6 +338,7 @@ public class Settings_activity extends AppCompatActivity
             text.setTextColor(ContextCompat.getColorStateList(Settings_activity.this, R.drawable.menu_text_color_gamers));
             toolbar.setBackground(ContextCompat.getDrawable(Settings_activity.this, R.drawable.border_top_bottom_gamers));
             toolbar.getNavigationIcon().setColorFilter(getResources().getColor(R.drawable.menu_text_color_gamers), PorterDuff.Mode.SRC_ATOP);
+
             editor.putString("theme","Gamers");
             editor.putInt("setItemIconTintList",R.drawable.menu_text_color_gamers);
             editor.putInt("setItemTextColor", R.drawable.menu_text_color_gamers);

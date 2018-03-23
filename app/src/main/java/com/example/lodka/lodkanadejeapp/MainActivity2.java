@@ -5,13 +5,16 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.PorterDuff;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.NavigationView;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -25,6 +28,8 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.Properties;
@@ -62,11 +67,17 @@ public class MainActivity2 extends Activity
     StringBuilder celyEmail = new StringBuilder();
     javax.mail.Session session;
     boolean checker;
+    NavigationView navigationView;
+    String themeSetting;
+    SharedPreferences themeInfo ;
+    SharedPreferences.Editor editor;
+    static Boolean checker2 = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-
+        themeInfo = getSharedPreferences("THEMECONFIG",0);
+        themeSetting = themeInfo.getString("theme","Základná");
         try {
             requestWindowFeature(Window.FEATURE_NO_TITLE);
             this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -84,7 +95,7 @@ public class MainActivity2 extends Activity
             drawer.setDrawerListener(toggle);
             toggle.syncState();
             pdialog = new ProgressDialog(MainActivity2.this);
-            NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+            navigationView = (NavigationView) findViewById(R.id.nav_view);
             navigationView.setNavigationItemSelectedListener(this);
             clickButton = (Button) findViewById(R.id.button1);
             clickButton.setOnClickListener(this);
@@ -112,9 +123,111 @@ public class MainActivity2 extends Activity
             }
         });
 
+        if(!themeSetting.equals(themeInfo)) {
+            if (themeSetting.equals("Základná")) {
+                setTheme(R.style.AppTheme);
+                changeTheme("Základná");
+                checker2 = true;
+            }
+            if (themeSetting.equals("Matrix")) {
+                setTheme(R.style.AppThemeMatrixDivider);
+                changeTheme("Matrix");
+                checker2 = true;
+            }
+            if (themeSetting.equals("Gamers")) {
+                setTheme(R.style.AppThemeGamersDivider);
+                changeTheme("Gamers");
+                checker2 = true;
+            }
+        }
 
     }
+    public void changeTheme(String str)
+    {
 
+        LinearLayout navHeader = (LinearLayout) findViewById(R.id.nav_header);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Button sett = (Button)findViewById(R.id.button_settings);
+        TextView text = (TextView)findViewById(R.id.textview);
+        SharedPreferences themeInfo = getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = themeInfo.edit();
+        if(str.equals("Základná"))
+        {
+            navigationView.setItemIconTintList(ContextCompat.getColorStateList(MainActivity2.this, R.drawable.menu_text_color_normal));
+            navigationView.setItemTextColor(ContextCompat.getColorStateList(MainActivity2.this, R.drawable.menu_text_color_normal));
+            navigationView.setBackgroundDrawable(ContextCompat.getDrawable(MainActivity2.this, R.drawable.border_top_bottom_normal));
+            //navHeader.setBackgroundDrawable(ContextCompat.getDrawable(MainActivity.this, R.drawable.border_top_bottom_normal));
+            sett.setTextColor(ContextCompat.getColorStateList(MainActivity2.this, R.color.colorWhite));
+            text.setTextColor(ContextCompat.getColorStateList(MainActivity2.this, R.color.colorDefault));
+            toolbar.setBackground(ContextCompat.getDrawable(MainActivity2.this, R.color.colorPrimary));
+            toolbar.getNavigationIcon().setColorFilter(getResources().getColor(R.color.colorWhite), PorterDuff.Mode.SRC_ATOP);
+            editor.putString("theme","Základná");
+            editor.putInt("setItemIconTintList",R.drawable.menu_text_color_normal);
+            editor.putInt("setItemTextColor", R.drawable.menu_text_color_normal);
+            editor.putInt("setBackgroundDrawable", R.drawable.border_top_bottom_normal);
+            editor.putInt("navHeaderSetBackgroundDrawable", R.drawable.border_top_bottom_normal);
+            editor.putInt("settSetTextColor", R.color.colorWhite);
+            editor.putInt("textSetTextColor", R.color.colorDefault);
+            editor.putInt("toolbarSetBackground", R.color.colorPrimary);
+            editor.putInt("toolbarGetNavigationIcon()", R.color.colorWhite);
+            editor.commit();
+            if(!checker2)
+                Utils.changeToTheme(MainActivity2.this, Utils.THEME_DEFAULT);
+
+        }
+        if (str.equals("Matrix"))
+        {
+
+            navigationView.setItemIconTintList(ContextCompat.getColorStateList(MainActivity2.this, R.drawable.menu_text_color_matrix));
+            navigationView.setItemTextColor(ContextCompat.getColorStateList(MainActivity2.this, R.drawable.menu_text_color_matrix));
+            navigationView.setBackgroundDrawable(ContextCompat.getDrawable(MainActivity2.this, R.drawable.border_top_bottom_matrix));
+            // navHeader.setBackgroundDrawable(ContextCompat.getDrawable(MainActivity.this, R.drawable.border_top_bottom_matrix));
+            sett.setTextColor(ContextCompat.getColorStateList(MainActivity2.this, R.drawable.menu_text_color_matrix));
+            text.setTextColor(ContextCompat.getColorStateList(MainActivity2.this, R.drawable.menu_text_color_matrix));
+            toolbar.setBackground(ContextCompat.getDrawable(MainActivity2.this, R.drawable.border_top_bottom_matrix));
+            toolbar.getNavigationIcon().setColorFilter(getResources().getColor(R.drawable.menu_text_color_matrix), PorterDuff.Mode.SRC_ATOP);
+            editor.putString("theme","Matrix");
+            editor.putInt("setItemIconTintList",R.drawable.menu_text_color_matrix);
+            editor.putInt("setItemTextColor", R.drawable.menu_text_color_matrix);
+            editor.putInt("setBackgroundDrawable", R.drawable.border_top_bottom_matrix);
+            editor.putInt("navHeaderSetBackgroundDrawable", R.drawable.border_top_bottom_matrix);
+            editor.putInt("settSetTextColor", R.drawable.menu_text_color_matrix);
+            editor.putInt("textSetTextColor", R.drawable.menu_text_color_matrix);
+            editor.putInt("toolbarSetBackground", R.drawable.border_top_bottom_matrix);
+            editor.putInt("toolbarGetNavigationIcon()", R.drawable.menu_text_color_matrix);
+            editor.commit();
+            if(!checker2)
+                Utils.changeToTheme(MainActivity2.this, Utils.THEME_MATRIX);
+
+        }
+        if(str.equals("Gamers"))
+        {
+
+            navigationView.setItemIconTintList(ContextCompat.getColorStateList(MainActivity2.this, R.drawable.menu_text_color_gamers));
+            navigationView.setItemTextColor(ContextCompat.getColorStateList(MainActivity2.this, R.drawable.menu_text_color_gamers));
+            navigationView.setBackgroundDrawable(ContextCompat.getDrawable(MainActivity2.this, R.drawable.border_top_bottom_gamers));
+            //navHeader.setBackgroundDrawable(ContextCompat.getDrawable(MainActivity.this, R.drawable.border_top_bottom_gamers));
+            sett.setTextColor(ContextCompat.getColorStateList(MainActivity2.this, R.drawable.menu_text_color_gamers));
+            text.setTextColor(ContextCompat.getColorStateList(MainActivity2.this, R.drawable.menu_text_color_gamers));
+            toolbar.setBackground(ContextCompat.getDrawable(MainActivity2.this, R.drawable.border_top_bottom_gamers));
+            toolbar.getNavigationIcon().setColorFilter(getResources().getColor(R.drawable.menu_text_color_gamers), PorterDuff.Mode.SRC_ATOP);
+            editor.putString("theme","Gamers");
+            editor.putInt("setItemIconTintList",R.drawable.menu_text_color_gamers);
+            editor.putInt("setItemTextColor", R.drawable.menu_text_color_gamers);
+            editor.putInt("setBackgroundDrawable", R.drawable.border_top_bottom_gamers);
+            editor.putInt("navHeaderSetBackgroundDrawable", R.drawable.border_top_bottom_gamers);
+            editor.putInt("settSetTextColor", R.drawable.menu_text_color_gamers);
+            editor.putInt("textSetTextColor", R.drawable.menu_text_color_gamers);
+            editor.putInt("toolbarSetBackground", R.drawable.border_top_bottom_gamers);
+            editor.putInt("toolbarGetNavigationIcon()", R.drawable.menu_text_color_gamers);
+            editor.commit();
+            if(!checker2)
+                Utils.changeToTheme(MainActivity2.this, Utils.THEME_GAMERS);
+
+        }
+
+
+    }
     @Override
     public void onClick(View v) {
 
