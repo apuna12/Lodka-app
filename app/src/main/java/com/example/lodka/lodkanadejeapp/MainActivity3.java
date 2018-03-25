@@ -202,6 +202,8 @@ public class MainActivity3 extends FragmentActivity implements NavigationView.On
         TextView text = (TextView) findViewById(R.id.textview);
         SharedPreferences themeInfo = getPreferences(Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = themeInfo.edit();
+        View header = navigationView.getHeaderView(0);
+        LinearLayout linear = (LinearLayout) header.findViewById(R.id.nav_header_logo);
         if (str.equals("Základná")) {
             navigationView.setItemIconTintList(ContextCompat.getColorStateList(MainActivity3.this, R.drawable.menu_text_color_normal));
             navigationView.setItemTextColor(ContextCompat.getColorStateList(MainActivity3.this, R.drawable.menu_text_color_normal));
@@ -211,6 +213,7 @@ public class MainActivity3 extends FragmentActivity implements NavigationView.On
             text.setTextColor(ContextCompat.getColorStateList(MainActivity3.this, R.color.colorDefault));
             toolbar.setBackground(ContextCompat.getDrawable(MainActivity3.this, R.color.colorPrimary));
             toolbar.getNavigationIcon().setColorFilter(getResources().getColor(R.color.colorWhite), PorterDuff.Mode.SRC_ATOP);
+            linear.setBackground(ContextCompat.getDrawable(MainActivity3.this, R.drawable.border_top_bottom_normal_logo));
             editor.putString("theme", "Základná");
             editor.putInt("setItemIconTintList", R.drawable.menu_text_color_normal);
             editor.putInt("setItemTextColor", R.drawable.menu_text_color_normal);
@@ -220,6 +223,7 @@ public class MainActivity3 extends FragmentActivity implements NavigationView.On
             editor.putInt("textSetTextColor", R.color.colorDefault);
             editor.putInt("toolbarSetBackground", R.color.colorPrimary);
             editor.putInt("toolbarGetNavigationIcon()", R.color.colorWhite);
+            editor.putInt("linearSetBackground", R.drawable.border_top_bottom_normal_logo);
             editor.commit();
             if (!checker3)
                 Utils.changeToTheme(MainActivity3.this, Utils.THEME_DEFAULT);
@@ -235,6 +239,7 @@ public class MainActivity3 extends FragmentActivity implements NavigationView.On
             text.setTextColor(ContextCompat.getColorStateList(MainActivity3.this, R.drawable.menu_text_color_matrix));
             toolbar.setBackground(ContextCompat.getDrawable(MainActivity3.this, R.drawable.border_top_bottom_matrix));
             toolbar.getNavigationIcon().setColorFilter(getResources().getColor(R.drawable.menu_text_color_matrix), PorterDuff.Mode.SRC_ATOP);
+            linear.setBackground(ContextCompat.getDrawable(MainActivity3.this, R.drawable.border_top_bottom_matrix_logo));
             editor.putString("theme", "Matrix");
             editor.putInt("setItemIconTintList", R.drawable.menu_text_color_matrix);
             editor.putInt("setItemTextColor", R.drawable.menu_text_color_matrix);
@@ -244,6 +249,7 @@ public class MainActivity3 extends FragmentActivity implements NavigationView.On
             editor.putInt("textSetTextColor", R.drawable.menu_text_color_matrix);
             editor.putInt("toolbarSetBackground", R.drawable.border_top_bottom_matrix);
             editor.putInt("toolbarGetNavigationIcon()", R.drawable.menu_text_color_matrix);
+            editor.putInt("linearSetBackground", R.drawable.border_top_bottom_matrix_logo);
             editor.commit();
             if (!checker3)
                 Utils.changeToTheme(MainActivity3.this, Utils.THEME_MATRIX);
@@ -259,6 +265,7 @@ public class MainActivity3 extends FragmentActivity implements NavigationView.On
             text.setTextColor(ContextCompat.getColorStateList(MainActivity3.this, R.drawable.menu_text_color_gamers));
             toolbar.setBackground(ContextCompat.getDrawable(MainActivity3.this, R.drawable.border_top_bottom_gamers));
             toolbar.getNavigationIcon().setColorFilter(getResources().getColor(R.drawable.menu_text_color_gamers), PorterDuff.Mode.SRC_ATOP);
+            linear.setBackground(ContextCompat.getDrawable(MainActivity3.this, R.drawable.border_top_bottom_gamers_logo));
             editor.putString("theme", "Gamers");
             editor.putInt("setItemIconTintList", R.drawable.menu_text_color_gamers);
             editor.putInt("setItemTextColor", R.drawable.menu_text_color_gamers);
@@ -268,6 +275,7 @@ public class MainActivity3 extends FragmentActivity implements NavigationView.On
             editor.putInt("textSetTextColor", R.drawable.menu_text_color_gamers);
             editor.putInt("toolbarSetBackground", R.drawable.border_top_bottom_gamers);
             editor.putInt("toolbarGetNavigationIcon()", R.drawable.menu_text_color_gamers);
+            editor.putInt("linearSetBackground", R.drawable.border_top_bottom_gamers_logo);
             editor.commit();
             if (!checker3)
                 Utils.changeToTheme(MainActivity3.this, Utils.THEME_GAMERS);
