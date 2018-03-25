@@ -2,9 +2,11 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/Lodka-app.iml" filepath="$PROJECT_DIR$/Lodka-app.iml" />
       <module fileurl="file://D:\Projects\Lodka-app\Lodka-app.iml" filepath="D:\Projects\Lodka-app\Lodka-app.iml" />
+      <module fileurl="file://D:\Lodka-apppp211\Lodka-app.iml" filepath="D:\Lodka-apppp211\Lodka-app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Lodka-apppp211.iml" filepath="$PROJECT_DIR$/Lodka-apppp211.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://D:\Lodka-apppp211\app\app.iml" filepath="D:\Lodka-apppp211\app\app.iml" />
       <module fileurl="file://D:\Projects\Lodka-app\app\app.iml" filepath="D:\Projects\Lodka-app\app\app.iml" />
     </modules>
   </component>

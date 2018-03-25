@@ -117,7 +117,7 @@ public class Settings_activity extends AppCompatActivity
                     drawer.setDrawerListener(toggle);
                     toggle.syncState();
 
-
+                    navigationView = (NavigationView) findViewById(R.id.nav_view);
                     navigationView.setNavigationItemSelectedListener(this);
 
 
