@@ -183,13 +183,15 @@ public class Settings_activity extends AppCompatActivity
                             android.Manifest.permission.ACCESS_FINE_LOCATION)
                             != PackageManager.PERMISSION_GRANTED) {
 
+
                         ActivityCompat.requestPermissions(Settings_activity.this,
                                 new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
                                 permissionCheck);
                         checker = true;
 
 
-                        }
+                    }
+
                 }
                 else if (isChecked == false && checker == true)
                 {
@@ -370,9 +372,10 @@ public class Settings_activity extends AppCompatActivity
         super.onResume();
 
         if(this.isCreated == true){
-
+            Log.e("onResume","true");
             this.isCreated = false;
         }else{
+            Log.e("onResume","false");
             this.afterResume();
         }
 
@@ -417,7 +420,7 @@ public class Settings_activity extends AppCompatActivity
     }
     
 
-    @Override
+    /*@Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         if (requestCode == permissionCheck) {
             if (permissions.length == 1 &&
@@ -433,9 +436,68 @@ public class Settings_activity extends AppCompatActivity
                 swt.setChecked(false);
             }
         }
+    }*/
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if(permissions.length == 0){
+            return;
+        }
+        boolean allPermissionsGranted = true;
+        if(grantResults.length>0){
+            for(int grantResult: grantResults){
+                if(grantResult != PackageManager.PERMISSION_GRANTED){
+                    allPermissionsGranted = false;
+                    break;
+                }
+            }
+        }
+        if(!allPermissionsGranted) {
+            boolean somePermissionsForeverDenied = false;
+            for (String permission : permissions) {
+                if (ActivityCompat.shouldShowRequestPermissionRationale(this, permission)) {
+                    checker = false;
+                    swt.setChecked(false);
+                } else {
+                    if (ActivityCompat.checkSelfPermission(this, permission) == PackageManager.PERMISSION_GRANTED) {
+                        checker = true;
+                        swt.setChecked(true);
+                    } else {
+                        checker = false;
+                        swt.setChecked(false);
+                        somePermissionsForeverDenied = true;
+                    }
+                }
+            }
+            if (somePermissionsForeverDenied) {
+                final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+                checker = true;
+                alertDialogBuilder.setTitle("Zapnutie povolenia")
+                        .setMessage("Zadali ste, že nechcete aby sa Vás aplikácia pýtala na povolenie. Je nutné " +
+                                "zapnúť povolenie ručne v nastaveniach.")
+                        .setPositiveButton("Nastavenia", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Intent intent = new Intent();
+                                intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                                Uri uri = Uri.fromParts("package", getPackageName(), null);
+                                intent.setData(uri);
+                                startActivity(intent);
+                            }
+                        })
+                        .setNegativeButton("Zrušiť", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                checker = false;
+                            }
+                        })
+                        .setCancelable(false)
+                        .create()
+                        .show();
+            }
+        }
+
     }
-
-
 
 
 

@@ -56,15 +56,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        if (ContextCompat.checkSelfPermission(this,
-                android.Manifest.permission.ACCESS_FINE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED) {
 
-            ActivityCompat.requestPermissions(this,
-                    new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
-                    permissionCheck);
-
-        }
         //themeInfo = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         themeInfo = getSharedPreferences("THEMECONFIG",0);
         themeSetting = themeInfo.getString("theme","Základná");
