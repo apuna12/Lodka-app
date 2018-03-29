@@ -132,7 +132,24 @@ public class MainActivity extends AppCompatActivity
 
                         }
                     });
-
+                    
+                    if(!themeSetting.equals(themeInfo)) {
+                        if (themeSetting.equals("Základná")) {
+                            setTheme(R.style.AppTheme);
+                            changeTheme("Základná");
+                            checker = true;
+                        }
+                        if (themeSetting.equals("Matrix")) {
+                            setTheme(R.style.AppThemeMatrixDivider);
+                            changeTheme("Matrix");
+                            checker = true;
+                        }
+                        if (themeSetting.equals("Gamers")) {
+                            setTheme(R.style.AppThemeGamersDivider);
+                            changeTheme("Gamers");
+                            checker = true;
+                        }
+                    }
 
                 } else {
 
@@ -147,6 +164,8 @@ public class MainActivity extends AppCompatActivity
                             .setIcon(android.R.drawable.ic_dialog_alert)
                             .show();
                 }
+
+
 
 
             } catch (Exception e) {
@@ -166,23 +185,7 @@ public class MainActivity extends AppCompatActivity
         toolbar.setBackground(ContextCompat.getDrawable(MainActivity.this, themeInfo.getInt("toolbarSetBackground",R.color.colorPrimary) ));
         toolbar.getNavigationIcon().setColorFilter(getResources().getColor(themeInfo.getInt("toolbarGetNavigationIcon()",R.color.colorWhite)), PorterDuff.Mode.SRC_ATOP);*/
 
-        if(!themeSetting.equals(themeInfo)) {
-            if (themeSetting.equals("Základná")) {
-                setTheme(R.style.AppTheme);
-                changeTheme("Základná");
-                checker = true;
-            }
-            if (themeSetting.equals("Matrix")) {
-                setTheme(R.style.AppThemeMatrixDivider);
-                changeTheme("Matrix");
-                checker = true;
-            }
-            if (themeSetting.equals("Gamers")) {
-                setTheme(R.style.AppThemeGamersDivider);
-                changeTheme("Gamers");
-                checker = true;
-            }
-        }
+
 
         }
     public void changeTheme(String str) {
