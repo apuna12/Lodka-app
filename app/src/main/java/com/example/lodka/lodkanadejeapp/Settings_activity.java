@@ -471,7 +471,7 @@ public class Settings_activity extends AppCompatActivity
             }
             if (somePermissionsForeverDenied) {
                 final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-                checker = true;
+
                 alertDialogBuilder.setTitle("Zapnutie povolenia")
                         .setMessage("Zadali ste, že nechcete aby sa Vás aplikácia pýtala na povolenie. Je nutné " +
                                 "zapnúť povolenie ručne v nastaveniach.")
@@ -483,12 +483,15 @@ public class Settings_activity extends AppCompatActivity
                                 Uri uri = Uri.fromParts("package", getPackageName(), null);
                                 intent.setData(uri);
                                 startActivity(intent);
+                                checker = true;
+                                swt.setChecked(true);
                             }
                         })
                         .setNegativeButton("Zrušiť", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 checker = false;
+                                swt.setChecked(false);
                             }
                         })
                         .setCancelable(false)

@@ -49,6 +49,16 @@ public class Splash extends AppCompatActivity {
 
 
 
+        if (ContextCompat.checkSelfPermission(this,
+                android.Manifest.permission.ACCESS_FINE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED) {
+
+            setContentView(R.layout.activity_splash);
+            setSizeLogo();
+            StartAnimations();
+        }
+
+
 
 
     }
