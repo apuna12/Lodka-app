@@ -70,6 +70,7 @@
                 android:orientation="horizontal"
                 android:gravity="left">
                 <TextView
+                    android:id="@+id/textview2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Výber farebnej témy"
@@ -85,11 +86,12 @@
                     <Spinner
                         android:id="@+id/comboBoxTheme"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="25dp"
                         android:textAlignment="textEnd"
                         android:layout_gravity="end"
                         android:drawSelectorOnTop="true"
-                        android:entries="@array/theme_array" />
+                        android:entries="@array/theme_array"
+                        style="@style/spinner_style"/>
 
                 </LinearLayout>
             </LinearLayout>

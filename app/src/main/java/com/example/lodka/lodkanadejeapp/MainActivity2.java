@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -72,6 +73,9 @@ public class MainActivity2 extends Activity
     SharedPreferences themeInfo ;
     SharedPreferences.Editor editor;
     static Boolean checker2 = false;
+    DrawerLayout drawer;
+    TextView tw1;
+    TextView tw2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,11 +89,12 @@ public class MainActivity2 extends Activity
             setContentView(R.layout.activity_mail);
             Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 
-
+            tw1 = (TextView) findViewById(R.id.tw1M);
+            tw2 = (TextView) findViewById(R.id.tw2M);
             context = this;
 
 
-            DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+            drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
             ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                     this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
             drawer.setDrawerListener(toggle);
@@ -140,6 +145,22 @@ public class MainActivity2 extends Activity
                 checker2 = true;
             }
         }
+        Button sett = (Button)findViewById(R.id.button_settings);
+        TextView text = (TextView)findViewById(R.id.textview);
+        View header = navigationView.getHeaderView(0);
+        LinearLayout linear = (LinearLayout) header.findViewById(R.id.nav_header_logo);
+
+        navigationView.setItemIconTintList(ContextCompat.getColorStateList(MainActivity2.this, themeInfo.getInt("setItemIconTintList",R.drawable.menu_text_color_normal) ));
+        navigationView.setItemTextColor(ContextCompat.getColorStateList(MainActivity2.this, themeInfo.getInt("setItemTextColor",R.drawable.menu_text_color_normal) ));
+        navigationView.setBackgroundDrawable(ContextCompat.getDrawable(MainActivity2.this, themeInfo.getInt("setBackgroundDrawable",R.drawable.border_top_bottom_normal) ));
+        sett.setTextColor(ContextCompat.getColorStateList(MainActivity2.this, themeInfo.getInt("settSetTextColor",R.color.colorWhite) ));
+        text.setTextColor(ContextCompat.getColorStateList(MainActivity2.this, themeInfo.getInt("textSetTextColor",R.color.colorDefault) ));
+        toolbar.setBackground(ContextCompat.getDrawable(MainActivity2.this, themeInfo.getInt("toolbarSetBackground",R.color.colorPrimary) ));
+        toolbar.getNavigationIcon().setColorFilter(getResources().getColor(themeInfo.getInt("toolbarGetNavigationIcon()",R.color.colorWhite)), PorterDuff.Mode.SRC_ATOP);
+        linear.setBackground(ContextCompat.getDrawable(MainActivity2.this, themeInfo.getInt("linearSetBackground",R.drawable.border_top_bottom_normal_logo) ));
+        drawer.setBackgroundColor(themeInfo.getInt("drawersetBackground", Color.WHITE));
+        tw1.setTextColor(themeInfo.getInt("tw1setTextColor", Color.BLACK));
+        tw2.setTextColor(themeInfo.getInt("tw2setTextColor", Color.BLACK));
 
     }
     public void changeTheme(String str) {
@@ -152,6 +173,9 @@ public class MainActivity2 extends Activity
         SharedPreferences.Editor editor = themeInfo.edit();
         View header = navigationView.getHeaderView(0);
         LinearLayout linear = (LinearLayout) header.findViewById(R.id.nav_header_logo);
+
+        drawer.setBackgroundColor(themeInfo.getInt("drawersetBackground", Color.WHITE));
+
         if (str.equals("Základná")) {
             navigationView.setItemIconTintList(ContextCompat.getColorStateList(MainActivity2.this, R.drawable.menu_text_color_normal));
             navigationView.setItemTextColor(ContextCompat.getColorStateList(MainActivity2.this, R.drawable.menu_text_color_normal));
@@ -172,6 +196,10 @@ public class MainActivity2 extends Activity
             editor.putInt("toolbarSetBackground", R.color.colorPrimary);
             editor.putInt("toolbarGetNavigationIcon()", R.color.colorWhite);
             editor.putInt("linearSetBackground", R.drawable.border_top_bottom_normal_logo);
+            editor.putInt("drawersetBackground", Color.WHITE);
+            editor.putInt("tw1setTextColor", Color.BLACK);
+            editor.putInt("tw2setTextColor", Color.BLACK);
+
             editor.commit();
             if (!checker2)
                 Utils.changeToTheme(MainActivity2.this, Utils.THEME_DEFAULT);
@@ -198,6 +226,10 @@ public class MainActivity2 extends Activity
             editor.putInt("toolbarSetBackground", R.drawable.border_top_bottom_matrix);
             editor.putInt("toolbarGetNavigationIcon()", R.drawable.menu_text_color_matrix);
             editor.putInt("linearSetBackground", R.drawable.border_top_bottom_matrix_logo);
+            editor.putInt("drawersetBackground", Color.BLACK);
+            editor.putInt("tw1setTextColor", Color.GREEN);
+            editor.putInt("tw2setTextColor", Color.GREEN);
+
             editor.commit();
             if (!checker2)
                 Utils.changeToTheme(MainActivity2.this, Utils.THEME_MATRIX);
@@ -224,6 +256,10 @@ public class MainActivity2 extends Activity
             editor.putInt("toolbarSetBackground", R.drawable.border_top_bottom_gamers);
             editor.putInt("toolbarGetNavigationIcon()", R.drawable.menu_text_color_gamers);
             editor.putInt("linearSetBackground", R.drawable.border_top_bottom_gamers_logo);
+            editor.putInt("drawersetBackground", Color.BLACK);
+            editor.putInt("tw1setTextColor", Color.RED);
+            editor.putInt("tw2setTextColor", Color.RED);
+
             editor.commit();
             if (!checker2)
                 Utils.changeToTheme(MainActivity2.this, Utils.THEME_GAMERS);
@@ -407,7 +443,7 @@ class  RetreiveFeedTask extends AsyncTask<String, Void, String> {
             MainActivity2.this.startActivity(myIntent);
         } else if (id2 == R.id.nav_gallery) {
             Intent myIntent = new Intent(MainActivity2.this, MainActivity.class);
-            myIntent.putExtra("website","http://lodkanadeje.rajce.idnes.cz/");
+            myIntent.putExtra("website","https://drive.google.com/open?id=117LgdghiKO1WSz09DoxYNOE7-eiEjf4I");
             MainActivity2.this.startActivity(myIntent);
         } else if (id2 == R.id.nav_facebook) {
             SharingToSocialMedia("com.facebook.katana");

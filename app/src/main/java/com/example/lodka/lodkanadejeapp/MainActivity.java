@@ -404,7 +404,7 @@ public class MainActivity extends AppCompatActivity
                     progressBar.setVisibility(View.INVISIBLE);
                 }
             });
-            wv.loadUrl("http://lodkanadeje.rajce.idnes.cz/");
+            wv.loadUrl("https://drive.google.com/open?id=117LgdghiKO1WSz09DoxYNOE7-eiEjf4I");
         } else if (id == R.id.nav_facebook) {
             SharingToSocialMedia("com.facebook.katana");
         } else if (id == R.id.nav_twitter) {

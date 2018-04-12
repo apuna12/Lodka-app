@@ -22,6 +22,7 @@
             android:layout_weight="0.19" />
 
         <TextView
+            android:id="@+id/tw1M"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Tvoj e-mail"/>
@@ -33,6 +34,7 @@
             android:inputType="text"
             android:background="@drawable/edit_text"/>
         <TextView
+            android:id="@+id/tw2M"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Správa"/>

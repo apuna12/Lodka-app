@@ -437,7 +437,7 @@ public class MainActivity3 extends FragmentActivity implements NavigationView.On
             com.example.lodka.lodkanadejeapp.MainActivity3.this.startActivity(myIntent);
         } else if (id2 == R.id.nav_gallery) {
             Intent myIntent = new Intent(com.example.lodka.lodkanadejeapp.MainActivity3.this, MainActivity.class);
-            myIntent.putExtra("website","http://lodkanadeje.rajce.idnes.cz/");
+            myIntent.putExtra("website","https://drive.google.com/open?id=117LgdghiKO1WSz09DoxYNOE7-eiEjf4I");
             com.example.lodka.lodkanadejeapp.MainActivity3.this.startActivity(myIntent);
         } else if (id2 == R.id.nav_facebook) {
             SharingToSocialMedia("com.facebook.katana");
