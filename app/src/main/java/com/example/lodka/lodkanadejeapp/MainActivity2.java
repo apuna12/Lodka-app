@@ -71,7 +71,6 @@ public class MainActivity2 extends Activity
     NavigationView navigationView;
     String themeSetting;
     SharedPreferences themeInfo ;
-    SharedPreferences.Editor editor;
     static Boolean checker2 = false;
     DrawerLayout drawer;
     TextView tw1;
@@ -165,7 +164,6 @@ public class MainActivity2 extends Activity
     }
     public void changeTheme(String str) {
 
-        LinearLayout navHeader = (LinearLayout) findViewById(R.id.nav_header);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         Button sett = (Button) findViewById(R.id.button_settings);
         TextView text = (TextView) findViewById(R.id.textview);
@@ -180,7 +178,6 @@ public class MainActivity2 extends Activity
             navigationView.setItemIconTintList(ContextCompat.getColorStateList(MainActivity2.this, R.drawable.menu_text_color_normal));
             navigationView.setItemTextColor(ContextCompat.getColorStateList(MainActivity2.this, R.drawable.menu_text_color_normal));
             navigationView.setBackgroundDrawable(ContextCompat.getDrawable(MainActivity2.this, R.drawable.border_top_bottom_normal));
-            //navHeader.setBackgroundDrawable(ContextCompat.getDrawable(MainActivity.this, R.drawable.border_top_bottom_normal));
             sett.setTextColor(ContextCompat.getColorStateList(MainActivity2.this, R.color.colorWhite));
             text.setTextColor(ContextCompat.getColorStateList(MainActivity2.this, R.color.colorDefault));
             toolbar.setBackground(ContextCompat.getDrawable(MainActivity2.this, R.color.colorPrimary));
@@ -210,7 +207,6 @@ public class MainActivity2 extends Activity
             navigationView.setItemIconTintList(ContextCompat.getColorStateList(MainActivity2.this, R.drawable.menu_text_color_matrix));
             navigationView.setItemTextColor(ContextCompat.getColorStateList(MainActivity2.this, R.drawable.menu_text_color_matrix));
             navigationView.setBackgroundDrawable(ContextCompat.getDrawable(MainActivity2.this, R.drawable.border_top_bottom_matrix));
-            // navHeader.setBackgroundDrawable(ContextCompat.getDrawable(MainActivity.this, R.drawable.border_top_bottom_matrix));
             sett.setTextColor(ContextCompat.getColorStateList(MainActivity2.this, R.drawable.menu_text_color_matrix));
             text.setTextColor(ContextCompat.getColorStateList(MainActivity2.this, R.drawable.menu_text_color_matrix));
             toolbar.setBackground(ContextCompat.getDrawable(MainActivity2.this, R.drawable.border_top_bottom_matrix));
@@ -231,6 +227,7 @@ public class MainActivity2 extends Activity
             editor.putInt("tw2setTextColor", Color.GREEN);
 
             editor.commit();
+
             if (!checker2)
                 Utils.changeToTheme(MainActivity2.this, Utils.THEME_MATRIX);
 
@@ -240,7 +237,6 @@ public class MainActivity2 extends Activity
             navigationView.setItemIconTintList(ContextCompat.getColorStateList(MainActivity2.this, R.drawable.menu_text_color_gamers));
             navigationView.setItemTextColor(ContextCompat.getColorStateList(MainActivity2.this, R.drawable.menu_text_color_gamers));
             navigationView.setBackgroundDrawable(ContextCompat.getDrawable(MainActivity2.this, R.drawable.border_top_bottom_gamers));
-            //navHeader.setBackgroundDrawable(ContextCompat.getDrawable(MainActivity.this, R.drawable.border_top_bottom_gamers));
             sett.setTextColor(ContextCompat.getColorStateList(MainActivity2.this, R.drawable.menu_text_color_gamers));
             text.setTextColor(ContextCompat.getColorStateList(MainActivity2.this, R.drawable.menu_text_color_gamers));
             toolbar.setBackground(ContextCompat.getDrawable(MainActivity2.this, R.drawable.border_top_bottom_gamers));

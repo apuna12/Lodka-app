@@ -14,8 +14,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.preference.PreferenceManager;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
@@ -46,10 +44,8 @@ public class MainActivity extends AppCompatActivity
     ProgressBar progressBar;
     Context context = null;
     final String TAG = this.getClass().getName();
-    public static int permissionCheck = 1;
     NavigationView navigationView;
     SharedPreferences themeInfo ;
-    SharedPreferences.Editor editor;
     String themeSetting;
     static Boolean checker = false;
 
@@ -57,7 +53,6 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
 
 
-        //themeInfo = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         themeInfo = getSharedPreferences("THEMECONFIG",0);
         themeSetting = themeInfo.getString("theme","Základná");
             try {
@@ -171,26 +166,10 @@ public class MainActivity extends AppCompatActivity
             } catch (Exception e) {
                 Log.e("chyba", e.getMessage());
             }
-        /*LinearLayout navHeader = (LinearLayout) findViewById(R.id.nav_header);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        Button sett = (Button)findViewById(R.id.button_settings);
-        TextView text = (TextView)findViewById(R.id.textview);
-
-        navigationView.setItemIconTintList(ContextCompat.getColorStateList(MainActivity.this, themeInfo.getInt("setItemIconTintList",R.drawable.menu_text_color_normal) ));
-        navigationView.setItemTextColor(ContextCompat.getColorStateList(MainActivity.this, themeInfo.getInt("setItemTextColor",R.drawable.menu_text_color_normal) ));
-        navigationView.setBackgroundDrawable(ContextCompat.getDrawable(MainActivity.this, themeInfo.getInt("setBackgroundDrawable",R.drawable.border_top_bottom_normal) ));
-        //navHeader.setBackgroundDrawable(ContextCompat.getDrawable(Settings_activity.this, themeInfo.getInt("navHeaderSetBackgroundDrawable",R.drawable.border_top_bottom_normal) ));
-        sett.setTextColor(ContextCompat.getColorStateList(MainActivity.this, themeInfo.getInt("settSetTextColor",R.color.colorWhite) ));
-        text.setTextColor(ContextCompat.getColorStateList(MainActivity.this, themeInfo.getInt("textSetTextColor",R.color.colorDefault) ));
-        toolbar.setBackground(ContextCompat.getDrawable(MainActivity.this, themeInfo.getInt("toolbarSetBackground",R.color.colorPrimary) ));
-        toolbar.getNavigationIcon().setColorFilter(getResources().getColor(themeInfo.getInt("toolbarGetNavigationIcon()",R.color.colorWhite)), PorterDuff.Mode.SRC_ATOP);*/
-
-
 
         }
     public void changeTheme(String str) {
 
-        LinearLayout navHeader = (LinearLayout) findViewById(R.id.nav_header);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         Button sett = (Button) findViewById(R.id.button_settings);
         TextView text = (TextView) findViewById(R.id.textview);
@@ -202,7 +181,6 @@ public class MainActivity extends AppCompatActivity
             navigationView.setItemIconTintList(ContextCompat.getColorStateList(MainActivity.this, R.drawable.menu_text_color_normal));
             navigationView.setItemTextColor(ContextCompat.getColorStateList(MainActivity.this, R.drawable.menu_text_color_normal));
             navigationView.setBackgroundDrawable(ContextCompat.getDrawable(MainActivity.this, R.drawable.border_top_bottom_normal));
-            //navHeader.setBackgroundDrawable(ContextCompat.getDrawable(MainActivity.this, R.drawable.border_top_bottom_normal));
             sett.setTextColor(ContextCompat.getColorStateList(MainActivity.this, R.color.colorWhite));
             text.setTextColor(ContextCompat.getColorStateList(MainActivity.this, R.color.colorDefault));
             toolbar.setBackground(ContextCompat.getDrawable(MainActivity.this, R.color.colorPrimary));
@@ -228,7 +206,6 @@ public class MainActivity extends AppCompatActivity
             navigationView.setItemIconTintList(ContextCompat.getColorStateList(MainActivity.this, R.drawable.menu_text_color_matrix));
             navigationView.setItemTextColor(ContextCompat.getColorStateList(MainActivity.this, R.drawable.menu_text_color_matrix));
             navigationView.setBackgroundDrawable(ContextCompat.getDrawable(MainActivity.this, R.drawable.border_top_bottom_matrix));
-            // navHeader.setBackgroundDrawable(ContextCompat.getDrawable(MainActivity.this, R.drawable.border_top_bottom_matrix));
             sett.setTextColor(ContextCompat.getColorStateList(MainActivity.this, R.drawable.menu_text_color_matrix));
             text.setTextColor(ContextCompat.getColorStateList(MainActivity.this, R.drawable.menu_text_color_matrix));
             toolbar.setBackground(ContextCompat.getDrawable(MainActivity.this, R.drawable.border_top_bottom_matrix));
@@ -254,7 +231,6 @@ public class MainActivity extends AppCompatActivity
             navigationView.setItemIconTintList(ContextCompat.getColorStateList(MainActivity.this, R.drawable.menu_text_color_gamers));
             navigationView.setItemTextColor(ContextCompat.getColorStateList(MainActivity.this, R.drawable.menu_text_color_gamers));
             navigationView.setBackgroundDrawable(ContextCompat.getDrawable(MainActivity.this, R.drawable.border_top_bottom_gamers));
-            //navHeader.setBackgroundDrawable(ContextCompat.getDrawable(MainActivity.this, R.drawable.border_top_bottom_gamers));
             sett.setTextColor(ContextCompat.getColorStateList(MainActivity.this, R.drawable.menu_text_color_gamers));
             text.setTextColor(ContextCompat.getColorStateList(MainActivity.this, R.drawable.menu_text_color_gamers));
             toolbar.setBackground(ContextCompat.getDrawable(MainActivity.this, R.drawable.border_top_bottom_gamers));
@@ -356,7 +332,6 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }

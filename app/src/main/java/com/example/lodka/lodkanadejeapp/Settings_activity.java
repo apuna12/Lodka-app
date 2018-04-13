@@ -1,81 +1,46 @@
 package com.example.lodka.lodkanadejeapp;
-import android.*;
 import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-
-import android.content.res.ColorStateList;
-import android.content.res.Resources;
-import android.app.Activity;
 import android.os.Bundle;
-import android.text.SpannableString;
-import android.text.style.TextAppearanceSpan;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.graphics.Paint;
 import android.graphics.PorterDuff;
-import android.graphics.drawable.Drawable;
-import android.graphics.drawable.DrawableContainer;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Build;
-import android.os.Bundle;
-import android.os.Handler;
 import android.provider.Settings;
-import android.renderscript.Sampler;
 import android.support.annotation.NonNull;
-import android.support.annotation.StyleRes;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.TaskStackBuilder;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.graphics.drawable.DrawerArrowDrawable;
 import android.support.v7.widget.SwitchCompat;
 import android.util.Log;
-import android.view.Gravity;
-import android.view.KeyEvent;
-import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.Window;
 import android.view.WindowManager;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.Spinner;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
-import com.google.android.gms.maps.GoogleMap;
-
-import org.w3c.dom.Text;
-
-import java.io.File;
 
 public class Settings_activity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-    WebView wv;
-    ProgressBar progressBar;
     Context context = null;
-    private GoogleMap mMap;
-    final String TAG = this.getClass().getName();
     public static int permissionCheck = 1;
     SwitchCompat swt;
     Boolean checker = false;
@@ -84,7 +49,6 @@ public class Settings_activity extends AppCompatActivity
     private boolean isCreated = false;
     NavigationView navigationView;
     SharedPreferences themeInfo ;
-    SharedPreferences.Editor editor;
     String themeSetting;
     LinearLayout navHeaderLogo;
     DrawerLayout drawer;
@@ -109,7 +73,6 @@ public class Settings_activity extends AppCompatActivity
 
             if (net != null && net.isConnected()) {
                 if (isOnline()) {
-                    //setContentView(R.id.nav_header_logo);
                     setContentView(R.layout.activity_settings);
                     navHeaderLogo = (LinearLayout)findViewById(R.id.nav_header_logo);
                     tw1 = (TextView) findViewById(R.id.textview1);
@@ -242,7 +205,7 @@ public class Settings_activity extends AppCompatActivity
                 int index = arg0.getSelectedItemPosition();
                 if(!themeSetting.equals(themes.getItemAtPosition(index).toString()))
                 {
-                    changeTheme(themes.getItemAtPosition(index).toString());
+                    changeTheme(themes.getItemAtPosition(index).toString(), null, Settings_activity.this);
                     checker2 = false;
 
                 }
@@ -281,38 +244,41 @@ public class Settings_activity extends AppCompatActivity
     }
 
 
-    public void changeTheme(String str)
+    public void changeTheme(String str, Boolean checker, Activity context)
     {
 
         LinearLayout navHeader = (LinearLayout) findViewById(R.id.nav_header);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        Button sett = (Button)findViewById(R.id.button_settings);
-        TextView text = (TextView)findViewById(R.id.textview);
+        Button sett = (Button) findViewById(R.id.button_settings);
+        TextView text = (TextView) findViewById(R.id.textview);
         SharedPreferences themeInfo = getSharedPreferences("THEMECONFIG",0);
         SharedPreferences.Editor editor = themeInfo.edit();
         View header = navigationView.getHeaderView(0);
         LinearLayout linear = (LinearLayout) header.findViewById(R.id.nav_header_logo);
 
-        if(str.equals("Základná"))
-        {
 
-            navigationView.setItemIconTintList(ContextCompat.getColorStateList(Settings_activity.this, R.drawable.menu_text_color_normal));
-            navigationView.setItemTextColor(ContextCompat.getColorStateList(Settings_activity.this, R.drawable.menu_text_color_normal));
-            navigationView.setBackgroundDrawable(ContextCompat.getDrawable(Settings_activity.this, R.drawable.border_top_bottom_normal));
-            navHeader.setBackgroundDrawable(ContextCompat.getDrawable(Settings_activity.this, R.drawable.border_top_bottom_normal));
-            sett.setTextColor(ContextCompat.getColorStateList(Settings_activity.this, R.color.colorWhite));
-            text.setTextColor(ContextCompat.getColorStateList(Settings_activity.this, R.color.colorDefault));
-            toolbar.setBackground(ContextCompat.getDrawable(Settings_activity.this, R.color.colorPrimary));
+        if (str.equals("Základná")) {
+            navigationView.setItemIconTintList(ContextCompat.getColorStateList(context, R.drawable.menu_text_color_normal));
+            navigationView.setItemTextColor(ContextCompat.getColorStateList(context, R.drawable.menu_text_color_normal));
+            navigationView.setBackgroundDrawable(ContextCompat.getDrawable(context, R.drawable.border_top_bottom_normal));
+            navHeader.setBackgroundDrawable(ContextCompat.getDrawable(context, R.drawable.border_top_bottom_normal));
+            sett.setTextColor(ContextCompat.getColorStateList(context, R.color.colorWhite));
+            text.setTextColor(ContextCompat.getColorStateList(context, R.color.colorDefault));
+            toolbar.setBackground(ContextCompat.getDrawable(context, R.color.colorPrimary));
             toolbar.getNavigationIcon().setColorFilter(getResources().getColor(R.color.colorWhite), PorterDuff.Mode.SRC_ATOP);
-
-            linear.setBackground(ContextCompat.getDrawable(Settings_activity.this, R.drawable.border_top_bottom_normal_logo));
-            drawer.setBackgroundColor(Color.WHITE);
-            tw1.setTextColor(Color.BLACK);
-            tw2.setTextColor(Color.BLACK);
-            lblswitch.setTextColor(Color.BLACK);
-
-            editor.putString("theme","Základná");
-            editor.putInt("setItemIconTintList",R.drawable.menu_text_color_normal);
+            linear.setBackground(ContextCompat.getDrawable(context, R.drawable.border_top_bottom_normal_logo));
+            if(context instanceof Settings_activity || context instanceof MainActivity2)
+            {
+                drawer.setBackgroundColor(Color.WHITE);
+                tw1.setTextColor(Color.BLACK);
+                tw2.setTextColor(Color.BLACK);
+                if(context instanceof Settings_activity)
+                {
+                    lblswitch.setTextColor(Color.BLACK);
+                }
+            }
+            editor.putString("theme", "Základná");
+            editor.putInt("setItemIconTintList", R.drawable.menu_text_color_normal);
             editor.putInt("setItemTextColor", R.drawable.menu_text_color_normal);
             editor.putInt("setBackgroundDrawable", R.drawable.border_top_bottom_normal);
             editor.putInt("navHeaderSetBackgroundDrawable", R.drawable.border_top_bottom_normal);
@@ -321,36 +287,50 @@ public class Settings_activity extends AppCompatActivity
             editor.putInt("toolbarSetBackground", R.color.colorPrimary);
             editor.putInt("toolbarGetNavigationIcon()", R.color.colorWhite);
             editor.putInt("linearSetBackground", R.drawable.border_top_bottom_normal_logo);
-            editor.putInt("drawersetBackground", Color.WHITE);
-            editor.putInt("tw1setTextColor", Color.BLACK);
-            editor.putInt("tw2setTextColor", Color.BLACK);
-            editor.putInt("lblswitchsetTextColor", Color.BLACK);
-
-
+            if(context instanceof Settings_activity || context instanceof MainActivity2)
+            {
+                editor.putInt("drawersetBackground", Color.WHITE);
+                editor.putInt("tw1setTextColor", Color.BLACK);
+                editor.putInt("tw2setTextColor", Color.BLACK);
+                if(context instanceof Settings_activity)
+                {
+                    editor.putInt("lblswitchsetTextColor", Color.BLACK);
+                }
+            }
             editor.commit();
-            Utils.changeToTheme(Settings_activity.this, Utils.THEME_DEFAULT);
-
+            if(context instanceof Settings_activity != true)
+            {
+                if (!checker)
+                    Utils.changeToTheme(context, Utils.THEME_DEFAULT);
+            }
+            else
+            {
+                Utils.changeToTheme(context, Utils.THEME_DEFAULT);
+            }
         }
-        if (str.equals("Matrix"))
-        {
+        if (str.equals("Matrix")) {
 
-            navigationView.setItemIconTintList(ContextCompat.getColorStateList(Settings_activity.this, R.drawable.menu_text_color_matrix));
-            navigationView.setItemTextColor(ContextCompat.getColorStateList(Settings_activity.this, R.drawable.menu_text_color_matrix));
-            navigationView.setBackgroundDrawable(ContextCompat.getDrawable(Settings_activity.this, R.drawable.border_top_bottom_matrix));
-            navHeader.setBackgroundDrawable(ContextCompat.getDrawable(Settings_activity.this, R.drawable.border_top_bottom_matrix));
-            sett.setTextColor(ContextCompat.getColorStateList(Settings_activity.this, R.drawable.menu_text_color_matrix));
-            text.setTextColor(ContextCompat.getColorStateList(Settings_activity.this, R.drawable.menu_text_color_matrix));
-            toolbar.setBackground(ContextCompat.getDrawable(Settings_activity.this, R.drawable.border_top_bottom_matrix));
+            navigationView.setItemIconTintList(ContextCompat.getColorStateList(context, R.drawable.menu_text_color_matrix));
+            navigationView.setItemTextColor(ContextCompat.getColorStateList(context, R.drawable.menu_text_color_matrix));
+            navigationView.setBackgroundDrawable(ContextCompat.getDrawable(context, R.drawable.border_top_bottom_matrix));
+            navHeader.setBackgroundDrawable(ContextCompat.getDrawable(context, R.drawable.border_top_bottom_matrix));
+            sett.setTextColor(ContextCompat.getColorStateList(context, R.drawable.menu_text_color_matrix));
+            text.setTextColor(ContextCompat.getColorStateList(context, R.drawable.menu_text_color_matrix));
+            toolbar.setBackground(ContextCompat.getDrawable(context, R.drawable.border_top_bottom_matrix));
             toolbar.getNavigationIcon().setColorFilter(getResources().getColor(R.drawable.menu_text_color_matrix), PorterDuff.Mode.SRC_ATOP);
-            linear.setBackground(ContextCompat.getDrawable(Settings_activity.this, R.drawable.border_top_bottom_matrix_logo));
-
-            drawer.setBackgroundColor(Color.BLACK);
-            tw1.setTextColor(Color.GREEN);
-            tw2.setTextColor(Color.GREEN);
-            lblswitch.setTextColor(Color.GREEN);
-
-            editor.putString("theme","Matrix");
-            editor.putInt("setItemIconTintList",R.drawable.menu_text_color_matrix);
+            linear.setBackground(ContextCompat.getDrawable(context, R.drawable.border_top_bottom_matrix_logo));
+            if(context instanceof Settings_activity || context instanceof MainActivity2)
+            {
+                drawer.setBackgroundColor(Color.BLACK);
+                tw1.setTextColor(Color.GREEN);
+                tw2.setTextColor(Color.GREEN);
+                if(context instanceof Settings_activity)
+                {
+                    lblswitch.setTextColor(Color.GREEN);
+                }
+            }
+            editor.putString("theme", "Matrix");
+            editor.putInt("setItemIconTintList", R.drawable.menu_text_color_matrix);
             editor.putInt("setItemTextColor", R.drawable.menu_text_color_matrix);
             editor.putInt("setBackgroundDrawable", R.drawable.border_top_bottom_matrix);
             editor.putInt("navHeaderSetBackgroundDrawable", R.drawable.border_top_bottom_matrix);
@@ -359,34 +339,50 @@ public class Settings_activity extends AppCompatActivity
             editor.putInt("toolbarSetBackground", R.drawable.border_top_bottom_matrix);
             editor.putInt("toolbarGetNavigationIcon()", R.drawable.menu_text_color_matrix);
             editor.putInt("linearSetBackground", R.drawable.border_top_bottom_matrix_logo);
-            editor.putInt("drawersetBackground", Color.BLACK);
-            editor.putInt("tw1setTextColor", Color.GREEN);
-            editor.putInt("tw2setTextColor", Color.GREEN);
-            editor.putInt("lblswitchsetTextColor", Color.GREEN);
+            if(context instanceof Settings_activity || context instanceof MainActivity2)
+            {
+                editor.putInt("drawersetBackground", Color.BLACK);
+                editor.putInt("tw1setTextColor", Color.GREEN);
+                editor.putInt("tw2setTextColor", Color.GREEN);
+                if(context instanceof Settings_activity)
+                {
+                    editor.putInt("lblswitchsetTextColor", Color.GREEN);
+                }
+            }
             editor.commit();
-            Utils.changeToTheme(this, Utils.THEME_MATRIX);
-
+            if(context instanceof Settings_activity != true)
+            {
+                if (!checker)
+                    Utils.changeToTheme(context, Utils.THEME_DEFAULT);
+            }
+            else
+            {
+                Utils.changeToTheme(context, Utils.THEME_DEFAULT);
+            }
         }
-        if(str.equals("Gamers"))
-        {
+        if (str.equals("Gamers")) {
 
-            navigationView.setItemIconTintList(ContextCompat.getColorStateList(Settings_activity.this, R.drawable.menu_text_color_gamers));
-            navigationView.setItemTextColor(ContextCompat.getColorStateList(Settings_activity.this, R.drawable.menu_text_color_gamers));
-            navigationView.setBackgroundDrawable(ContextCompat.getDrawable(Settings_activity.this, R.drawable.border_top_bottom_gamers));
-            navHeader.setBackgroundDrawable(ContextCompat.getDrawable(Settings_activity.this, R.drawable.border_top_bottom_gamers));
-            sett.setTextColor(ContextCompat.getColorStateList(Settings_activity.this, R.drawable.menu_text_color_gamers));
-            text.setTextColor(ContextCompat.getColorStateList(Settings_activity.this, R.drawable.menu_text_color_gamers));
-            toolbar.setBackground(ContextCompat.getDrawable(Settings_activity.this, R.drawable.border_top_bottom_gamers));
+            navigationView.setItemIconTintList(ContextCompat.getColorStateList(context, R.drawable.menu_text_color_gamers));
+            navigationView.setItemTextColor(ContextCompat.getColorStateList(context, R.drawable.menu_text_color_gamers));
+            navigationView.setBackgroundDrawable(ContextCompat.getDrawable(context, R.drawable.border_top_bottom_gamers));
+            navHeader.setBackgroundDrawable(ContextCompat.getDrawable(context, R.drawable.border_top_bottom_gamers));
+            sett.setTextColor(ContextCompat.getColorStateList(context, R.drawable.menu_text_color_gamers));
+            text.setTextColor(ContextCompat.getColorStateList(context, R.drawable.menu_text_color_gamers));
+            toolbar.setBackground(ContextCompat.getDrawable(context, R.drawable.border_top_bottom_gamers));
             toolbar.getNavigationIcon().setColorFilter(getResources().getColor(R.drawable.menu_text_color_gamers), PorterDuff.Mode.SRC_ATOP);
-            linear.setBackground(ContextCompat.getDrawable(Settings_activity.this, R.drawable.border_top_bottom_gamers_logo));
-
-            drawer.setBackgroundColor(Color.BLACK);
-            tw1.setTextColor(Color.RED);
-            tw2.setTextColor(Color.RED);
-            lblswitch.setTextColor(Color.RED);
-
-            editor.putString("theme","Gamers");
-            editor.putInt("setItemIconTintList",R.drawable.menu_text_color_gamers);
+            linear.setBackground(ContextCompat.getDrawable(context, R.drawable.border_top_bottom_gamers_logo));
+            if(context instanceof Settings_activity || context instanceof MainActivity2)
+            {
+                drawer.setBackgroundColor(Color.BLACK);
+                tw1.setTextColor(Color.RED);
+                tw2.setTextColor(Color.RED);
+                if(context instanceof Settings_activity)
+                {
+                    lblswitch.setTextColor(Color.RED);
+                }
+            }
+            editor.putString("theme", "Gamers");
+            editor.putInt("setItemIconTintList", R.drawable.menu_text_color_gamers);
             editor.putInt("setItemTextColor", R.drawable.menu_text_color_gamers);
             editor.putInt("setBackgroundDrawable", R.drawable.border_top_bottom_gamers);
             editor.putInt("navHeaderSetBackgroundDrawable", R.drawable.border_top_bottom_gamers);
@@ -395,16 +391,27 @@ public class Settings_activity extends AppCompatActivity
             editor.putInt("toolbarSetBackground", R.drawable.border_top_bottom_gamers);
             editor.putInt("toolbarGetNavigationIcon()", R.drawable.menu_text_color_gamers);
             editor.putInt("linearSetBackground", R.drawable.border_top_bottom_gamers_logo);
-            editor.putInt("drawersetBackground", Color.BLACK);
-            editor.putInt("tw1setTextColor", Color.RED);
-            editor.putInt("tw2setTextColor", Color.RED);
-            editor.putInt("lblswitchsetTextColor", Color.RED);
+            if(context instanceof Settings_activity || context instanceof MainActivity2)
+            {
+                editor.putInt("drawersetBackground", Color.BLACK);
+                editor.putInt("tw1setTextColor", Color.RED);
+                editor.putInt("tw2setTextColor", Color.RED);
+                if(context instanceof Settings_activity)
+                {
+                    editor.putInt("lblswitchsetTextColor", Color.RED);
+                }
+            }
             editor.commit();
-            Utils.changeToTheme(this, Utils.THEME_GAMERS);
-
+            if(context instanceof Settings_activity != true)
+            {
+                if (!checker)
+                    Utils.changeToTheme(context, Utils.THEME_DEFAULT);
+            }
+            else
+            {
+                Utils.changeToTheme(context, Utils.THEME_DEFAULT);
+            }
         }
-
-
     }
 
 
@@ -462,23 +469,6 @@ public class Settings_activity extends AppCompatActivity
     }
     
 
-    /*@Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        if (requestCode == permissionCheck) {
-            if (permissions.length == 1 &&
-                    permissions[0].equals(android.Manifest.permission.ACCESS_FINE_LOCATION) &&
-                    grantResults[0] == 0)
-            {
-                checker = true;
-                swt.setChecked(true);
-            }
-            else
-            {
-                checker = false;
-                swt.setChecked(false);
-            }
-        }
-    }*/
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {

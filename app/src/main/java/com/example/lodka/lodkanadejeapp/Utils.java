@@ -3,7 +3,6 @@ package com.example.lodka.lodkanadejeapp;
 import android.app.Activity;
 import android.content.Intent;
 
-import com.example.lodka.lodkanadejeapp.R;
 
 public class Utils
 {
@@ -25,25 +24,6 @@ public class Utils
 
     }
 
-    /** Set the theme of the activity, according to the configuration. */
-    public static void onActivityCreateSetTheme(Activity activity)
-    {
-        switch (sTheme)
-        {
-            default:
-            case THEME_DEFAULT:
-                activity.setTheme(R.style.AppTheme);
-                //activity.setTheme(R.style.TextAppearanceNormal);
-                break;
-            case THEME_MATRIX:
-                activity.setTheme(R.style.AppThemeMatrixDivider);
-                //activity.setTheme(R.style.TextAppearanceMatrix);
-                break;
-            case THEME_GAMERS:
-                activity.setTheme(R.style.AppThemeGamersDivider);
-                //activity.setTheme(R.style.TextAppearanceGamers);
-                break;
-        }
-    }
+
 }
 

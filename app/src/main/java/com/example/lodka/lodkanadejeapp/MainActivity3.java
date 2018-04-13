@@ -1,7 +1,6 @@
 package com.example.lodka.lodkanadejeapp;
 
 import android.Manifest;
-import android.app.ActionBar;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -62,7 +61,6 @@ public class MainActivity3 extends FragmentActivity implements NavigationView.On
     String destination;
     String origin = "Kosice";
     int distance;
-    LatLng loc;
     float[] results;
     double latitude;
     double longitude;
@@ -71,7 +69,6 @@ public class MainActivity3 extends FragmentActivity implements NavigationView.On
     Context context = null;
     String themeSetting;
     SharedPreferences themeInfo ;
-    SharedPreferences.Editor editor;
     static Boolean checker3 = false;
     NavigationView navigationView;
 
@@ -196,7 +193,6 @@ public class MainActivity3 extends FragmentActivity implements NavigationView.On
 
     public void changeTheme(String str) {
 
-        LinearLayout navHeader = (LinearLayout) findViewById(R.id.nav_header);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         Button sett = (Button) findViewById(R.id.button_settings);
         TextView text = (TextView) findViewById(R.id.textview);
@@ -208,7 +204,6 @@ public class MainActivity3 extends FragmentActivity implements NavigationView.On
             navigationView.setItemIconTintList(ContextCompat.getColorStateList(MainActivity3.this, R.drawable.menu_text_color_normal));
             navigationView.setItemTextColor(ContextCompat.getColorStateList(MainActivity3.this, R.drawable.menu_text_color_normal));
             navigationView.setBackgroundDrawable(ContextCompat.getDrawable(MainActivity3.this, R.drawable.border_top_bottom_normal));
-            //navHeader.setBackgroundDrawable(ContextCompat.getDrawable(MainActivity.this, R.drawable.border_top_bottom_normal));
             sett.setTextColor(ContextCompat.getColorStateList(MainActivity3.this, R.color.colorWhite));
             text.setTextColor(ContextCompat.getColorStateList(MainActivity3.this, R.color.colorDefault));
             toolbar.setBackground(ContextCompat.getDrawable(MainActivity3.this, R.color.colorPrimary));
@@ -234,7 +229,6 @@ public class MainActivity3 extends FragmentActivity implements NavigationView.On
             navigationView.setItemIconTintList(ContextCompat.getColorStateList(MainActivity3.this, R.drawable.menu_text_color_matrix));
             navigationView.setItemTextColor(ContextCompat.getColorStateList(MainActivity3.this, R.drawable.menu_text_color_matrix));
             navigationView.setBackgroundDrawable(ContextCompat.getDrawable(MainActivity3.this, R.drawable.border_top_bottom_matrix));
-            // navHeader.setBackgroundDrawable(ContextCompat.getDrawable(MainActivity.this, R.drawable.border_top_bottom_matrix));
             sett.setTextColor(ContextCompat.getColorStateList(MainActivity3.this, R.drawable.menu_text_color_matrix));
             text.setTextColor(ContextCompat.getColorStateList(MainActivity3.this, R.drawable.menu_text_color_matrix));
             toolbar.setBackground(ContextCompat.getDrawable(MainActivity3.this, R.drawable.border_top_bottom_matrix));
@@ -260,7 +254,6 @@ public class MainActivity3 extends FragmentActivity implements NavigationView.On
             navigationView.setItemIconTintList(ContextCompat.getColorStateList(MainActivity3.this, R.drawable.menu_text_color_gamers));
             navigationView.setItemTextColor(ContextCompat.getColorStateList(MainActivity3.this, R.drawable.menu_text_color_gamers));
             navigationView.setBackgroundDrawable(ContextCompat.getDrawable(MainActivity3.this, R.drawable.border_top_bottom_gamers));
-            //navHeader.setBackgroundDrawable(ContextCompat.getDrawable(MainActivity.this, R.drawable.border_top_bottom_gamers));
             sett.setTextColor(ContextCompat.getColorStateList(MainActivity3.this, R.drawable.menu_text_color_gamers));
             text.setTextColor(ContextCompat.getColorStateList(MainActivity3.this, R.drawable.menu_text_color_gamers));
             toolbar.setBackground(ContextCompat.getDrawable(MainActivity3.this, R.drawable.border_top_bottom_gamers));
