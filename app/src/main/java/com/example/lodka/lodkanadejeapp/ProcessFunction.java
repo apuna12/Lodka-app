@@ -4,8 +4,11 @@ import android.app.Activity;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.support.design.widget.NavigationView;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -17,17 +20,25 @@ import android.widget.TextView;
 
 public class ProcessFunction {
 
-    public void changeTheme(String str, Boolean checker, Activity context)
+    public void changeTheme(String str, Boolean checker, Activity context, NavigationView navigationView, DrawerLayout drawer)
     {
-        LinearLayout navHeader = (LinearLayout) findViewById(R.id.nav_header);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        Button sett = (Button) findViewById(R.id.button_settings);
-        TextView text = (TextView) findViewById(R.id.textview);
-        SharedPreferences themeInfo = getSharedPreferences("THEMECONFIG",0);
+        TextView tw1;
+        TextView tw2;
+        TextView lblswitch;
+
+
+        tw1 = (TextView) context.findViewById(R.id.tw1M);
+        tw2 = (TextView) context.findViewById(R.id.tw2M);
+
+
+        LinearLayout navHeader = (LinearLayout) context.findViewById(R.id.nav_header);
+        Toolbar toolbar = (Toolbar) context.findViewById(R.id.toolbar);
+        Button sett = (Button) context.findViewById(R.id.button_settings);
+        TextView text = (TextView) context.findViewById(R.id.textview);
+        SharedPreferences themeInfo = context.getSharedPreferences("THEMECONFIG",0);
         SharedPreferences.Editor editor = themeInfo.edit();
         View header = navigationView.getHeaderView(0);
         LinearLayout linear = (LinearLayout) header.findViewById(R.id.nav_header_logo);
-
 
         if (str.equals("Základná")) {
             navigationView.setItemIconTintList(ContextCompat.getColorStateList(context, R.drawable.menu_text_color_normal));
@@ -37,7 +48,7 @@ public class ProcessFunction {
             sett.setTextColor(ContextCompat.getColorStateList(context, R.color.colorWhite));
             text.setTextColor(ContextCompat.getColorStateList(context, R.color.colorDefault));
             toolbar.setBackground(ContextCompat.getDrawable(context, R.color.colorPrimary));
-            toolbar.getNavigationIcon().setColorFilter(getResources().getColor(R.color.colorWhite), PorterDuff.Mode.SRC_ATOP);
+            toolbar.getNavigationIcon().setColorFilter(context.getResources().getColor(R.color.colorWhite), PorterDuff.Mode.SRC_ATOP);
             linear.setBackground(ContextCompat.getDrawable(context, R.drawable.border_top_bottom_normal_logo));
             if(context instanceof Settings_activity || context instanceof MainActivity2)
             {
@@ -46,6 +57,7 @@ public class ProcessFunction {
                 tw2.setTextColor(Color.BLACK);
                 if(context instanceof Settings_activity)
                 {
+                    lblswitch = (TextView) context.findViewById(R.id.labelswitch);
                     lblswitch.setTextColor(Color.BLACK);
                 }
             }
@@ -89,7 +101,7 @@ public class ProcessFunction {
             sett.setTextColor(ContextCompat.getColorStateList(context, R.drawable.menu_text_color_matrix));
             text.setTextColor(ContextCompat.getColorStateList(context, R.drawable.menu_text_color_matrix));
             toolbar.setBackground(ContextCompat.getDrawable(context, R.drawable.border_top_bottom_matrix));
-            toolbar.getNavigationIcon().setColorFilter(getResources().getColor(R.drawable.menu_text_color_matrix), PorterDuff.Mode.SRC_ATOP);
+            toolbar.getNavigationIcon().setColorFilter(context.getResources().getColor(R.drawable.menu_text_color_matrix), PorterDuff.Mode.SRC_ATOP);
             linear.setBackground(ContextCompat.getDrawable(context, R.drawable.border_top_bottom_matrix_logo));
             if(context instanceof Settings_activity || context instanceof MainActivity2)
             {
@@ -98,6 +110,7 @@ public class ProcessFunction {
                 tw2.setTextColor(Color.GREEN);
                 if(context instanceof Settings_activity)
                 {
+                    lblswitch = (TextView) context.findViewById(R.id.labelswitch);
                     lblswitch.setTextColor(Color.GREEN);
                 }
             }
@@ -125,11 +138,11 @@ public class ProcessFunction {
             if(context instanceof Settings_activity != true)
             {
                 if (!checker)
-                    Utils.changeToTheme(context, Utils.THEME_DEFAULT);
+                    Utils.changeToTheme(context, Utils.THEME_MATRIX);
             }
             else
             {
-                Utils.changeToTheme(context, Utils.THEME_DEFAULT);
+                Utils.changeToTheme(context, Utils.THEME_MATRIX);
             }
         }
         if (str.equals("Gamers")) {
@@ -141,7 +154,7 @@ public class ProcessFunction {
             sett.setTextColor(ContextCompat.getColorStateList(context, R.drawable.menu_text_color_gamers));
             text.setTextColor(ContextCompat.getColorStateList(context, R.drawable.menu_text_color_gamers));
             toolbar.setBackground(ContextCompat.getDrawable(context, R.drawable.border_top_bottom_gamers));
-            toolbar.getNavigationIcon().setColorFilter(getResources().getColor(R.drawable.menu_text_color_gamers), PorterDuff.Mode.SRC_ATOP);
+            toolbar.getNavigationIcon().setColorFilter(context.getResources().getColor(R.drawable.menu_text_color_gamers), PorterDuff.Mode.SRC_ATOP);
             linear.setBackground(ContextCompat.getDrawable(context, R.drawable.border_top_bottom_gamers_logo));
             if(context instanceof Settings_activity || context instanceof MainActivity2)
             {
@@ -150,6 +163,7 @@ public class ProcessFunction {
                 tw2.setTextColor(Color.RED);
                 if(context instanceof Settings_activity)
                 {
+                    lblswitch = (TextView) context.findViewById(R.id.labelswitch);
                     lblswitch.setTextColor(Color.RED);
                 }
             }
@@ -177,11 +191,11 @@ public class ProcessFunction {
             if(context instanceof Settings_activity != true)
             {
                 if (!checker)
-                    Utils.changeToTheme(context, Utils.THEME_DEFAULT);
+                    Utils.changeToTheme(context, Utils.THEME_GAMERS);
             }
             else
             {
-                Utils.changeToTheme(context, Utils.THEME_DEFAULT);
+                Utils.changeToTheme(context, Utils.THEME_GAMERS);
             }
         }
     }
