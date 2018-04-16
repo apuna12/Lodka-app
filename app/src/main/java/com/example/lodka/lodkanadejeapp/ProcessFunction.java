@@ -26,11 +26,6 @@ public class ProcessFunction {
         TextView tw2;
         TextView lblswitch;
 
-
-        tw1 = (TextView) context.findViewById(R.id.tw1M);
-        tw2 = (TextView) context.findViewById(R.id.tw2M);
-
-
         LinearLayout navHeader = (LinearLayout) context.findViewById(R.id.nav_header);
         Toolbar toolbar = (Toolbar) context.findViewById(R.id.toolbar);
         Button sett = (Button) context.findViewById(R.id.button_settings);
@@ -39,12 +34,17 @@ public class ProcessFunction {
         SharedPreferences.Editor editor = themeInfo.edit();
         View header = navigationView.getHeaderView(0);
         LinearLayout linear = (LinearLayout) header.findViewById(R.id.nav_header_logo);
+        tw1 = null;
+        tw2 = null;
 
         if (str.equals("Základná")) {
             navigationView.setItemIconTintList(ContextCompat.getColorStateList(context, R.drawable.menu_text_color_normal));
             navigationView.setItemTextColor(ContextCompat.getColorStateList(context, R.drawable.menu_text_color_normal));
             navigationView.setBackgroundDrawable(ContextCompat.getDrawable(context, R.drawable.border_top_bottom_normal));
-            navHeader.setBackgroundDrawable(ContextCompat.getDrawable(context, R.drawable.border_top_bottom_normal));
+            if(context instanceof MainActivity3 == false)
+            {
+                navHeader.setBackgroundDrawable(ContextCompat.getDrawable(context, R.drawable.border_top_bottom_normal));
+            }
             sett.setTextColor(ContextCompat.getColorStateList(context, R.color.colorWhite));
             text.setTextColor(ContextCompat.getColorStateList(context, R.color.colorDefault));
             toolbar.setBackground(ContextCompat.getDrawable(context, R.color.colorPrimary));
@@ -52,14 +52,22 @@ public class ProcessFunction {
             linear.setBackground(ContextCompat.getDrawable(context, R.drawable.border_top_bottom_normal_logo));
             if(context instanceof Settings_activity || context instanceof MainActivity2)
             {
-                drawer.setBackgroundColor(Color.WHITE);
-                tw1.setTextColor(Color.BLACK);
-                tw2.setTextColor(Color.BLACK);
+
+                if(context instanceof MainActivity2)
+                {
+                    tw1 = (TextView) context.findViewById(R.id.tw1M);
+                    tw2 = (TextView) context.findViewById(R.id.tw2M);
+                }
                 if(context instanceof Settings_activity)
                 {
+                    tw1 = (TextView) context.findViewById(R.id.textview1);
+                    tw2 = (TextView) context.findViewById(R.id.textview2);
                     lblswitch = (TextView) context.findViewById(R.id.labelswitch);
                     lblswitch.setTextColor(Color.BLACK);
                 }
+                drawer.setBackgroundColor(Color.WHITE);
+                tw1.setTextColor(Color.BLACK);
+                tw2.setTextColor(Color.BLACK);
             }
             editor.putString("theme", "Základná");
             editor.putInt("setItemIconTintList", R.drawable.menu_text_color_normal);
@@ -97,7 +105,10 @@ public class ProcessFunction {
             navigationView.setItemIconTintList(ContextCompat.getColorStateList(context, R.drawable.menu_text_color_matrix));
             navigationView.setItemTextColor(ContextCompat.getColorStateList(context, R.drawable.menu_text_color_matrix));
             navigationView.setBackgroundDrawable(ContextCompat.getDrawable(context, R.drawable.border_top_bottom_matrix));
-            navHeader.setBackgroundDrawable(ContextCompat.getDrawable(context, R.drawable.border_top_bottom_matrix));
+            if(context instanceof MainActivity3 == false)
+            {
+                navHeader.setBackgroundDrawable(ContextCompat.getDrawable(context, R.drawable.border_top_bottom_normal));
+            }
             sett.setTextColor(ContextCompat.getColorStateList(context, R.drawable.menu_text_color_matrix));
             text.setTextColor(ContextCompat.getColorStateList(context, R.drawable.menu_text_color_matrix));
             toolbar.setBackground(ContextCompat.getDrawable(context, R.drawable.border_top_bottom_matrix));
@@ -105,14 +116,22 @@ public class ProcessFunction {
             linear.setBackground(ContextCompat.getDrawable(context, R.drawable.border_top_bottom_matrix_logo));
             if(context instanceof Settings_activity || context instanceof MainActivity2)
             {
-                drawer.setBackgroundColor(Color.BLACK);
-                tw1.setTextColor(Color.GREEN);
-                tw2.setTextColor(Color.GREEN);
+
+                if(context instanceof MainActivity2)
+                {
+                    tw1 = (TextView) context.findViewById(R.id.tw1M);
+                    tw2 = (TextView) context.findViewById(R.id.tw2M);
+                }
                 if(context instanceof Settings_activity)
                 {
+                    tw1 = (TextView) context.findViewById(R.id.textview1);
+                    tw2 = (TextView) context.findViewById(R.id.textview2);
                     lblswitch = (TextView) context.findViewById(R.id.labelswitch);
-                    lblswitch.setTextColor(Color.GREEN);
+                    lblswitch.setTextColor(Color.BLACK);
                 }
+                drawer.setBackgroundColor(Color.WHITE);
+                tw1.setTextColor(Color.BLACK);
+                tw2.setTextColor(Color.BLACK);
             }
             editor.putString("theme", "Matrix");
             editor.putInt("setItemIconTintList", R.drawable.menu_text_color_matrix);
@@ -150,7 +169,10 @@ public class ProcessFunction {
             navigationView.setItemIconTintList(ContextCompat.getColorStateList(context, R.drawable.menu_text_color_gamers));
             navigationView.setItemTextColor(ContextCompat.getColorStateList(context, R.drawable.menu_text_color_gamers));
             navigationView.setBackgroundDrawable(ContextCompat.getDrawable(context, R.drawable.border_top_bottom_gamers));
-            navHeader.setBackgroundDrawable(ContextCompat.getDrawable(context, R.drawable.border_top_bottom_gamers));
+            if(context instanceof MainActivity3 == false)
+            {
+                navHeader.setBackgroundDrawable(ContextCompat.getDrawable(context, R.drawable.border_top_bottom_normal));
+            }
             sett.setTextColor(ContextCompat.getColorStateList(context, R.drawable.menu_text_color_gamers));
             text.setTextColor(ContextCompat.getColorStateList(context, R.drawable.menu_text_color_gamers));
             toolbar.setBackground(ContextCompat.getDrawable(context, R.drawable.border_top_bottom_gamers));
@@ -158,14 +180,22 @@ public class ProcessFunction {
             linear.setBackground(ContextCompat.getDrawable(context, R.drawable.border_top_bottom_gamers_logo));
             if(context instanceof Settings_activity || context instanceof MainActivity2)
             {
-                drawer.setBackgroundColor(Color.BLACK);
-                tw1.setTextColor(Color.RED);
-                tw2.setTextColor(Color.RED);
+
+                if(context instanceof MainActivity2)
+                {
+                    tw1 = (TextView) context.findViewById(R.id.tw1M);
+                    tw2 = (TextView) context.findViewById(R.id.tw2M);
+                }
                 if(context instanceof Settings_activity)
                 {
+                    tw1 = (TextView) context.findViewById(R.id.textview1);
+                    tw2 = (TextView) context.findViewById(R.id.textview2);
                     lblswitch = (TextView) context.findViewById(R.id.labelswitch);
-                    lblswitch.setTextColor(Color.RED);
+                    lblswitch.setTextColor(Color.BLACK);
                 }
+                drawer.setBackgroundColor(Color.WHITE);
+                tw1.setTextColor(Color.BLACK);
+                tw2.setTextColor(Color.BLACK);
             }
             editor.putString("theme", "Gamers");
             editor.putInt("setItemIconTintList", R.drawable.menu_text_color_gamers);

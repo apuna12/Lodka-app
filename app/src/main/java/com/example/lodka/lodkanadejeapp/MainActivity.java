@@ -80,6 +80,7 @@ public class MainActivity extends AppCompatActivity
                         toggle.syncState();
                         navigationView = (NavigationView) findViewById(R.id.nav_view);
                         navigationView.setNavigationItemSelectedListener(this);
+                        processer = new ProcessFunction();
 
                         if (getIntent().getStringExtra("website") == null) {
                             web = "http://www.lodkanadeje.maweb.eu/";
@@ -168,6 +169,17 @@ public class MainActivity extends AppCompatActivity
                 Log.e("chyba", e.getMessage());
             }
 
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Button sett = (Button)findViewById(R.id.button_settings);
+        TextView text = (TextView)findViewById(R.id.textview);
+        navigationView.setItemIconTintList(ContextCompat.getColorStateList(MainActivity.this, themeInfo.getInt("setItemIconTintList",R.drawable.menu_text_color_normal) ));
+        navigationView.setItemTextColor(ContextCompat.getColorStateList(MainActivity.this, themeInfo.getInt("setItemTextColor",R.drawable.menu_text_color_normal) ));
+        navigationView.setBackgroundDrawable(ContextCompat.getDrawable(MainActivity.this, themeInfo.getInt("setBackgroundDrawable",R.drawable.border_top_bottom_normal) ));
+        sett.setTextColor(ContextCompat.getColorStateList(MainActivity.this, themeInfo.getInt("settSetTextColor",R.color.colorWhite) ));
+        text.setTextColor(ContextCompat.getColorStateList(MainActivity.this, themeInfo.getInt("textSetTextColor",R.color.colorDefault) ));
+        toolbar.setBackground(ContextCompat.getDrawable(MainActivity.this, themeInfo.getInt("toolbarSetBackground",R.color.colorPrimary) ));
+        toolbar.getNavigationIcon().setColorFilter(getResources().getColor(themeInfo.getInt("toolbarGetNavigationIcon()",R.color.colorWhite)), PorterDuff.Mode.SRC_ATOP);
+        
         }
 
 

@@ -80,7 +80,7 @@ public class MainActivity3 extends FragmentActivity implements NavigationView.On
 
         themeInfo = getSharedPreferences("THEMECONFIG",0);
         themeSetting = themeInfo.getString("theme","Základná");
-
+        processer = new ProcessFunction();
         super.onCreate(savedInstanceState);
 
         requestWindowFeature(Window.FEATURE_NO_TITLE);

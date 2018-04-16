@@ -104,7 +104,7 @@ public class MainActivity2 extends Activity
             navigationView.setNavigationItemSelectedListener(this);
             clickButton = (Button) findViewById(R.id.button1);
             clickButton.setOnClickListener(this);
-
+            processer = new ProcessFunction();
 
 
 

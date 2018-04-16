@@ -90,7 +90,7 @@ public class Settings_activity extends AppCompatActivity
 
                     navigationView = (NavigationView) findViewById(R.id.nav_view);
                     navigationView.setNavigationItemSelectedListener(this);
-
+                    processer = new ProcessFunction();
 
                 } else {
                     AlertDialog.Builder builder = new AlertDialog.Builder(this);
