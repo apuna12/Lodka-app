@@ -384,6 +384,7 @@ public class Settings_activity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id2 = item.getItemId();
+        processer = new ProcessFunction();
 
         if (id2 == R.id.nav_domov) {
             Intent myIntent = new Intent(com.example.lodka.lodkanadejeapp.Settings_activity.this, MainActivity.class);
@@ -394,16 +395,16 @@ public class Settings_activity extends AppCompatActivity
             myIntent.putExtra("website","https://drive.google.com/open?id=117LgdghiKO1WSz09DoxYNOE7-eiEjf4I");
             com.example.lodka.lodkanadejeapp.Settings_activity.this.startActivity(myIntent);
         } else if (id2 == R.id.nav_facebook) {
-            SharingToSocialMedia("com.facebook.katana");
+            processer.SharingToSocialMedia("com.facebook.katana", this);
         } else if (id2 == R.id.nav_twitter) {
-            SharingToSocialMedia("com.twitter.android");
+            processer.SharingToSocialMedia("com.twitter.android", this);
         } else if (id2 == R.id.nav_mail){
             Intent myIntent = new Intent(com.example.lodka.lodkanadejeapp.Settings_activity.this, com.example.lodka.lodkanadejeapp.MainActivity2.class);
             com.example.lodka.lodkanadejeapp.Settings_activity.this.startActivity(myIntent);
         } else if (id2 == R.id.nav_instagram){
-            SharingToSocialMedia("com.instagram.android");
+            processer.SharingToSocialMedia("com.instagram.android", this);
         } else if (id2 == R.id.nav_snapchat){
-            SharingToSocialMedia("com.snapchat.android");
+            processer.SharingToSocialMedia("com.snapchat.android", this);
         } else if (id2 == R.id.nav_map){
             if(!isPermissionGranted()) {
 
@@ -448,111 +449,6 @@ public class Settings_activity extends AppCompatActivity
 
     }
 
-    public void SharingToSocialMedia(final String application) {
-
-
-        if(application == "com.facebook.katana") {
-
-
-            Intent intent = new Intent();
-            intent.setAction(Intent.ACTION_SEND);
-            intent.setType("text/plain");
-            intent.putExtra(Intent.EXTRA_TEXT, "http://www.lodkanadeje.maweb.eu/");
-
-            boolean installed = checkAppInstall(application);
-            if (installed) {
-                intent.setPackage(application);
-                startActivity(intent);
-            } else {
-                Toast.makeText(getApplicationContext(),
-                        "Nie je nainštalovaná aplikácia", Toast.LENGTH_LONG).show();
-            }
-        }else if(application == "com.twitter.android"){
-
-
-            Uri uri = Uri.parse("android.resource://" + this.getPackageName() + "/" + R.mipmap.lodkauvod);
-            Intent intent = new Intent();
-            intent.setAction(Intent.ACTION_SEND);
-            intent.setType("image/png");
-            intent.putExtra(Intent.EXTRA_STREAM, uri);
-            intent.putExtra(Intent.EXTRA_TEXT, "http://www.lodkanadeje.maweb.eu/");
-
-            boolean installed = checkAppInstall(application);
-            if (installed) {
-                intent.setPackage(application);
-                startActivity(intent);
-            } else {
-                Toast.makeText(getApplicationContext(),
-                        "Nie je nainštalovaná aplikácia", Toast.LENGTH_LONG).show();
-            }
-        }else if(application == "com.instagram.android"){
-
-            final Uri uri = Uri.parse("android.resource://" + this.getPackageName() + "/" + R.mipmap.lodkauvod2);
-
-            AlertDialog.Builder builder;
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                builder = new AlertDialog.Builder(this, android.R.style.Theme_Material_Dialog_Alert);
-            } else {
-                builder = new AlertDialog.Builder(this);
-            }
-            builder.setTitle("Pripomienka")
-                    .setMessage("Pri zdieľaní nezabudnite prosím roztiahnúť obrázok na celú obrazovku")
-                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-
-                            Intent intent = new Intent();
-                            intent.setAction(Intent.ACTION_SEND);
-                            intent.setType("image/png");
-                            intent.putExtra(Intent.EXTRA_STREAM, uri);
-                            boolean installed = checkAppInstall(application);
-
-
-                            if (installed) {
-                                intent.setPackage(application);
-                                startActivity(intent);
-                            } else {
-                                Toast.makeText(getApplicationContext(),
-                                        "Nie je nainštalovaná aplikácia", Toast.LENGTH_LONG).show();
-                            }
-                        }
-                    })
-                    .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            // do nothing
-                        }
-                    })
-                    .setIcon(android.R.drawable.ic_dialog_alert)
-                    .show();
-        }else if(application == "com.snapchat.android") {
-
-            final Uri uri = Uri.parse("android.resource://" + this.getPackageName() + "/" + R.mipmap.lodkauvod2);
-            Intent intent = new Intent();
-            intent.setAction(Intent.ACTION_SEND);
-            intent.setType("image/png");
-            intent.putExtra(Intent.EXTRA_STREAM, uri);
-            boolean installed = checkAppInstall(application);
-
-
-            if (installed) {
-                intent.setPackage(application);
-                startActivity(intent);
-            } else {
-                Toast.makeText(getApplicationContext(),
-                        "Nie je nainštalovaná aplikácia", Toast.LENGTH_LONG).show();
-            }
-        }
-    }
-
-    private boolean checkAppInstall(String uri) {
-        PackageManager pm = getPackageManager();
-        try {
-            pm.getPackageInfo(uri, PackageManager.GET_ACTIVITIES);
-            return true;
-        } catch (PackageManager.NameNotFoundException e) {
-        }
-
-        return false;
-    }
 
 
 }

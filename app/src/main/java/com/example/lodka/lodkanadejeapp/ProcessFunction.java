@@ -1,18 +1,24 @@
 package com.example.lodka.lodkanadejeapp;
 
 import android.app.Activity;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.net.Uri;
+import android.os.Build;
 import android.support.design.widget.NavigationView;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 /**
  * Created by tibor.kocik on 13-Apr-18.
@@ -26,7 +32,8 @@ public class ProcessFunction {
         TextView tw2;
         TextView lblswitch;
 
-        LinearLayout navHeader = (LinearLayout) context.findViewById(R.id.nav_header);
+        View nheader = navigationView.getHeaderView(0);
+        LinearLayout navHeader = (LinearLayout) nheader.findViewById(R.id.nav_header);
         Toolbar toolbar = (Toolbar) context.findViewById(R.id.toolbar);
         Button sett = (Button) context.findViewById(R.id.button_settings);
         TextView text = (TextView) context.findViewById(R.id.textview);
@@ -228,5 +235,201 @@ public class ProcessFunction {
                 Utils.changeToTheme(context, Utils.THEME_GAMERS);
             }
         }
+    }
+
+    public void SharingToSocialMedia(final String application, final Activity context) {
+
+        if(application == "com.facebook.katana") {
+
+
+            Intent intent = new Intent();
+            intent.setAction(Intent.ACTION_SEND);
+            intent.setType("text/plain");
+            intent.putExtra(Intent.EXTRA_TEXT, "http://www.lodkanadeje.maweb.eu/");
+
+            boolean installed = checkAppInstall(application, context);
+            if (installed) {
+                intent.setPackage(application);
+                context.startActivity(intent);
+            } else {
+
+                Toast.makeText(context.getApplicationContext(),
+                        "Nie je nainštalovaná aplikácia", Toast.LENGTH_LONG).show();
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                builder.setTitle("Hups, niečo je zle :(")
+                        .setMessage("Aplikácia nie je nainštalovaná. Ak chcete aplikáciu nainštalovať kliknite na tlačidlo OK. V opačnom prípade kliknite na Zrušiť")
+                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+
+                                final String appPackageName = "com.facebook.katana";
+                                try {
+                                    context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
+                                } catch (android.content.ActivityNotFoundException anfe) {
+                                    context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)));
+                                }
+                            }
+                        })
+                        .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                // do nothing
+                            }
+                        })
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .show();
+            }
+        }else if(application == "com.twitter.android"){
+
+
+            Uri uri = Uri.parse("android.resource://" + context.getPackageName() + "/" + R.mipmap.lodkauvod);
+            Intent intent = new Intent();
+            intent.setAction(Intent.ACTION_SEND);
+            intent.setType("image/png");
+            intent.putExtra(Intent.EXTRA_STREAM, uri);
+            intent.putExtra(Intent.EXTRA_TEXT, "http://www.lodkanadeje.maweb.eu/");
+
+            boolean installed = checkAppInstall(application, context);
+            if (installed) {
+                intent.setPackage(application);
+                context.startActivity(intent);
+            } else {
+                Toast.makeText(context.getApplicationContext(),
+                        "Nie je nainštalovaná aplikácia", Toast.LENGTH_LONG).show();
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                builder.setTitle("Hups, niečo je zle :(")
+                        .setMessage("Aplikácia nie je nainštalovaná. Ak chcete aplikáciu nainštalovať kliknite na tlačidlo OK. V opačnom prípade kliknite na Zrušiť")
+                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+
+                                final String appPackageName = "com.twitter.android";
+                                try {
+                                    context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
+                                } catch (android.content.ActivityNotFoundException anfe) {
+                                    context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)));
+                                }
+                            }
+                        })
+                        .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                // do nothing
+                            }
+                        })
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .show();
+            }
+        }else if(application == "com.instagram.android"){
+
+            final Uri uri = Uri.parse("android.resource://" + context.getPackageName() + "/" + R.mipmap.lodkauvod2);
+
+            AlertDialog.Builder builder;
+            AlertDialog.Builder builder2;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                builder = new AlertDialog.Builder(context, android.R.style.Theme_Material_Dialog_Alert);
+                builder2 = new AlertDialog.Builder(context, android.R.style.Theme_Material_Dialog_Alert);
+            } else {
+                builder = new AlertDialog.Builder(context);
+                builder2 = new AlertDialog.Builder(context);
+            }
+
+            boolean installed = checkAppInstall(application, context);
+            if (installed) {
+                builder.setTitle("Pripomienka")
+                        .setMessage("Pri zdieľaní nezabudnite prosím roztiahnúť obrázok na celú obrazovku")
+                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which)
+                            {
+
+                                Intent intent = new Intent();
+                                intent.setAction(Intent.ACTION_SEND);
+                                intent.setType("image/png");
+                                intent.putExtra(Intent.EXTRA_STREAM, uri);
+                                intent.setPackage(application);
+                                context.startActivity(intent);
+                            }
+
+                        }
+                        )
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .show();
+            } else {
+                Toast.makeText(context.getApplicationContext(),
+                        "Nie je nainštalovaná aplikácia", Toast.LENGTH_LONG).show();
+                builder2.setTitle("Hups, niečo je zle :(")
+                        .setMessage("Aplikácia nie je nainštalovaná. Ak chcete aplikáciu nainštalovať kliknite na tlačidlo OK. V opačnom prípade kliknite na Zrušiť")
+                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                final String appPackageName = "com.instagram.android";
+                                try {
+                                    context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
+                                } catch (android.content.ActivityNotFoundException anfe) {
+                                    context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)));
+                                }
+                            }
+                        })
+
+                        .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                // do nothing
+                            }
+                        })
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .show();
+
+            }
+
+
+
+        }else if(application == "com.snapchat.android") {
+
+            final Uri uri = Uri.parse("android.resource://" + context.getPackageName() + "/" + R.mipmap.lodkauvod2);
+            Intent intent = new Intent();
+            intent.setAction(Intent.ACTION_SEND);
+            intent.setType("image/png");
+            intent.putExtra(Intent.EXTRA_STREAM, uri);
+            boolean installed = checkAppInstall(application,context);
+
+
+            if (installed) {
+                intent.setPackage(application);
+                context.startActivity(intent);
+            } else {
+                Toast.makeText(context.getApplicationContext(),
+                        "Nie je nainštalovaná aplikácia", Toast.LENGTH_LONG).show();
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                builder.setTitle("Hups, niečo je zle :(")
+                        .setMessage("Aplikácia nie je nainštalovaná. Ak chcete aplikáciu nainštalovať kliknite na tlačidlo OK. V opačnom prípade kliknite na Zrušiť")
+                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+
+                                final String appPackageName = "com.snapchat.android";
+                                try {
+                                    context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
+                                } catch (android.content.ActivityNotFoundException anfe) {
+                                    context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)));
+                                }
+                            }
+                        })
+                        .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                // do nothing
+                            }
+                        })
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .show();
+            }
+        }
+    }
+
+
+
+
+    private boolean checkAppInstall(String uri, Activity context) {
+        PackageManager pm = context.getPackageManager();
+        try {
+            pm.getPackageInfo(uri, PackageManager.GET_ACTIVITIES);
+            return true;
+        } catch (PackageManager.NameNotFoundException e) {
+        }
+
+        return false;
     }
 }
