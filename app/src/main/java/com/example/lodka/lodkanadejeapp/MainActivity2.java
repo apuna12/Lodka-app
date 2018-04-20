@@ -3,15 +3,11 @@ package com.example.lodka.lodkanadejeapp;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
-import android.net.Uri;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.NavigationView;
@@ -19,7 +15,6 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
@@ -32,12 +27,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import java.util.Properties;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-
 import javax.mail.Authenticator;
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -46,7 +36,6 @@ import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
-
 import static com.example.lodka.lodkanadejeapp.R.id.et1;
 import static com.example.lodka.lodkanadejeapp.R.id.et2;
 
@@ -171,7 +160,7 @@ public class MainActivity2 extends Activity
         edt2 = (EditText) findViewById(et2);
         email = edt1.getText().toString();
         sprava = edt2.getText().toString();
-
+        processer = new ProcessFunction();
 
 
         Properties props = new Properties();
@@ -181,16 +170,16 @@ public class MainActivity2 extends Activity
         props.put("mail.smtp.auth", "true");
         props.put("mail.smtp.port", "465");
 
-        if (isEmailValid(email) == false) {
+        if (processer.isEmailValid(email) == false) {
             checker = false;
-            Alert("Zadajte prosím správny email :)");
+            processer.Alert("Zadajte prosím správny email :)", context);
         }
 
         else if (sprava.isEmpty()) {
             checker = false;
-            Alert("Zadajte prosím správu :)");
+            processer.Alert("Zadajte prosím správu :)", context);
         }
-        if(isEmailValid(email) && !sprava.isEmpty())
+        if(processer.isEmailValid(email) && !sprava.isEmpty())
         {
             checker = true;
         }
@@ -251,44 +240,6 @@ class  RetreiveFeedTask extends AsyncTask<String, Void, String> {
         }
     }
 
-    public static boolean isEmailValid(String email) {
-        boolean isValid = false;
-
-        String expression = "^[\\w\\.-]+@([\\w\\-]+\\.)+[A-Z]{2,4}$";
-        CharSequence inputStr = email;
-
-        Pattern pattern = Pattern.compile(expression, Pattern.CASE_INSENSITIVE);
-        Matcher matcher = pattern.matcher(inputStr);
-        if (matcher.matches()) {
-            isValid = true;
-        }
-        return isValid;
-    }
-
-
-    public void Alert(String text){
-        AlertDialog.Builder builder;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            builder = new AlertDialog.Builder(context, android.R.style.Theme_Material_Dialog_Alert);
-        } else {
-            builder = new AlertDialog.Builder(context);
-        }
-        builder.setTitle("Hups, niečo je zlé")
-                .setMessage(text)
-                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        // continue with delete
-                    }
-                })
-                .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        // do nothing
-                    }
-                })
-                .setIcon(android.R.drawable.ic_dialog_alert)
-                .show();
-    }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -313,21 +264,6 @@ class  RetreiveFeedTask extends AsyncTask<String, Void, String> {
     }
 
 
-    public boolean isPermissionGranted() {
-
-        if (Build.VERSION.SDK_INT >= 23) {
-            if (checkSelfPermission(android.Manifest.permission.ACCESS_FINE_LOCATION)
-                    == PackageManager.PERMISSION_GRANTED) {
-                return true;
-            } else {
-
-                return false;
-            }
-        } else { //permission is automatically granted on sdk<23 upon installation
-            return true;
-        }
-
-    }
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
@@ -335,51 +271,7 @@ class  RetreiveFeedTask extends AsyncTask<String, Void, String> {
         // Handle navigation view item clicks here.
         int id2 = item.getItemId();
         processer = new ProcessFunction();
-
-        if (id2 == R.id.nav_domov) {
-            Intent myIntent = new Intent(MainActivity2.this, MainActivity.class);
-            myIntent.putExtra("website","http://lodkanadeje.maweb.eu/");
-            MainActivity2.this.startActivity(myIntent);
-        } else if (id2 == R.id.nav_gallery) {
-            Intent myIntent = new Intent(MainActivity2.this, MainActivity.class);
-            myIntent.putExtra("website","https://drive.google.com/open?id=117LgdghiKO1WSz09DoxYNOE7-eiEjf4I");
-            MainActivity2.this.startActivity(myIntent);
-        } else if (id2 == R.id.nav_facebook) {
-            processer.SharingToSocialMedia("com.facebook.katana", this);
-        } else if (id2 == R.id.nav_twitter) {
-            processer.SharingToSocialMedia("com.twitter.android", this);
-        } else if (id2 == R.id.nav_mail){
-            Intent myIntent = new Intent(MainActivity2.this, MainActivity2.class);
-            MainActivity2.this.startActivity(myIntent);
-        } else if (id2 == R.id.nav_map){
-            if(!isPermissionGranted()) {
-
-                AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                builder.setTitle("Hups, niečo je zle :(")
-                        .setMessage("Neudelili ste povolenie pre zisťovanie polohy. Vrátime vás na pôvodnu stránku.")
-                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-
-                                Intent myIntent = new Intent(MainActivity2.this, MainActivity.class);
-                                myIntent.putExtra("website", "http://lodkanadeje.maweb.eu/");
-                                MainActivity2.this.startActivity(myIntent);
-                            }
-                        })
-                        .setIcon(android.R.drawable.ic_dialog_alert)
-                        .show();
-
-            }
-            if(isPermissionGranted()) {
-                Intent myIntent = new Intent(MainActivity2.this, MainActivity3.class);
-                MainActivity2.this.startActivity(myIntent);
-            }
-        } else if (id2 == R.id.nav_instagram){
-            processer.SharingToSocialMedia("com.instagram.android", this);
-        } else if (id2 == R.id.nav_snapchat){
-            processer.SharingToSocialMedia("com.snapchat.android", this);
-        }
-
-
+        processer.MenuProcessing(id2, this, processer);
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;

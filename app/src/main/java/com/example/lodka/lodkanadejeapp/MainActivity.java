@@ -1,24 +1,21 @@
 package com.example.lodka.lodkanadejeapp;
 
-import android.Manifest;
-import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -33,6 +30,7 @@ import android.view.WindowManager;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -44,13 +42,15 @@ public class MainActivity extends AppCompatActivity
     WebView wv;
     ProgressBar progressBar;
     Context context = null;
-    final String TAG = this.getClass().getName();
     NavigationView navigationView;
     SharedPreferences themeInfo ;
     String themeSetting;
     ProcessFunction processer;
     static Boolean checker = false;
     DrawerLayout drawer;
+    boolean twice;
+    FloatingActionButton fab;
+    boolean isFABOpen = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +58,7 @@ public class MainActivity extends AppCompatActivity
 
         themeInfo = getSharedPreferences("THEMECONFIG",0);
         themeSetting = themeInfo.getString("theme","Základná");
+        processer = new ProcessFunction();
             try {
                 ConnectivityManager con = (ConnectivityManager) getSystemService(context.CONNECTIVITY_SERVICE);
                 NetworkInfo net = con.getActiveNetworkInfo();
@@ -66,12 +67,19 @@ public class MainActivity extends AppCompatActivity
                 this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
                 super.onCreate(savedInstanceState);
                 if (net != null && net.isConnected()) {
-                    if (isOnline()) {
+                    if (processer.isOnline()) {
 
 
 
                         setContentView(R.layout.activity_main);
                         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+
+                        fab = (FloatingActionButton) findViewById(R.id.fab);
+                        MultiTouchListener touchListener=new MultiTouchListener(this);
+                        fab.setOnTouchListener(touchListener);
+
+
+
 
 
                         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -183,40 +191,15 @@ public class MainActivity extends AppCompatActivity
 
         }
 
-
-    public boolean isPermissionGranted() {
-
-        if (Build.VERSION.SDK_INT >= 23) {
-            if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION)
-                    == PackageManager.PERMISSION_GRANTED) {
-                return true;
-            } else {
-                return false;
-            }
-        } else {
-            return true;
-        }
-
+    private void showFABMenu(){
+        isFABOpen=true;
+        fab.animate().translationY(-getResources().getDimension(R.dimen.standard_55));
     }
 
-
-
-    public Boolean isOnline() {
-        try {
-            Process p1 = java.lang.Runtime.getRuntime().exec("ping -c 1 www.google.com");
-            int returnVal = p1.waitFor();
-            boolean reachable = (returnVal==0);
-            return reachable;
-        } catch (Exception e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        return false;
+    private void closeFABMenu(){
+        isFABOpen=false;
+        fab.animate().translationY(0);
     }
-
-
-
-    boolean twice;
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
@@ -237,7 +220,6 @@ public class MainActivity extends AppCompatActivity
 
 
     public void onBackPressed() {
-        Log.d(TAG,"Click");
 
         if(twice == true){
             Intent intent = new Intent(Intent.ACTION_MAIN);
@@ -248,14 +230,11 @@ public class MainActivity extends AppCompatActivity
             System.exit(0);
         }
         twice = true;
-        Log.d(TAG,"twice" + twice);
-
         Toast.makeText(MainActivity.this, "Znova stlačte tlačidlo 'Späť' pre ukončenie aplikácie", Toast.LENGTH_SHORT).show();
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 twice = false;
-                Log.d(TAG,"twice" + twice);
             }
         }, 3000);
 
@@ -290,77 +269,7 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
         processer = new ProcessFunction();
-
-        if (id == R.id.nav_domov) {
-            /*wv = (WebView) findViewById(R.id.webb);
-            progressBar.setVisibility(View.VISIBLE);
-            wv.setWebViewClient(new WebViewClient() {
-
-                public void onPageFinished(WebView view, String url) {
-                    progressBar.setVisibility(View.INVISIBLE);
-                }
-            });
-            wv.loadUrl("http://www.lodkanadeje.maweb.eu/");*/
-            Intent myIntent = new Intent(MainActivity.this, MainActivity.class);
-            myIntent.putExtra("website","http://lodkanadeje.maweb.eu/");
-            MainActivity.this.startActivity(myIntent);
-
-        } else if (id == R.id.nav_gallery) {
-            /*wv = (WebView) findViewById(R.id.webb);
-            progressBar.setVisibility(View.VISIBLE);
-            wv.setWebViewClient(new WebViewClient() {
-
-                public void onPageFinished(WebView view, String url) {
-                    progressBar.setVisibility(View.INVISIBLE);
-                }
-            });
-            wv.loadUrl("https://drive.google.com/open?id=117LgdghiKO1WSz09DoxYNOE7-eiEjf4I");*/
-            Intent myIntent = new Intent(MainActivity.this, MainActivity.class);
-            myIntent.putExtra("website","https://drive.google.com/open?id=117LgdghiKO1WSz09DoxYNOE7-eiEjf4I");
-            MainActivity.this.startActivity(myIntent);
-        } else if (id == R.id.nav_facebook) {
-            processer.SharingToSocialMedia("com.facebook.katana", this);
-        } else if (id == R.id.nav_twitter) {
-            processer.SharingToSocialMedia("com.twitter.android", this);
-        } else if (id == R.id.nav_mail){
-            Intent myIntent = new Intent(MainActivity.this, MainActivity2.class);
-            MainActivity.this.startActivity(myIntent);
-        } else if (id == R.id.nav_map){
-            if(!isPermissionGranted()){
-
-                AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                builder.setTitle("Hups, niečo je zle :(")
-                        .setMessage("Neudelili ste povolenie pre zisťovanie polohy. Vrátime vás na pôvodnu stránku.")
-                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-
-                                wv = (WebView) findViewById(R.id.webb);
-                                progressBar.setVisibility(View.VISIBLE);
-                                wv.setWebViewClient(new WebViewClient() {
-
-                                    public void onPageFinished(WebView view, String url) {
-                                        progressBar.setVisibility(View.INVISIBLE);
-                                    }
-                                });
-                                wv.loadUrl("http://www.lodkanadeje.maweb.eu/");
-                            }
-                        })
-                        .setIcon(android.R.drawable.ic_dialog_alert)
-                        .show();
-
-            }
-            if(isPermissionGranted()) {
-                Intent myIntent = new Intent(MainActivity.this, MainActivity3.class);
-                MainActivity.this.startActivity(myIntent);
-            }
-        } else if (id == R.id.nav_instagram){
-            processer.SharingToSocialMedia("com.instagram.android", this);
-        } else if (id == R.id.nav_snapchat){
-            processer.SharingToSocialMedia("com.snapchat.android", this);
-        } else if (id == R.id.button_settings){
-
-        }
-
+        processer.MenuProcessing(id, this, processer);
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;

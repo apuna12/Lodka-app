@@ -1,6 +1,4 @@
 package com.example.lodka.lodkanadejeapp;
-import android.Manifest;
-import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -13,7 +11,6 @@ import android.graphics.PorterDuff;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
-import android.os.Build;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
@@ -36,7 +33,6 @@ import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class Settings_activity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -69,11 +65,11 @@ public class Settings_activity extends AppCompatActivity
 
             themeInfo = getSharedPreferences("THEMECONFIG",0);
             themeSetting = themeInfo.getString("theme","Základná");
-
+            processer = new ProcessFunction();
 
 
             if (net != null && net.isConnected()) {
-                if (isOnline()) {
+                if (processer.isOnline()) {
                     setContentView(R.layout.activity_settings);
                     navHeaderLogo = (LinearLayout)findViewById(R.id.nav_header_logo);
                     tw1 = (TextView) findViewById(R.id.textview1);
@@ -367,87 +363,19 @@ public class Settings_activity extends AppCompatActivity
 
 
 
-    public Boolean isOnline() {
-        try {
-            Process p1 = java.lang.Runtime.getRuntime().exec("ping -c 1 www.google.com");
-            int returnVal = p1.waitFor();
-            boolean reachable = (returnVal == 0);
-            return reachable;
-        } catch (Exception e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        return false;
-    }
+
 
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
-        int id2 = item.getItemId();
+        int id4 = item.getItemId();
         processer = new ProcessFunction();
-
-        if (id2 == R.id.nav_domov) {
-            Intent myIntent = new Intent(com.example.lodka.lodkanadejeapp.Settings_activity.this, MainActivity.class);
-            myIntent.putExtra("website","http://lodkanadeje.maweb.eu/");
-            com.example.lodka.lodkanadejeapp.Settings_activity.this.startActivity(myIntent);
-        } else if (id2 == R.id.nav_gallery) {
-            Intent myIntent = new Intent(com.example.lodka.lodkanadejeapp.Settings_activity.this, MainActivity.class);
-            myIntent.putExtra("website","https://drive.google.com/open?id=117LgdghiKO1WSz09DoxYNOE7-eiEjf4I");
-            com.example.lodka.lodkanadejeapp.Settings_activity.this.startActivity(myIntent);
-        } else if (id2 == R.id.nav_facebook) {
-            processer.SharingToSocialMedia("com.facebook.katana", this);
-        } else if (id2 == R.id.nav_twitter) {
-            processer.SharingToSocialMedia("com.twitter.android", this);
-        } else if (id2 == R.id.nav_mail){
-            Intent myIntent = new Intent(com.example.lodka.lodkanadejeapp.Settings_activity.this, com.example.lodka.lodkanadejeapp.MainActivity2.class);
-            com.example.lodka.lodkanadejeapp.Settings_activity.this.startActivity(myIntent);
-        } else if (id2 == R.id.nav_instagram){
-            processer.SharingToSocialMedia("com.instagram.android", this);
-        } else if (id2 == R.id.nav_snapchat){
-            processer.SharingToSocialMedia("com.snapchat.android", this);
-        } else if (id2 == R.id.nav_map){
-            if(!isPermissionGranted()) {
-
-                AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                builder.setTitle("Hups, niečo je zle :(")
-                        .setMessage("Neudelili ste povolenie pre zisťovanie polohy. Vrátime vás na pôvodnu stránku.")
-                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-
-                                Intent myIntent = new Intent(Settings_activity.this, MainActivity.class);
-                                myIntent.putExtra("website", "http://lodkanadeje.maweb.eu/");
-                                Settings_activity.this.startActivity(myIntent);
-                            }
-                        })
-                        .setIcon(android.R.drawable.ic_dialog_alert)
-                        .show();
-
-            }
-            if(isPermissionGranted()) {
-                Intent myIntent = new Intent(Settings_activity.this, MainActivity3.class);
-                Settings_activity.this.startActivity(myIntent);
-            }
-        }
-
+        processer.MenuProcessing(id4, this, processer);
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
 
-    public boolean isPermissionGranted() {
-
-        if (Build.VERSION.SDK_INT >= 23) {
-            if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION)
-                    == PackageManager.PERMISSION_GRANTED) {
-                return true;
-            } else {
-                return false;
-            }
-        } else { //permission is automatically granted on sdk<23 upon installation
-            return true;
-        }
-
-    }
 
 
 

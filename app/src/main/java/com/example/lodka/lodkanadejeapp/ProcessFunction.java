@@ -1,6 +1,7 @@
 package com.example.lodka.lodkanadejeapp;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -20,12 +21,16 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 /**
  * Created by tibor.kocik on 13-Apr-18.
  */
 
 public class ProcessFunction {
 
+    //region changeTheme
     public void changeTheme(String str, Boolean checker, Activity context, NavigationView navigationView, DrawerLayout drawer)
     {
         TextView tw1;
@@ -236,7 +241,9 @@ public class ProcessFunction {
             }
         }
     }
+//endregion
 
+    //region SharingToSocialMedia
     public void SharingToSocialMedia(final String application, final Activity context) {
 
         if(application == "com.facebook.katana") {
@@ -419,9 +426,99 @@ public class ProcessFunction {
         }
     }
 
+    //endregion
 
+    //region isPermissionGranted
+    public boolean isPermissionGranted(Activity context) {
 
+        if (Build.VERSION.SDK_INT >= 23) {
+            if (context.checkSelfPermission(android.Manifest.permission.ACCESS_FINE_LOCATION)
+                    == PackageManager.PERMISSION_GRANTED) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return true;
+        }
 
+    }
+
+    //endregion
+
+    //region MenuProcessing
+    public void MenuProcessing(int id, final Activity context, ProcessFunction processer)
+    {
+        if (id == R.id.nav_domov) {
+            Intent myIntent = new Intent(context, MainActivity.class);
+            myIntent.putExtra("website","http://lodkanadeje.maweb.eu/");
+            context.startActivity(myIntent);
+
+        } else if (id == R.id.nav_gallery) {
+            Intent myIntent = new Intent(context, MainActivity.class);
+            myIntent.putExtra("website","https://drive.google.com/open?id=117LgdghiKO1WSz09DoxYNOE7-eiEjf4I");
+            context.startActivity(myIntent);
+        } else if (id == R.id.nav_facebook) {
+            processer.SharingToSocialMedia("com.facebook.katana", context);
+        } else if (id == R.id.nav_twitter) {
+            processer.SharingToSocialMedia("com.twitter.android", context);
+        } else if (id == R.id.nav_mail){
+            Intent myIntent = new Intent(context, MainActivity2.class);
+            context.startActivity(myIntent);
+        } else if (id == R.id.nav_map){
+            if(!processer.isPermissionGranted(context)){
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                builder.setTitle("Hups, niečo je zle :(")
+                        .setMessage("Neudelili ste povolenie pre zisťovanie polohy. Vrátime vás na pôvodnu stránku. Pre zapnutie povolenia prejdite do nastavení aplikácie.")
+                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                final Activity innerContext = context;
+                                Intent myIntent = new Intent(innerContext, MainActivity.class);
+                                myIntent.putExtra("website", "http://lodkanadeje.maweb.eu/");
+                                innerContext.startActivity(myIntent);
+                            }
+                        })
+                        .setNegativeButton("Nastavenia", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                final Activity innerContext = context;
+                                Intent myIntent = new Intent(innerContext, Settings_activity.class);
+                                innerContext.startActivity(myIntent);
+                            }
+                        })
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .show();
+
+            }
+            if(processer.isPermissionGranted(context)) {
+                Intent myIntent = new Intent(context, MainActivity3.class);
+                context.startActivity(myIntent);
+            }
+        } else if (id == R.id.nav_instagram){
+            processer.SharingToSocialMedia("com.instagram.android", context);
+        } else if (id == R.id.nav_snapchat){
+            processer.SharingToSocialMedia("com.snapchat.android", context);
+        }
+    }
+    //endregion
+
+    //region isOnline
+    public Boolean isOnline() {
+        try {
+            Process p1 = java.lang.Runtime.getRuntime().exec("ping -c 1 www.google.com");
+            int returnVal = p1.waitFor();
+            boolean reachable = (returnVal == 0);
+            return reachable;
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return false;
+    }
+    //endregion
+
+    //region checkAppInstall
     private boolean checkAppInstall(String uri, Activity context) {
         PackageManager pm = context.getPackageManager();
         try {
@@ -432,4 +529,48 @@ public class ProcessFunction {
 
         return false;
     }
+    //endregion
+
+    //region Alert
+    public void Alert(String text, Context context){
+        AlertDialog.Builder builder;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            builder = new AlertDialog.Builder(context, android.R.style.Theme_Material_Dialog_Alert);
+        } else {
+            builder = new AlertDialog.Builder(context);
+        }
+        builder.setTitle("Hups, niečo je zlé")
+                .setMessage(text)
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        // continue with delete
+                    }
+                })
+                .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        // do nothing
+                    }
+                })
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .show();
+    }
+    //endregion
+
+    //region isEmailValid
+    public static boolean isEmailValid(String email) {
+        boolean isValid = false;
+
+        String expression = "^[\\w\\.-]+@([\\w\\-]+\\.)+[A-Z]{2,4}$";
+        CharSequence inputStr = email;
+
+        Pattern pattern = Pattern.compile(expression, Pattern.CASE_INSENSITIVE);
+        Matcher matcher = pattern.matcher(inputStr);
+        if (matcher.matches()) {
+            isValid = true;
+        }
+        return isValid;
+    }
+    //endregion
+
+
 }

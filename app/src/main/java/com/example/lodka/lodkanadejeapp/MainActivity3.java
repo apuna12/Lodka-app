@@ -2,36 +2,29 @@ package com.example.lodka.lodkanadejeapp;
 
 import android.Manifest;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.graphics.PorterDuff;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
-import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import java.io.UnsupportedEncodingException;
@@ -340,28 +333,10 @@ public class MainActivity3 extends FragmentActivity implements NavigationView.On
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
-        int id2 = item.getItemId();
+        int id3 = item.getItemId();
+        processer = new ProcessFunction();
+        processer.MenuProcessing(id3, this, processer);
 
-        if (id2 == R.id.nav_domov) {
-            Intent myIntent = new Intent(com.example.lodka.lodkanadejeapp.MainActivity3.this, MainActivity.class);
-            myIntent.putExtra("website","http://lodkanadeje.maweb.eu/");
-            com.example.lodka.lodkanadejeapp.MainActivity3.this.startActivity(myIntent);
-        } else if (id2 == R.id.nav_gallery) {
-            Intent myIntent = new Intent(com.example.lodka.lodkanadejeapp.MainActivity3.this, MainActivity.class);
-            myIntent.putExtra("website","https://drive.google.com/open?id=117LgdghiKO1WSz09DoxYNOE7-eiEjf4I");
-            com.example.lodka.lodkanadejeapp.MainActivity3.this.startActivity(myIntent);
-        } else if (id2 == R.id.nav_facebook) {
-            processer.SharingToSocialMedia("com.facebook.katana", this);
-        } else if (id2 == R.id.nav_twitter) {
-            processer.SharingToSocialMedia("com.twitter.android", this);
-        } else if (id2 == R.id.nav_mail){
-            Intent myIntent = new Intent(com.example.lodka.lodkanadejeapp.MainActivity3.this, com.example.lodka.lodkanadejeapp.MainActivity2.class);
-            com.example.lodka.lodkanadejeapp.MainActivity3.this.startActivity(myIntent);
-        } else if (id2 == R.id.nav_instagram){
-            processer.SharingToSocialMedia("com.instagram.android", this);
-        } else if (id2 == R.id.nav_snapchat){
-            processer.SharingToSocialMedia("com.snapchat.android", this);
-        }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
