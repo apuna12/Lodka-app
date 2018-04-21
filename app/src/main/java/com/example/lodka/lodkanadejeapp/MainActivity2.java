@@ -10,6 +10,7 @@ import android.graphics.PorterDuff;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
@@ -17,6 +18,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -65,6 +67,7 @@ public class MainActivity2 extends Activity
     TextView tw1;
     TextView tw2;
     ProcessFunction processer;
+    FloatingActionButton fab;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,7 +89,29 @@ public class MainActivity2 extends Activity
             drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
             ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                     this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-            drawer.setDrawerListener(toggle);
+            drawer.addDrawerListener(new DrawerLayout.DrawerListener() {
+                @Override
+                public void onDrawerSlide(View drawerView, float slideOffset) {
+
+                }
+
+                @Override
+                public void onDrawerOpened(View drawerView) {
+                    fab.setImageDrawable(getResources().getDrawable(R.drawable.ic_arrow_left));
+
+                }
+
+                @Override
+                public void onDrawerClosed(View drawerView) {
+                    fab.setImageDrawable(getResources().getDrawable(R.drawable.ic_arrow_right));
+
+                }
+
+                @Override
+                public void onDrawerStateChanged(int newState) {
+
+                }
+            });
             toggle.syncState();
             pdialog = new ProgressDialog(MainActivity2.this);
             navigationView = (NavigationView) findViewById(R.id.nav_view);
@@ -95,7 +120,24 @@ public class MainActivity2 extends Activity
             clickButton.setOnClickListener(this);
             processer = new ProcessFunction();
 
+            fab = (FloatingActionButton) findViewById(R.id.fab);
+            MultiTouchListener touchListener=new MultiTouchListener(this);
+            fab.setOnTouchListener(touchListener);
+            fab.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
 
+                    if(!drawer.isDrawerVisible(GravityCompat.START))
+                    {
+                        drawer.openDrawer(Gravity.LEFT);
+                        fab.setImageDrawable(getResources().getDrawable(R.drawable.ic_arrow_left));
+                    }
+                    else
+                    {
+                        fab.setImageDrawable(getResources().getDrawable(R.drawable.ic_arrow_right));
+                    }
+                }
+            });
 
         }
         catch (Exception e)
@@ -150,7 +192,7 @@ public class MainActivity2 extends Activity
         drawer.setBackgroundColor(themeInfo.getInt("drawersetBackground", Color.WHITE));
         tw1.setTextColor(themeInfo.getInt("tw1setTextColor", Color.BLACK));
         tw2.setTextColor(themeInfo.getInt("tw2setTextColor", Color.BLACK));
-
+        fab.setBackgroundTintList(ContextCompat.getColorStateList(MainActivity2.this, themeInfo.getInt("fabBackground",R.color.colorPrimary)));
     }
 
     @Override

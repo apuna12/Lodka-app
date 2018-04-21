@@ -6,10 +6,12 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.net.Uri;
 import android.os.Build;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -36,7 +38,7 @@ public class ProcessFunction {
         TextView tw1;
         TextView tw2;
         TextView lblswitch;
-
+        FloatingActionButton fab = (FloatingActionButton)context.findViewById(R.id.fab);
         View nheader = navigationView.getHeaderView(0);
         LinearLayout navHeader = (LinearLayout) nheader.findViewById(R.id.nav_header);
         Toolbar toolbar = (Toolbar) context.findViewById(R.id.toolbar);
@@ -62,6 +64,7 @@ public class ProcessFunction {
             toolbar.setBackground(ContextCompat.getDrawable(context, R.color.colorPrimary));
             toolbar.getNavigationIcon().setColorFilter(context.getResources().getColor(R.color.colorWhite), PorterDuff.Mode.SRC_ATOP);
             linear.setBackground(ContextCompat.getDrawable(context, R.drawable.border_top_bottom_normal_logo));
+            fab.setBackgroundTintList(ColorStateList.valueOf(context.getResources().getColor(R.color.colorPrimary)));
             if(context instanceof Settings_activity || context instanceof MainActivity2)
             {
 
@@ -91,6 +94,7 @@ public class ProcessFunction {
             editor.putInt("toolbarSetBackground", R.color.colorPrimary);
             editor.putInt("toolbarGetNavigationIcon()", R.color.colorWhite);
             editor.putInt("linearSetBackground", R.drawable.border_top_bottom_normal_logo);
+            editor.putInt("fabBackground", R.color.colorPrimary);
             if(context instanceof Settings_activity || context instanceof MainActivity2)
             {
                 editor.putInt("drawersetBackground", Color.WHITE);
@@ -126,6 +130,7 @@ public class ProcessFunction {
             toolbar.setBackground(ContextCompat.getDrawable(context, R.drawable.border_top_bottom_matrix));
             toolbar.getNavigationIcon().setColorFilter(context.getResources().getColor(R.drawable.menu_text_color_matrix), PorterDuff.Mode.SRC_ATOP);
             linear.setBackground(ContextCompat.getDrawable(context, R.drawable.border_top_bottom_matrix_logo));
+            fab.setBackgroundTintList(ColorStateList.valueOf(context.getResources().getColor(R.color.colorMatrix)));
             if(context instanceof Settings_activity || context instanceof MainActivity2)
             {
 
@@ -155,6 +160,7 @@ public class ProcessFunction {
             editor.putInt("toolbarSetBackground", R.drawable.border_top_bottom_matrix);
             editor.putInt("toolbarGetNavigationIcon()", R.drawable.menu_text_color_matrix);
             editor.putInt("linearSetBackground", R.drawable.border_top_bottom_matrix_logo);
+            editor.putInt("fabBackground", R.color.colorMatrix);
             if(context instanceof Settings_activity || context instanceof MainActivity2)
             {
                 editor.putInt("drawersetBackground", Color.BLACK);
@@ -190,6 +196,7 @@ public class ProcessFunction {
             toolbar.setBackground(ContextCompat.getDrawable(context, R.drawable.border_top_bottom_gamers));
             toolbar.getNavigationIcon().setColorFilter(context.getResources().getColor(R.drawable.menu_text_color_gamers), PorterDuff.Mode.SRC_ATOP);
             linear.setBackground(ContextCompat.getDrawable(context, R.drawable.border_top_bottom_gamers_logo));
+            fab.setBackgroundTintList(ColorStateList.valueOf(context.getResources().getColor(R.color.colorGamers)));
             if(context instanceof Settings_activity || context instanceof MainActivity2)
             {
 
@@ -219,6 +226,7 @@ public class ProcessFunction {
             editor.putInt("toolbarSetBackground", R.drawable.border_top_bottom_gamers);
             editor.putInt("toolbarGetNavigationIcon()", R.drawable.menu_text_color_gamers);
             editor.putInt("linearSetBackground", R.drawable.border_top_bottom_gamers_logo);
+            editor.putInt("fabBackground", R.color.colorGamers);
             if(context instanceof Settings_activity || context instanceof MainActivity2)
             {
                 editor.putInt("drawersetBackground", Color.BLACK);

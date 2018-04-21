@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
+import android.view.Gravity;
 import android.view.View;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
@@ -52,6 +54,7 @@ public class Settings_activity extends AppCompatActivity
     TextView tw2;
     TextView lblswitch;
     ProcessFunction processer;
+    FloatingActionButton fab;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,12 +84,53 @@ public class Settings_activity extends AppCompatActivity
                     drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
                     ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                             this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-                    drawer.setDrawerListener(toggle);
+                    drawer.addDrawerListener(new DrawerLayout.DrawerListener() {
+                        @Override
+                        public void onDrawerSlide(View drawerView, float slideOffset) {
+
+                        }
+
+                        @Override
+                        public void onDrawerOpened(View drawerView) {
+                            fab.setImageDrawable(getResources().getDrawable(R.drawable.ic_arrow_left));
+
+                        }
+
+                        @Override
+                        public void onDrawerClosed(View drawerView) {
+                            fab.setImageDrawable(getResources().getDrawable(R.drawable.ic_arrow_right));
+
+                        }
+
+                        @Override
+                        public void onDrawerStateChanged(int newState) {
+
+                        }
+                    });
                     toggle.syncState();
 
                     navigationView = (NavigationView) findViewById(R.id.nav_view);
                     navigationView.setNavigationItemSelectedListener(this);
                     processer = new ProcessFunction();
+
+                    fab = (FloatingActionButton) findViewById(R.id.fab);
+                    MultiTouchListener touchListener=new MultiTouchListener(this);
+                    fab.setOnTouchListener(touchListener);
+                    fab.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+
+                            if(!drawer.isDrawerVisible(GravityCompat.START))
+                            {
+                                drawer.openDrawer(Gravity.LEFT);
+                                fab.setImageDrawable(getResources().getDrawable(R.drawable.ic_arrow_left));
+                            }
+                            else
+                            {
+                                fab.setImageDrawable(getResources().getDrawable(R.drawable.ic_arrow_right));
+                            }
+                        }
+                    });
 
                 } else {
                     AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -235,7 +279,7 @@ public class Settings_activity extends AppCompatActivity
         tw1.setTextColor(themeInfo.getInt("tw1setTextColor", Color.BLACK));
         tw2.setTextColor(themeInfo.getInt("tw2setTextColor", Color.BLACK));
         lblswitch.setTextColor(themeInfo.getInt("lblswitchsetTextColor", Color.BLACK));
-
+        fab.setBackgroundTintList(ContextCompat.getColorStateList(Settings_activity.this, themeInfo.getInt("fabBackground",R.color.colorPrimary)));
 
     }
 

@@ -13,13 +13,16 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
@@ -66,6 +69,7 @@ public class MainActivity3 extends FragmentActivity implements NavigationView.On
     static Boolean checker3 = false;
     NavigationView navigationView;
     DrawerLayout drawer;
+    FloatingActionButton fab;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,7 +95,29 @@ public class MainActivity3 extends FragmentActivity implements NavigationView.On
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
+        drawer.addDrawerListener(new DrawerLayout.DrawerListener() {
+            @Override
+            public void onDrawerSlide(View drawerView, float slideOffset) {
+
+            }
+
+            @Override
+            public void onDrawerOpened(View drawerView) {
+                fab.setImageDrawable(getResources().getDrawable(R.drawable.ic_arrow_left));
+
+            }
+
+            @Override
+            public void onDrawerClosed(View drawerView) {
+                fab.setImageDrawable(getResources().getDrawable(R.drawable.ic_arrow_right));
+
+            }
+
+            @Override
+            public void onDrawerStateChanged(int newState) {
+
+            }
+        });
         toggle.syncState();
 
         navigationView = (NavigationView) findViewById(R.id.nav_view);
@@ -100,7 +126,24 @@ public class MainActivity3 extends FragmentActivity implements NavigationView.On
         label = (TextView) findViewById(R.id.distanceLabel);
         label.setTextColor(Color.BLUE);
         actual.setOnClickListener(this);
+        fab = (FloatingActionButton) findViewById(R.id.fab);
+        MultiTouchListener touchListener=new MultiTouchListener(this);
+        fab.setOnTouchListener(touchListener);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
+                if(!drawer.isDrawerVisible(GravityCompat.START))
+                {
+                    drawer.openDrawer(Gravity.LEFT);
+                    fab.setImageDrawable(getResources().getDrawable(R.drawable.ic_arrow_left));
+                }
+                else
+                {
+                    fab.setImageDrawable(getResources().getDrawable(R.drawable.ic_arrow_right));
+                }
+            }
+        });
         Button buttonSettings = (Button) toolbar.findViewById(R.id.button_settings);
 
         buttonSettings.setOnClickListener(new View.OnClickListener() {
@@ -129,7 +172,7 @@ public class MainActivity3 extends FragmentActivity implements NavigationView.On
                 checker3 = true;
             }
         }
-
+        fab.setBackgroundTintList(ContextCompat.getColorStateList(MainActivity3.this, themeInfo.getInt("fabBackground",R.color.colorPrimary)));
     }
 
 

@@ -1,64 +1,89 @@
 package com.example.lodka.lodkanadejeapp;
 
-import android.annotation.SuppressLint;
-import android.util.Log;
+import android.app.Activity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
-import android.view.ViewGroup.MarginLayoutParams;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 
 public class MultiTouchListener implements OnTouchListener
 {
 
-    private float mPrevX;
-    private float mPrevY;
+    private float downRawX, downRawY;
+    private float dX, dY;
+    private final static float CLICK_DRAG_TOLERANCE = 10;
 
-    public MainActivity mainActivity;
-    public MultiTouchListener(MainActivity mainActivity1) {
+    public Activity mainActivity;
+    public MultiTouchListener(Activity mainActivity1) {
         mainActivity = mainActivity1;
     }
 
     @Override
-    public boolean onTouch(View view, MotionEvent event) {
-        float currX,currY;
-        int action = event.getAction();
-        switch (action ) {
-            case MotionEvent.ACTION_DOWN: {
+    public boolean onTouch(View view, MotionEvent motionEvent) {
+        //float currX,currY;
 
-                mPrevX = event.getX();
-                mPrevY = event.getY();
-                break;
+        int action = motionEvent.getAction();
+        if (action == MotionEvent.ACTION_DOWN) {
+
+            downRawX = motionEvent.getRawX();
+            downRawY = motionEvent.getRawY();
+            dX = view.getX() - downRawX;
+            dY = view.getY() - downRawY;
+
+            return true; // Consumed
+
+        }
+        else if (action == MotionEvent.ACTION_MOVE) {
+
+            int viewWidth = view.getWidth();
+            int viewHeight = view.getHeight();
+
+            View viewParent = (View)view.getParent();
+            int parentWidth = viewParent.getWidth();
+            int parentHeight = viewParent.getHeight();
+
+            float newX = motionEvent.getRawX() + dX;
+            newX = Math.max(0, newX); // Don't allow the FAB past the left hand side of the parent
+            newX = Math.min(parentWidth - viewWidth, newX); // Don't allow the FAB past the right hand side of the parent
+
+            float newY = motionEvent.getRawY() + dY;
+            newY = Math.max(0, newY); // Don't allow the FAB past the top of the parent
+            newY = Math.min(parentHeight - viewHeight, newY); // Don't allow the FAB past the bottom of the parent
+
+            view.animate()
+                    .x(newX)
+                    .y(newY)
+                    .setDuration(0)
+                    .start();
+
+            return true; // Consumed
+
+        }
+        else if (action == MotionEvent.ACTION_UP) {
+
+            float upRawX = motionEvent.getRawX();
+            float upRawY = motionEvent.getRawY();
+
+            float upDX = upRawX - downRawX;
+            float upDY = upRawY - downRawY;
+
+            if (Math.abs(upDX) < CLICK_DRAG_TOLERANCE && Math.abs(upDY) < CLICK_DRAG_TOLERANCE) { // A click
+                return view.performClick();
+            }
+            else { // A drag
+                return true; // Consumed
             }
 
-            case MotionEvent.ACTION_MOVE:
-            {
-
-                currX = event.getRawX();
-                currY = event.getRawY();
-
-
-                MarginLayoutParams marginParams = new MarginLayoutParams(view.getLayoutParams());
-                marginParams.setMargins((int)(currX - mPrevX), (int)(currY - mPrevY),0, 0);
-                LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(marginParams);
-                view.setLayoutParams(layoutParams);
-
-
-                break;
-            }
-
-
-
-            case MotionEvent.ACTION_CANCEL:
-                break;
-
-            case MotionEvent.ACTION_UP:
-
-                break;
+        }
+        else {
+            //return super.onTouchEvent(motionEvent);
+            return true;
         }
 
-        return true;
+
+
+
+
+        //return true;
     }
 
 }

@@ -14,8 +14,8 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.KeyEvent;
-import android.view.MotionEvent;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -30,8 +30,6 @@ import android.view.WindowManager;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
-import android.widget.FrameLayout;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -74,23 +72,57 @@ public class MainActivity extends AppCompatActivity
                         setContentView(R.layout.activity_main);
                         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 
-                        fab = (FloatingActionButton) findViewById(R.id.fab);
-                        MultiTouchListener touchListener=new MultiTouchListener(this);
-                        fab.setOnTouchListener(touchListener);
-
-
 
 
 
                         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
                         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-                        drawer.setDrawerListener(toggle);
+                        drawer.addDrawerListener(new DrawerLayout.DrawerListener() {
+                            @Override
+                            public void onDrawerSlide(View drawerView, float slideOffset) {
+
+                            }
+
+                            @Override
+                            public void onDrawerOpened(View drawerView) {
+                                fab.setImageDrawable(getResources().getDrawable(R.drawable.ic_arrow_left));
+
+                            }
+
+                            @Override
+                            public void onDrawerClosed(View drawerView) {
+                                fab.setImageDrawable(getResources().getDrawable(R.drawable.ic_arrow_right));
+
+                            }
+
+                            @Override
+                            public void onDrawerStateChanged(int newState) {
+
+                            }
+                        });
                         toggle.syncState();
                         navigationView = (NavigationView) findViewById(R.id.nav_view);
                         navigationView.setNavigationItemSelectedListener(this);
                         processer = new ProcessFunction();
+                        fab = (FloatingActionButton) findViewById(R.id.fab);
+                        MultiTouchListener touchListener=new MultiTouchListener(this);
+                        fab.setOnTouchListener(touchListener);
+                        fab.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
 
+                                if(!drawer.isDrawerVisible(GravityCompat.START))
+                                {
+                                    drawer.openDrawer(Gravity.LEFT);
+                                    fab.setImageDrawable(getResources().getDrawable(R.drawable.ic_arrow_left));
+                                }
+                                else
+                                {
+                                    fab.setImageDrawable(getResources().getDrawable(R.drawable.ic_arrow_right));
+                                }
+                            }
+                        });
                         if (getIntent().getStringExtra("website") == null) {
                             web = "http://www.lodkanadeje.maweb.eu/";
                         } else {
@@ -188,7 +220,7 @@ public class MainActivity extends AppCompatActivity
         text.setTextColor(ContextCompat.getColorStateList(MainActivity.this, themeInfo.getInt("textSetTextColor",R.color.colorDefault) ));
         toolbar.setBackground(ContextCompat.getDrawable(MainActivity.this, themeInfo.getInt("toolbarSetBackground",R.color.colorPrimary) ));
         toolbar.getNavigationIcon().setColorFilter(getResources().getColor(themeInfo.getInt("toolbarGetNavigationIcon()",R.color.colorWhite)), PorterDuff.Mode.SRC_ATOP);
-
+        fab.setBackgroundTintList(ContextCompat.getColorStateList(MainActivity.this, themeInfo.getInt("fabBackground",R.color.colorPrimary)));
         }
 
     private void showFABMenu(){
