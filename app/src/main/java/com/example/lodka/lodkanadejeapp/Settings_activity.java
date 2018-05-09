@@ -92,13 +92,13 @@ public class Settings_activity extends AppCompatActivity
 
                         @Override
                         public void onDrawerOpened(View drawerView) {
-                            fab.setImageDrawable(getResources().getDrawable(R.drawable.ic_arrow_left));
+                            fab.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_floating_button));
 
                         }
 
                         @Override
                         public void onDrawerClosed(View drawerView) {
-                            fab.setImageDrawable(getResources().getDrawable(R.drawable.ic_arrow_right));
+                            fab.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_floating_button));
 
                         }
 
@@ -123,11 +123,11 @@ public class Settings_activity extends AppCompatActivity
                             if(!drawer.isDrawerVisible(GravityCompat.START))
                             {
                                 drawer.openDrawer(Gravity.LEFT);
-                                fab.setImageDrawable(getResources().getDrawable(R.drawable.ic_arrow_left));
+                                fab.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_floating_button));
                             }
                             else
                             {
-                                fab.setImageDrawable(getResources().getDrawable(R.drawable.ic_arrow_right));
+                                fab.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_floating_button));
                             }
                         }
                     });

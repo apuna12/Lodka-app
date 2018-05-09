@@ -51,6 +51,8 @@ public class ProcessFunction {
         tw1 = null;
         tw2 = null;
 
+        fab.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_floating_button));
+
         if (str.equals("Základná")) {
             navigationView.setItemIconTintList(ContextCompat.getColorStateList(context, R.drawable.menu_text_color_normal));
             navigationView.setItemTextColor(ContextCompat.getColorStateList(context, R.drawable.menu_text_color_normal));
